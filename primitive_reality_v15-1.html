@@ -1,0 +1,3415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#00d4ff">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>PRIMITIVE REALITY v15</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
+:root{--bg:#050810;--bg2:#0a0f1e;--panel:#0d1426;--border:#1a2a4a;--acc:#00d4ff;--acc2:#ff6b35;--acc3:#7fff00;--acc4:#ff2d7a;--txt:#c8d8f0;--dim:#4a6080;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--txt);font-family:'Share Tech Mono',monospace;height:100dvh;overflow:hidden;}
+
+/* MENU */
+#menu{display:flex;flex-direction:column;height:100dvh;width:100vw;overflow:hidden;background:radial-gradient(ellipse at 50% 20%,#0a1530 0%,var(--bg) 70%);}
+.mhdr{flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 16px;background:var(--panel);border-bottom:2px solid var(--border);}
+.mtitle{font-family:'Orbitron',monospace;font-size:clamp(20px,6vw,40px);font-weight:900;color:var(--acc);text-shadow:0 0 24px rgba(0,212,255,.5);letter-spacing:.15em;text-align:center;}
+.msub{font-size:10px;color:var(--dim);letter-spacing:.3em;text-transform:uppercase;margin-top:3px;}
+.mmid{flex:1;display:flex;flex-direction:row;overflow:hidden;min-height:0;}
+.mmap{width:45%;flex-shrink:0;background:#0a0818;border-right:1px solid var(--border);display:flex;flex-direction:column;padding:12px 10px;overflow:hidden;}
+.ment{flex:1;min-width:0;background:#120808;display:flex;flex-direction:column;padding:12px 8px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+.mfooter{flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:14px 16px;background:#071410;border-top:2px solid var(--border);}
+.sec-title{font-family:'Orbitron',monospace;font-size:9px;color:var(--acc);letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px;border-bottom:1px solid var(--border);padding-bottom:5px;flex-shrink:0;}
+.mc{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.mc label{font-size:11px;color:var(--dim);min-width:14px;}
+input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:3px;background:var(--border);outline:none;border-radius:2px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;background:var(--acc);border-radius:50%;cursor:pointer;}
+.mval{font-family:'Orbitron',monospace;font-size:13px;color:var(--acc);min-width:24px;text-align:right;}
+.egrid{display:flex;flex-direction:column;gap:6px;}
+.erow{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:4px;padding:6px 8px;}
+.eicon{font-size:13px;width:20px;text-align:center;flex-shrink:0;}
+.ename{font-size:10px;color:var(--dim);flex:1;}
+.edesc{font-size:8px;color:#2a4a6a;margin-top:1px;}
+.ecnt{display:flex;align-items:center;gap:4px;}
+.ecnt button{background:var(--border);border:none;color:var(--txt);width:24px;height:24px;cursor:pointer;border-radius:3px;font-size:15px;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;}
+.ecnt button:active{background:var(--acc);color:#000;}
+.ecnt span{font-family:'Orbitron',monospace;font-size:12px;color:var(--acc);min-width:22px;text-align:center;}
+.start-btn{font-family:'Orbitron',monospace;font-size:14px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;background:transparent;border:2px solid var(--acc);color:var(--acc);padding:13px 40px;cursor:pointer;border-radius:4px;-webkit-tap-highlight-color:transparent;}
+.start-btn:active{background:var(--acc);color:#000;}
+
+/* SIMULATOR */
+#sim{display:none;flex-direction:column;height:100dvh;width:100vw;overflow:hidden;}
+.shdr{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px;padding:5px 8px;background:var(--panel);border-bottom:2px solid var(--border);flex-shrink:0;}
+.stitle{font-family:'Orbitron',monospace;font-size:9px;color:var(--acc);letter-spacing:.12em;white-space:nowrap;}
+.sclk{font-family:'Orbitron',monospace;font-size:12px;color:var(--acc3);white-space:nowrap;}
+.slayer{font-family:'Orbitron',monospace;font-size:10px;color:#ffcc44;white-space:nowrap;padding:2px 6px;background:rgba(255,200,0,.1);border:1px solid rgba(255,200,0,.3);border-radius:3px;}
+.ctrls{display:flex;gap:4px;align-items:center;flex-wrap:wrap;}
+.cbtn{font-family:'Share Tech Mono',monospace;font-size:11px;background:var(--bg2);border:1px solid var(--border);color:var(--txt);padding:5px 8px;cursor:pointer;border-radius:4px;white-space:nowrap;-webkit-tap-highlight-color:transparent;}
+.cbtn:active,.cbtn:hover{border-color:var(--acc);color:var(--acc);}
+.cbtn.on{background:var(--acc);color:#000;border-color:var(--acc);}
+.cbtn.red{border-color:var(--acc4);}
+.cbtn.red:active{background:var(--acc4);color:#fff;}
+select.spd{font-family:'Share Tech Mono',monospace;font-size:10px;background:var(--bg2);border:1px solid var(--border);color:var(--txt);padding:5px;border-radius:4px;cursor:pointer;max-width:100px;}
+.canvaswrap{flex:1;display:flex;align-items:center;justify-content:center;background:var(--bg);overflow:hidden;min-height:0;position:relative;}
+#gc{border:1px solid var(--border);image-rendering:pixelated;touch-action:none;max-width:100%;max-height:100%;}
+#danger-border{position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;border:4px solid rgba(255,0,0,0);transition:border-color .2s;z-index:5;}
+.sbot{display:flex;flex-direction:row;height:220px;flex-shrink:0;border-top:2px solid var(--border);overflow:hidden;}
+.statpanel{flex:1;min-width:0;background:#071410;border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+.stabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0;}
+.stab{flex:1;font-family:'Orbitron',monospace;font-size:8px;letter-spacing:.05em;color:var(--dim);background:none;border:none;border-right:1px solid var(--border);padding:6px 2px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.stab:last-child{border-right:none;}
+.stab.on{color:var(--acc3);background:rgba(127,255,0,.06);}
+.scontent{flex:1;overflow-y:auto;overflow-x:hidden;padding:5px 7px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+.tpane{display:none;}
+.tpane.on{display:block;}
+.prow{display:flex;justify-content:space-between;align-items:center;padding:2px 0;font-size:10px;border-bottom:1px solid rgba(26,42,74,.4);}
+.pname{color:var(--dim);}
+.pval{font-family:'Orbitron',monospace;font-size:10px;color:var(--acc3);}
+.pext{color:var(--acc4)!important;}
+.sitem{font-size:10px;color:var(--dim);padding:2px 0;display:flex;justify-content:space-between;border-bottom:1px solid rgba(26,42,74,.3);}
+.sitem span{font-family:'Orbitron',monospace;color:var(--txt);font-size:10px;}
+.lentry{color:var(--dim);border-bottom:1px solid rgba(26,42,74,.4);padding:1px 0;font-size:9px;line-height:1.5;}
+.lentry.d{color:var(--acc4);}
+.lentry.b{color:var(--acc3);}
+.lentry.e{color:var(--acc);}
+
+/* HUBA panel */
+.hubapanel{width:190px;flex-shrink:0;background:#060d1a;display:flex;flex-direction:column;align-items:center;padding:6px 5px 5px;gap:4px;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+.hptitle{font-family:'Orbitron',monospace;font-size:9px;color:var(--acc);letter-spacing:.15em;align-self:flex-start;}
+.hpinfo{display:flex;width:100%;justify-content:space-between;font-size:9px;color:var(--dim);flex-wrap:wrap;gap:2px;}
+.hpinfo b{font-family:'Orbitron',monospace;color:var(--acc2);font-weight:normal;}
+.dpad{display:grid;grid-template-columns:repeat(3,44px);grid-template-rows:repeat(3,44px);gap:3px;}
+.dp{background:var(--bg2);border:1px solid var(--border);color:var(--txt);font-size:18px;cursor:pointer;border-radius:6px;display:flex;align-items:center;justify-content:center;user-select:none;-webkit-tap-highlight-color:transparent;}
+.dp:active{background:var(--acc);color:#000;border-color:var(--acc);transform:scale(.92);}
+.dp.em{background:transparent;border-color:transparent;cursor:default;}
+.fbtn{flex:1;border:1px solid var(--acc2);color:var(--acc2);background:rgba(255,107,53,.1);font-family:'Orbitron',monospace;font-size:8px;padding:5px 3px;cursor:pointer;border-radius:4px;-webkit-tap-highlight-color:transparent;letter-spacing:.03em;}
+.fbtn:active{background:var(--acc2);color:#000;}
+.pbtn{flex:1;border:1px solid #44aaff;color:#44aaff;background:rgba(100,180,255,.1);font-family:'Orbitron',monospace;font-size:8px;padding:5px 3px;cursor:pointer;border-radius:4px;-webkit-tap-highlight-color:transparent;letter-spacing:.03em;}
+.pbtn:active{background:#44aaff;color:#000;}
+.mbtn{flex:1;border:1px solid #ff4444;color:#ff4444;background:rgba(255,50,50,.1);font-family:'Orbitron',monospace;font-size:8px;padding:5px 3px;cursor:pointer;border-radius:4px;-webkit-tap-highlight-color:transparent;}
+.mbtn:active{background:#ff4444;color:#000;}
+.hmodal{display:flex;width:100%;gap:3px;flex-wrap:wrap;flex-shrink:0;}
+.modbtn{flex:1;min-width:35px;border:1px solid #335577;color:#667799;background:rgba(50,100,150,.1);font-family:'Orbitron',monospace;font-size:7px;padding:3px 2px;cursor:pointer;border-radius:3px;text-align:center;-webkit-tap-highlight-color:transparent;}
+.modbtn.unlocked{border-color:#4488aa;color:#88ccee;}
+.modbtn.active{background:#005577;border-color:var(--acc);color:var(--acc);}
+.modbtn:active{background:var(--acc);color:#000;}
+/* Overlay Windows */
+.overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.8);z-index:100;align-items:center;justify-content:center;}
+.overlay.on{display:flex;}
+.owin{background:#090f1e;border:2px solid var(--acc);border-radius:8px;width:min(95vw,480px);max-height:85vh;display:flex;flex-direction:column;overflow:hidden;}
+.owinhdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#0d1426;border-bottom:1px solid var(--border);flex-shrink:0;}
+.owintitle{font-family:'Orbitron',monospace;font-size:12px;color:var(--acc);letter-spacing:.1em;}
+.owinclose{background:none;border:none;color:#ff4444;font-size:18px;cursor:pointer;padding:0 4px;line-height:1;}
+.owincontent{flex:1;overflow-y:auto;padding:10px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+/* Crafting */
+.craft-layout{display:flex;gap:10px;}
+.inv-panel{flex:1;min-width:0;}
+.craft-panel{flex:1;min-width:0;}
+.craft-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;margin-bottom:8px;}
+.craft-cell{background:#0a1520;border:1px solid #223344;border-radius:3px;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:8px;cursor:pointer;position:relative;}
+.craft-cell.has-item{border-color:#445566;}
+.craft-cell .cname{color:#88aacc;font-size:7px;text-align:center;line-height:1.1;}
+.craft-cell .cqty{font-family:'Orbitron',monospace;color:var(--acc);font-size:8px;}
+.inv-slot{display:flex;align-items:center;gap:5px;padding:4px 6px;border-radius:3px;border:1px solid #1a2a4a;margin-bottom:3px;cursor:pointer;font-size:9px;}
+.inv-slot:hover,.inv-slot.sel{background:#0a2030;border-color:var(--acc);}
+.inv-slot .iname{color:var(--dim);flex:1;}
+.inv-slot .iqty{font-family:'Orbitron',monospace;color:var(--acc);min-width:20px;text-align:right;}
+.arm-btn{width:100%;font-family:'Orbitron',monospace;font-size:10px;padding:7px;background:rgba(0,0,0,.3);border:1px solid #334;color:#556;cursor:pointer;border-radius:4px;margin-top:5px;transition:all .2s;}
+.arm-btn.ready{border-color:#ffcc00;color:#ffcc00;background:rgba(255,200,0,.1);animation:pulse .8s infinite alternate;}
+.arm-btn.ready:active{background:#ffcc00;color:#000;}
+@keyframes pulse{from{box-shadow:0 0 0 rgba(255,200,0,0)}to{box-shadow:0 0 8px rgba(255,200,0,.5)}}
+/* Storage */
+.stor-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;}
+.stor-item{background:#0a1520;border:1px solid #1a2a4a;border-radius:4px;padding:6px 8px;cursor:pointer;transition:all .1s;}
+.stor-item.sel{border-color:var(--acc);background:#0a2030;}
+.stor-item .sname{font-size:9px;color:var(--dim);}
+.stor-item .sqty{font-family:'Orbitron',monospace;font-size:11px;color:var(--acc);}
+.use-btn{width:100%;font-family:'Orbitron',monospace;font-size:10px;padding:7px;background:rgba(0,212,255,.1);border:1px solid var(--acc);color:var(--acc);cursor:pointer;border-radius:4px;margin-top:8px;}
+.use-btn:active{background:var(--acc);color:#000;}
+
+/* ACHIEVEMENTS */
+#achBtn{position:absolute;top:8px;right:8px;z-index:50;font-family:'Orbitron',monospace;font-size:9px;letter-spacing:.1em;background:rgba(5,8,16,.85);border:1px solid #2a4a6a;color:#4a7a9a;padding:5px 9px;cursor:pointer;border-radius:4px;-webkit-tap-highlight-color:transparent;transition:all .2s;backdrop-filter:blur(4px);}
+#achBtn:hover,#achBtn.has-new{border-color:#ffcc00;color:#ffcc00;}
+#achBtn .ach-count{font-family:'Orbitron',monospace;color:var(--acc3);}
+.overlay-ach{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.82);z-index:200;align-items:flex-start;justify-content:center;padding-top:40px;}
+.overlay-ach.on{display:flex;}
+.ach-win{background:#06090f;border:2px solid #1a3a5a;border-radius:10px;width:min(96vw,520px);max-height:80vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 0 40px rgba(0,80,140,.3);}
+.ach-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#0a1020;border-bottom:1px solid #1a2a4a;flex-shrink:0;}
+.ach-title{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--acc);letter-spacing:.15em;}
+.ach-subtitle{font-size:9px;color:var(--dim);margin-top:2px;letter-spacing:.1em;}
+.ach-close{background:none;border:none;color:#ff4444;font-size:20px;cursor:pointer;padding:0 4px;line-height:1;}
+.ach-progress-bar{flex-shrink:0;padding:8px 16px;background:#08100c;border-bottom:1px solid #1a2a4a;display:flex;align-items:center;gap:8px;}
+.ach-prog-track{flex:1;height:5px;background:#0a1a0a;border-radius:3px;overflow:hidden;}
+.ach-prog-fill{height:100%;background:linear-gradient(90deg,#22aa44,var(--acc3));border-radius:3px;transition:width .4s ease;}
+.ach-prog-txt{font-family:'Orbitron',monospace;font-size:9px;color:var(--acc3);white-space:nowrap;}
+.ach-list{flex:1;overflow-y:auto;padding:8px 10px;display:flex;flex-direction:column;gap:5px;scrollbar-width:thin;scrollbar-color:#1a3a5a transparent;}
+.ach-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:5px;border:1px solid #1a2a3a;background:#08101a;transition:all .2s;position:relative;overflow:hidden;}
+.ach-item.done{border-color:#2a5a2a;background:#08130a;}
+.ach-item.done::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,rgba(127,255,0,.04) 0%,transparent 60%);pointer-events:none;}
+.ach-item.new-unlock{animation:ach-flash 0.6s ease 3;}
+@keyframes ach-flash{0%,100%{border-color:#2a5a2a;}50%{border-color:#7fff00;box-shadow:0 0 12px rgba(127,255,0,.4);}}
+.ach-icon{font-size:22px;flex-shrink:0;width:32px;text-align:center;filter:grayscale(1) opacity(0.4);}
+.ach-item.done .ach-icon{filter:none;}
+.ach-info{flex:1;min-width:0;}
+.ach-name{font-family:'Orbitron',monospace;font-size:10px;color:#3a5a7a;letter-spacing:.05em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ach-item.done .ach-name{color:var(--acc3);}
+.ach-desc{font-size:9px;color:#223344;margin-top:2px;line-height:1.4;}
+.ach-item.done .ach-desc{color:#446655;}
+.ach-status{flex-shrink:0;font-family:'Orbitron',monospace;font-size:9px;}
+.ach-status.locked{color:#1a3a5a;}
+.ach-status.unlocked{color:var(--acc3);}
+.ach-clk{font-size:8px;color:#224433;margin-top:1px;}
+
+/* Achievement toast popup */
+#achToast{position:fixed;bottom:240px;left:50%;transform:translateX(-50%) translateY(20px);background:#060e06;border:2px solid var(--acc3);border-radius:8px;padding:10px 16px;z-index:300;opacity:0;transition:all .4s;pointer-events:none;min-width:220px;text-align:center;box-shadow:0 0 20px rgba(127,255,0,.3);}
+#achToast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#achToast .toast-tag{font-size:8px;color:var(--acc3);letter-spacing:.2em;text-transform:uppercase;margin-bottom:3px;}
+#achToast .toast-name{font-family:'Orbitron',monospace;font-size:11px;color:#fff;font-weight:700;}
+#achToast .toast-desc{font-size:9px;color:#88aa88;margin-top:2px;}
+</style>
+</head>
+<body>
+
+<!-- MENU -->
+<div id="menu">
+  <div class="mhdr">
+    <div class="mtitle">PRIMITIVE REALITY</div>
+    <div class="msub">simulador de vida primitiva v15</div>
+  </div>
+  <div class="mmid">
+    <div class="mmap">
+      <div class="sec-title">MAPA</div>
+      <div class="mc"><label>W</label><input type="range" id="mw" min="10" max="30" value="20"><span class="mval" id="mwv">20</span></div>
+      <div class="mc"><label>H</label><input type="range" id="mh" min="10" max="30" value="20"><span class="mval" id="mhv">20</span></div>
+      <div class="sec-title" style="margin-top:8px">CAPAS</div>
+      <div style="font-size:9px;color:var(--dim);line-height:1.6">
+        🌍 TIERRA: entidades terrestres<br>
+        ⬇️ BAJO TIERRA: Tepus, Nitrogly (Huba-Ten)<br>
+        🌊 MAR: Grou, Trejo, Crap, Pez... (25%)<br>
+        🌱 CAMPO: hierba alta (20%)<br>
+        ☁️ FACE 1: altura baja (entidades voladoras)<br>
+        ☁️ FACE 2: nubes, Zarle (2× tamaño)<br>
+        🛸 FACE 3: satélites, meteoritos (3× tamaño)
+      </div>
+    </div>
+    <div class="ment">
+      <div class="sec-title">ENTIDADES (máx 10 por especie)</div>
+      <div class="egrid" id="egrid"></div>
+    </div>
+  </div>
+  <div class="mfooter">
+    <button class="start-btn" id="startBtn">INICIAR</button>
+  </div>
+</div>
+
+<!-- SIMULATOR -->
+<div id="sim">
+  <div class="shdr">
+    <div class="stitle">PRIMITIVE REALITY</div>
+    <div class="sclk">CLK <span id="clkv">0</span> <span id="daynite" style="font-size:9px;color:#aabb44">DIA</span></div>
+    <div class="slayer" id="layerlabel">🌍 TIERRA</div>
+    <div class="ctrls">
+      <button class="cbtn" id="stepBtn">STEP</button>
+      <button class="cbtn" id="autoBtn">AUTO</button>
+      <select class="spd" id="spd">
+        <option value="2000">Muy lento</option>
+        <option value="800">Lento</option>
+        <option value="300" selected>Normal</option>
+        <option value="100">Rapido</option>
+        <option value="30">Turbo</option>
+      </select>
+      <button class="cbtn red" id="menuBtn">MENU</button>
+    </div>
+  </div>
+  <div class="canvaswrap">
+    <canvas id="gc"></canvas>
+    <div id="danger-border"></div>
+    <button id="achBtn" onclick="openAchievements()">🏆 LOGROS <span class="ach-count" id="achCountBtn">0/20</span></button>
+  </div>
+  <div class="sbot">
+    <div class="statpanel">
+      <div class="stabs">
+        <button class="stab on" onclick="showTab('pop',this)">POP</button>
+        <button class="stab" onclick="showTab('evt',this)">STATS</button>
+        <button class="stab" onclick="showTab('min',this)">MIN</button>
+        <button class="stab" onclick="showTab('log',this)">LOG</button>
+      </div>
+      <div class="scontent">
+        <div class="tpane on" id="tab-pop"><div id="popD"></div></div>
+        <div class="tpane" id="tab-evt"><div id="evtD"></div></div>
+        <div class="tpane" id="tab-min"><div id="minD"></div></div>
+        <div class="tpane" id="tab-log"><div id="logD"></div></div>
+      </div>
+    </div>
+    <div class="hubapanel" id="hpanel">
+      <div class="hptitle">HUBA</div>
+      <div class="hpinfo" id="hpinfo">
+        FOT:<b id="hmun">0</b> GRD:<b id="hgrd">0</b> VIDAS:<b id="hlives" style="color:#7fff00">3</b>
+      </div>
+      <div class="hpinfo" id="hpinfo2" style="font-size:8px">
+        NIT:<b id="hnit" style="color:#44ffcc">0</b> MARIN:<b id="hmarin" style="color:#4488ff">0</b>
+      </div>
+      <div class="dpad">
+        <div class="dp em"></div><div class="dp" id="dU">&#9650;</div><div class="dp em"></div>
+        <div class="dp" id="dL">&#9664;</div>
+        <button class="pbtn" id="procBtn" style="width:44px;height:44px;padding:2px;font-size:7px;border-radius:6px;">PROC<br>(0)</button>
+        <div class="dp" id="dR">&#9654;</div>
+        <div class="dp em"></div><div class="dp" id="dD">&#9660;</div><div class="dp em"></div>
+      </div>
+      <div style="display:flex;gap:3px;width:100%;">
+        <button class="fbtn" id="fireBtn">DISP</button>
+        <button class="mbtn" id="misilBtn" style="display:none;">MISIL</button>
+        <button class="fbtn" id="createBtn" style="border-color:#aa44ff;color:#aa44ff;background:rgba(170,68,255,.1);">CREAR</button>
+        <button class="fbtn" id="storBtn" style="border-color:#44aaff;color:#44aaff;background:rgba(68,170,255,.1);">ALMACÉN</button>
+      </div>
+      <div id="hmodal" class="hmodal">
+        <button class="modbtn" id="btn-ten" style="display:none" onclick="toggleMode('ten')">TEN</button>
+        <button class="modbtn" id="btn-yan" style="display:none" onclick="toggleMode('yan')">YAN</button>
+        <button class="modbtn" id="btn-rok" style="display:none" onclick="toggleMode('rok')">ROK</button>
+        <button class="modbtn" id="btn-rokII" style="display:none" onclick="toggleMode('rokII')">ROK II</button>
+        <button class="modbtn" id="btn-flot" style="display:none" onclick="toggleMode('flot')">FLOT</button>
+        <button class="cbtn" id="ascendBtn" style="display:none;font-size:8px;padding:3px 5px;">ASCENDER</button>
+        <button class="cbtn" id="descendBtn" style="display:none;font-size:8px;padding:3px 5px;">DESCENDER</button>
+        <button class="cbtn" id="faceUpBtn" style="display:none;font-size:8px;padding:3px 5px;">▲FACE</button>
+        <button class="cbtn" id="faceDownBtn" style="display:none;font-size:8px;padding:3px 5px;">▼FACE</button>
+        <button class="cbtn" id="posarBtn" style="display:none;font-size:8px;padding:3px 5px;border-color:#ffcc00;color:#ffcc00;">POSAR</button>
+        <button class="cbtn" id="extraerBtn" style="display:none;font-size:8px;padding:3px 5px;border-color:#ff8800;color:#ff8800;">EXTRAER</button>
+        <button class="cbtn" id="yanBtn" style="display:none;font-size:8px;padding:3px 5px;border-color:#ffff44;color:#ffff44;">YAN(<span id="yancount">0</span>)</button>
+        <button class="cbtn" id="misil2Btn" style="display:none;font-size:8px;padding:3px 5px;border-color:#ff2244;color:#ff2244;">INTER</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACHIEVEMENT TOAST -->
+<div id="achToast">
+  <div class="toast-tag">🏆 LOGRO DESBLOQUEADO</div>
+  <div class="toast-name" id="achToastName"></div>
+  <div class="toast-desc" id="achToastDesc"></div>
+</div>
+
+<!-- ACHIEVEMENTS overlay -->
+<div class="overlay-ach" id="overlayAch">
+  <div class="ach-win">
+    <div class="ach-hdr">
+      <div>
+        <div class="ach-title">LOGROS DE HUBA</div>
+        <div class="ach-subtitle">HISTORIAL DE HAZAÑAS</div>
+      </div>
+      <button class="ach-close" onclick="closeAchievements()">✕</button>
+    </div>
+    <div class="ach-progress-bar">
+      <div class="ach-prog-track"><div class="ach-prog-fill" id="achProgFill" style="width:0%"></div></div>
+      <div class="ach-prog-txt" id="achProgTxt">0 / 20</div>
+    </div>
+    <div class="ach-list" id="achList"></div>
+  </div>
+</div>
+
+<!-- CREAR overlay -->
+<div class="overlay" id="overlayCraft">
+  <div class="owin">
+    <div class="owinhdr">
+      <span class="owintitle">CREAR / CRAFTEAR</span>
+      <button class="owinclose" onclick="closeOverlay('overlayCraft')">✕</button>
+    </div>
+    <div class="owincontent">
+      <div class="craft-layout">
+        <div class="inv-panel">
+          <div class="sec-title">INVENTARIO</div>
+          <div id="craftInvList"></div>
+        </div>
+        <div class="craft-panel">
+          <div class="sec-title">MESA (2×6)</div>
+          <div class="craft-grid" id="craftGrid"></div>
+          <button class="arm-btn" id="armBtn">ARMAR</button>
+          <div id="craftResult" style="font-size:9px;color:#88aacc;margin-top:5px;min-height:16px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ALMACÉN overlay -->
+<div class="overlay" id="overlayStorage">
+  <div class="owin">
+    <div class="owinhdr">
+      <span class="owintitle">ALMACÉN DE HUBA</span>
+      <button class="owinclose" onclick="closeOverlay('overlayStorage')">✕</button>
+    </div>
+    <div class="owincontent">
+      <div class="stor-grid" id="storGrid"></div>
+      <button class="use-btn" id="useBtn" style="display:none">USAR</button>
+      <div id="storDesc" style="font-size:9px;color:#88aacc;margin-top:5px;"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ================================================================
+// PRIMITIVE REALITY v14 - ENGINE (performance optimized)
+// ================================================================
+
+// LAYER CONSTANTS
+var LAYER_GROUND   = 'ground';
+var LAYER_UNDERGROUND = 'underground';
+var LAYER_SEA      = 'sea';
+var LAYER_FACE1    = 'face1';  // flying, same grid as ground
+var LAYER_FACE2    = 'face2';  // clouds, 2x
+var LAYER_FACE3    = 'face3';  // satellites, 3x
+var VIEW_LAYER     = LAYER_GROUND; // what player sees
+
+// Fast O(1) lookup sets for sea/field cells (rebuilt on startSim)
+var seaSetFast={};
+var fieldSetFast={};
+
+// PERFORMANCE CAPS
+var CAP_FOTS=150;
+var CAP_MEPS=80;
+var CAP_PORTALS=10;
+var CAP_PROJECTILES=60;
+var CAP_MINERALS=60;
+var CAP_FLASHES=20;
+var CAP_BLOCS=60;
+// POPULATION CAPS
+var CAP_YUE=40;
+var CAP_GROU=15;
+var CAP_CIGIR=20;
+var CAP_JARRA=15;
+var CAP_TEPUS=10;
+var CAP_ALIENX=20;
+var CAP_GUARDIAN=8;
+var CAP_SHAR=15;
+var CAP_ZARLE=8;
+
+// ENTITY DEFINITIONS for menu
+var EINFO = {
+  BIBUP:{color:'#00aaff',start:3,desc:'Come Fot, pinchos arriba/abajo'},
+  COPE: {color:'#44ff44',start:3,desc:'Come Fot, se entierra, zona depredadora'},
+  YUE:  {color:'#ffee00',start:3,desc:'Se divide al morir, deja Fot'},
+  MARMO:{color:'#ff3333',start:2,desc:'Depredador, evoluciona a Tuga'},
+  WEBI: {color:'#cc66ff',start:2,desc:'Come Mep, dispara a Shar, se vuelve Arbol'},
+  ZARLE:{color:'#ff8844',start:1,desc:'Vuelo Face1/2, come Yue, pare Grou'},
+  GROU: {color:'#2288ff',start:1,desc:'Marine costero, come terrestres'},
+  TREJO:{color:'#004488',start:1,desc:'Gran serpiente marina'},
+  CRAP: {color:'#886600',start:1,desc:'Híbrido tierra/mar, construye torres'},
+  PEZ:  {color:'#00aadd',start:2,desc:'Pez simple marino, pone huevos'},
+  HUBA: {color:'#ffffff',start:1,desc:'Jugador controlado. Único.'}
+};
+
+// Mineral definitions
+var MINERALS = {
+  FOT:      {color:'#aaffaa',rare:0},
+  EXTRAFOT: {color:'#55ff55',rare:1},
+  MORITA:   {color:'#ff88ff',rare:2},
+  GLASO:    {color:'#88ddff',rare:3},
+  NITROGLY: {color:'#00ffcc',rare:4},
+  MARIN:    {color:'#4466ff',rare:5},
+  RODUS:    {color:'#ff6600',rare:6},
+  AMEIZIKO: {color:'#ffd700',rare:7}
+};
+
+// Crafting recipes
+var RECIPES = {
+  // MODALIDADES
+  'Huba-Ten':  {type:'modal',result:'ten', req:{GLASO:1,MORITA:2}},
+  'Huba-Yan':  {type:'modal',result:'yan', req:{GLASO:3,NITROGLY:3,MORITA:2}},
+  'Huba-Flot': {type:'modal',result:'flot',req:{EXTRAFOT:5,NITROGLY:10,MORITA:5}},
+  'Huba-Rok':  {type:'modal',result:'rok', req:{NITROGLY:3,EXTRAFOT:3,MARIN:3}},
+  // OBJETOS
+  'Trato':     {type:'object',result:'trato',  req:{MARIN:10,EXTRAFOT:1}},
+  'Nucleo':    {type:'object',result:'nucleo', req:{RODUS:1,FOT:1}},
+  'Canon':     {type:'object',result:'canon',  req:{AMEIZIKO:1,NITROGLY:1}},
+  // AMEIZIKO sintetico
+  'AMEIZIKO':  {type:'mineral',result:'AMEIZIKO',req:{FOT:3,EXTRAFOT:3,MORITA:3,GLASO:3,NITROGLY:3,MARIN:3,RODUS:3}}
+};
+
+// Menu setup
+var mwEl=document.getElementById('mw'),mhEl=document.getElementById('mh');
+var mwvEl=document.getElementById('mwv'),mhvEl=document.getElementById('mhv');
+mwEl.addEventListener('input',function(){mwvEl.textContent=mwEl.value;});
+mhEl.addEventListener('input',function(){mhvEl.textContent=mhEl.value;});
+mwvEl.textContent=mwEl.value; mhvEl.textContent=mhEl.value;
+var eCounts={};
+Object.keys(EINFO).forEach(function(k){eCounts[k]=EINFO[k].start;});
+var egrid=document.getElementById('egrid');
+Object.keys(EINFO).forEach(function(name){
+  var row=document.createElement('div'); row.className='erow';
+  row.innerHTML='<div style="display:flex;flex-direction:column;flex:1">'
+    +'<span class="ename">'+name+'</span>'
+    +'<span class="edesc">'+EINFO[name].desc+'</span>'
+    +'</div>'
+    +'<div class="ecnt">'
+    +'<button onclick="chg(\''+name+'\',-1)">-</button>'
+    +'<span id="c_'+name+'">'+eCounts[name]+'</span>'
+    +'<button onclick="chg(\''+name+'\',1)">+</button>'
+    +'</div>';
+  egrid.appendChild(row);
+});
+function chg(n,d){eCounts[n]=Math.max(0,Math.min(10,(eCounts[n]||0)+d));document.getElementById('c_'+n).textContent=eCounts[n];}
+document.getElementById('startBtn').addEventListener('click',startSim);
+
+function showTab(id,btn){
+  document.querySelectorAll('.tpane').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.stab').forEach(function(b){b.classList.remove('on');});
+  document.getElementById('tab-'+id).classList.add('on');
+  if(btn) btn.classList.add('on');
+}
+
+// ================================================================
+// SIMULATION STATE
+// ================================================================
+var COLS,ROWS,CELL;
+var entities=[],fots=[],meps=[],projectiles=[];
+var blocs=[],alienShips=[],alienZShips=[],kekos=[],waves=[];
+var seaCells=[],fieldCells=[],clouds=[],satellites=[],meteorites=[];
+var minerals=[];  // {x,y,layer,type,qty}
+var clock=0,autoTmr=null,nid=1,logMsgs=[],evoLog=[];
+var uiRebuildCounter=0; // throttle full DOM rebuild in updateUI
+var hubaIn={dx:0,dy:0,fire:false,proc:false,misil:false,misil2:false,yan:false,ascend:false,descend:false,faceUp:false,faceDown:false,posar:false,extraer:false};
+var hubaLives=3;
+var webiWaves=0,yorcoAlive=false,extinctTrack={};
+var alienWeaponEnergy=0;
+var astromSpawned=false,astromDead=false;
+var poxEntity=null;
+var dayLength=40,nightLength=30;
+var isDaytime=true;
+var lulokAlive=false;
+var torreExists=false;
+
+// Huba inventory
+var hubaInventory={};
+Object.keys(MINERALS).forEach(function(k){hubaInventory[k]=0;});
+var hubaObjects={}; // {trato:0, nucleo:0, canon:0}
+['trato','nucleo','canon'].forEach(function(k){hubaObjects[k]=0;});
+
+// Huba modalities
+var hubaModes={ten:false,yan:false,flot:false,rok:false,rokII:false};
+var hubaModeUnlocked={ten:false,yan:false,flot:false,rok:false,rokII:false};
+var hubaCurrentLayer=LAYER_GROUND;
+var rokFuel=0;  // nitrogly units used
+var rokFace=1;  // 1, 2, or 3
+var yanSlots=[0,0,0];  // each slot 0=empty 3+=ready
+var yanChargeNeeded=3; // nitrogly per yan
+var selectedStorItem=null;
+
+var stats={
+  deaths:{
+    BIBUP:{hunger:0,spike:0,marmo:0,shar:0,cope_zone:0,proj:0},
+    COPE: {hunger:0,marmo:0,shar:0,spike:0,proj:0},
+    YUE:  {age:0,spike:0,marmo:0,shar:0,cope_zone:0,proj:0},
+    MARMO:{hunger:0,shar:0,proj:0,spike:0},
+    TUGA: {eaten:0},
+    SHAR: {hunger:0,flew_too_long:0},
+    WEBI: {marmo:0,shar:0},
+    ZARLE:{hunger:0,misil:0},
+    GROU: {hunger:0},
+    TREJO:{hunger:0},
+    PEZ:  {eaten:0},
+    HUBA: {marmo:0,shar:0,fall:0,drown:0}
+  },
+  events:{yue_mult:0,yue_fot:0,guards:0,extinctions:0,marmo_evo:0,cope_evo:0,tuga_hatch:0,blocs_placed:0,minerals_found:0,modes_unlocked:0}
+};
+
+// GENOMES
+var genomes={
+  BIBUP:{hungerLim:25,smellR:5,spikes:1,gen:0},
+  COPE: {hungerLim:25,fotR:4,hideR:2,hideDur:2,zoneR:4,gen:0},
+  YUE:  {lifespan:10,fleeP:0.5,fleeSteps:3,splitP:0.5,gen:0},
+  MARMO:{hungerLim:25,sightR:4,evolveAt:5,gen:0},
+  SHAR: {flyLim:10,hungerLim:20,sightR:7,groundT:2,gen:0},
+  WEBI: {mepR:8,fleeR:3,shootR:8,evolveAt:5,gen:0},
+  TUGA: {cocoon:3,gen:0}
+};
+function gv(type,trait){var g=genomes[type];return g?g[trait]:0;}
+function mutateGenome(type){
+  var g=genomes[type];if(!g)return;
+  g.gen++;
+}
+
+var canvas=document.getElementById('gc'),ctx=canvas.getContext('2d');
+
+// HELPERS
+function uid(){return nid++;}
+function rnd(n){return Math.floor(Math.random()*n);}
+function prob(p){return Math.random()<p;}
+function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v));}
+function dist(a,b){return Math.abs(a.x-b.x)+Math.abs(a.y-b.y);}
+function dirTo(a,b){var dx=b.x-a.x,dy=b.y-a.y;if(Math.abs(dx)>=Math.abs(dy))return{dx:Math.sign(dx),dy:0};return{dx:0,dy:Math.sign(dy)};}
+function L(msg,t){logMsgs.unshift({msg:msg,t:t||'',clk:clock});if(logMsgs.length>200)logMsgs.pop();}
+
+function isSeaCell(x,y){return !!seaSetFast[x+'_'+y];}
+function isFieldCell(x,y){return !!fieldSetFast[x+'_'+y];}
+function fotAt(x,y,layer){layer=layer||LAYER_GROUND;return fots.findIndex(function(f){return f.x===x&&f.y===y&&(f.layer||LAYER_GROUND)===layer;});}
+function mepAt(x,y){return meps.findIndex(function(m){return m.x===x&&m.y===y;});}
+function blocAt(x,y){return blocs.find(function(b){return b.x===x&&b.y===y;})||null;}
+function entAt(x,y,excl,layer){
+  layer=layer||LAYER_GROUND;
+  return entities.filter(function(e){return e.x===x&&e.y===y&&e!==excl&&!e._dead&&(e.layer||LAYER_GROUND)===layer;});
+}
+function nearFot(x,y,r,layer){layer=layer||LAYER_GROUND;var best=null,bd=r+1;for(var i=0;i<fots.length;i++){var f=fots[i];if((f.layer||LAYER_GROUND)!==layer)continue;var d=Math.abs(f.x-x)+Math.abs(f.y-y);if(d<bd){bd=d;best=f;if(d===0)break;}}return best;}
+function nearMep(x,y,r){var best=null,bd=r+1;for(var i=0;i<meps.length;i++){var m=meps[i];var d=Math.abs(m.x-x)+Math.abs(m.y-y);if(d<bd){bd=d;best=m;if(d===0)break;}}return best;}
+function nearEnt(x,y,types,excl,r,layer){
+  var best=null,bd=(r||999)+1;
+  if(layer===undefined)layer=null;
+  for(var i=0;i<entities.length;i++){
+    var e=entities[i];
+    if(e._dead||e===excl)continue;
+    if(types&&types.indexOf(e.type)<0)continue;
+    if(layer&&(e.layer||LAYER_GROUND)!==layer)continue;
+    var d=Math.abs(e.x-x)+Math.abs(e.y-y);
+    if(d<bd){bd=d;best=e;if(d===0)break;}
+  }
+  return best;
+}
+function spawnFot(x,y,layer){
+  if(fots.length>=CAP_FOTS)return;
+  if(x===undefined){
+    var attempts=0;
+    x=rnd(COLS);y=rnd(ROWS);
+    if(!layer||layer===LAYER_GROUND){
+      while(isSeaCell(x,y)&&attempts<30){x=rnd(COLS);y=rnd(ROWS);attempts++;}
+      if(isSeaCell(x,y))return;
+    }
+  }
+  if(isSeaCell(x,y)&&(!layer||layer===LAYER_GROUND))return;
+  fots.push({x:x,y:y,layer:layer||LAYER_GROUND});
+}
+function leaveMep(x,y){if(isSeaCell(x,y))return;if(meps.length>=CAP_MEPS)meps.shift();meps.push({x:x,y:y});}
+function spawnMineral(type,x,y,layer){
+  if(minerals.length>=CAP_MINERALS)return;
+  if(x===undefined){
+    var attempts=0;
+    x=rnd(COLS);y=rnd(ROWS);
+    while(isSeaCell(x,y)&&attempts<30){x=rnd(COLS);y=rnd(ROWS);attempts++;}
+  }
+  if(isSeaCell(x,y)&&layer!==LAYER_SEA)return;
+  minerals.push({id:uid(),type:type,x:x,y:y,layer:layer||LAYER_GROUND,qty:1});
+}
+
+function tryMove(e,nx,ny){
+  if(nx<0)nx=0; if(ny<0)ny=0;
+  if(nx>=COLS)nx=COLS-1; if(ny>=ROWS)ny=ROWS-1;
+  // Sea check for non-marine non-flot entities
+  var eLayer=e.layer||LAYER_GROUND;
+  if(eLayer===LAYER_GROUND){
+    var goingToSea=isSeaCell(nx,ny);
+    var isMarine=['GROU','TREJO','CRAP','PEZ','CIGIR','JARRA'].indexOf(e.type)>=0;
+    var isFlot=e.type==='HUBA'&&hubaModes.flot;
+    if(goingToSea&&!isMarine&&!isFlot){
+      // Yan boundary check
+      return;
+    }
+    if(!goingToSea&&!isMarine&&isSeaCell(e.x,e.y)&&!isFlot){
+      // allow leaving sea
+    }
+  }
+  var bl=blocAt(nx,ny);
+  if(bl&&eLayer===LAYER_GROUND&&!(e.type==='HUBA'&&bl.hollow))return;
+  if(eLayer===LAYER_GROUND&&entAt(nx,ny,e,eLayer).some(function(o){return o.type==='ARBOL'&&!o.fallen;}))return;
+  e.x=nx; e.y=ny;
+}
+function moveRnd(e,u,d,l,r){
+  var dirs=[];
+  for(var i=0;i<(u||1);i++)dirs.push({dx:0,dy:-1});
+  for(var i=0;i<(d||1);i++)dirs.push({dx:0,dy:1});
+  for(var i=0;i<(l||1);i++)dirs.push({dx:-1,dy:0});
+  for(var i=0;i<(r||1);i++)dirs.push({dx:1,dy:0});
+  var dv=dirs[rnd(dirs.length)];
+  tryMove(e,e.x+dv.dx,e.y+dv.dy);
+}
+function moveTo(e,tx,ty){
+  // Obstacle-aware navigation: try preferred dir, then perpendicular, then random
+  var d=dirTo(e,{x:tx,y:ty});
+  var ox=e.x,oy=e.y;
+  tryMove(e,e.x+d.dx,e.y+d.dy);
+  if(e.x===ox&&e.y===oy){
+    // Blocked - try perpendicular dirs
+    var perp=d.dx===0?[{dx:1,dy:0},{dx:-1,dy:0}]:[{dx:0,dy:1},{dx:0,dy:-1}];
+    // Pick perp that gets closer to target
+    perp.sort(function(a,b){
+      var da=Math.abs((ox+a.dx)-tx)+Math.abs((oy+a.dy)-ty);
+      var db=Math.abs((ox+b.dx)-tx)+Math.abs((oy+b.dy)-ty);
+      return da-db;
+    });
+    tryMove(e,ox+perp[0].dx,oy+perp[0].dy);
+    if(e.x===ox&&e.y===oy){
+      tryMove(e,ox+perp[1].dx,oy+perp[1].dy);
+    }
+    // If still stuck, take a random non-blocked step to unstick
+    if(e.x===ox&&e.y===oy){
+      var allDirs=[{dx:1,dy:0},{dx:-1,dy:0},{dx:0,dy:1},{dx:0,dy:-1}];
+      allDirs.sort(function(){return Math.random()-0.5;});
+      for(var i=0;i<allDirs.length;i++){
+        tryMove(e,ox+allDirs[i].dx,oy+allDirs[i].dy);
+        if(e.x!==ox||e.y!==oy)break;
+      }
+    }
+  }
+}
+function moveAway(e,fx,fy){var dx=e.x-fx,dy=e.y-fy;if(Math.abs(dx)>=Math.abs(dy))tryMove(e,e.x+Math.sign(dx),e.y);else tryMove(e,e.x,e.y+Math.sign(dy));}
+
+function spawnEnt(type,x,y,layer){
+  if(x===undefined){
+    var isMarine=['GROU','TREJO','CRAP','PEZ','CIGIR','JARRA'].indexOf(type)>=0;
+    var isFlying=['ZARLE','SHAR','SHOKA','JARRA','TORSA'].indexOf(type)>=0;
+    var attempts=0;
+    x=rnd(COLS);y=rnd(ROWS);
+    if(!isMarine&&!isFlying){
+      while(isSeaCell(x,y)&&attempts<30){x=rnd(COLS);y=rnd(ROWS);attempts++;}
+    }
+  }
+  var e={id:uid(),type:type,x:x,y:y,age:0,layer:layer||LAYER_GROUND};
+  switch(type){
+    case 'BIBUP': e.hunger=0;e.pokedBloc=false;e.intelligence=0;break;
+    case 'COPE':  e.hunger=0;e.fotEaten=0;e.buried=false;e.burClk=0;e.perm=false;e.eatCnt=0;e.ateBloc=false;break;
+    case 'YUE':   e.life=0;e.fleeClk=0;break;
+    case 'MARMO': e.hunger=0;e.eaten=0;e.bitBloc=false;e.satiated=false;e.satClk=0;break;
+    case 'TUGA':  e.cocClk=0;break;
+    case 'SHAR':  e.flying=true;e.flyClk=0;e.hunger=0;e.gndClk=0;e.target=null;break;
+    case 'WEBI':  e.hunger=0;e.mepEaten=0;e.ammo=0;e.waved=false;break;
+    case 'HUBA':  e.facing={dx:1,dy:0};e.ammo=0;e.inBloc=null;e.drowningClk=0;break;
+    case 'GUARDIAN': e.subtype=null;break;
+    case 'ARBOL': e.life=0;e.fallen=false;e.trkClk=0;e.trkCells=[];break;
+    case 'ALIENX': e.movClk=0;e.hp=2;break;
+    case 'ALIENZ': break;
+    case 'TORSA': e.hp=10;break;
+    case 'YORCO': e.hp=20;break;
+    case 'ZARLE': e.hunger=0;e.cargoYue=false;e.hungerClk=0;e.layer=layer||LAYER_FACE2;break;
+    case 'GROU':  e.hunger=0;e.hungerClk=0;e.eaten=0;break;
+    case 'TREJO': e.hunger=0;e.hungerClk=0;e.dx=1;e.dy=0;e.len=3;e.trail=[];e.attackingShip=false;break;
+    case 'CRAP':  e.hunger=0;e.phase='water';e.tocs=0;e.tocPoint=null;break;
+    case 'PEZ':   e.life=0;e.laidEggs=false;break;
+    case 'CIGIR': e.life=0;break;
+    case 'JARRA': e.hunger=0;break;
+    case 'LULOK': e.outClk=0;e.inField=true;e.hunger=0;break;
+    case 'TEPUS': e.mineClk=0;break;
+    case 'SHOKA': e.shootClk=0;e.layer=layer||LAYER_FACE1;break;
+    case 'ASTROM':e.layer=LAYER_FACE3;e.freed=false;e.freedAt=0;e.anger=false;e.kamikaze=false;e.hp=1;break;
+    case 'POX':   e.searchClk=0;e.storedFot=0;break;
+    case 'KEKO':  break;
+    case 'TORSA': e.hp=10;break;
+  }
+  entities.push(e);
+  return e;
+}
+function removeEnt(e){entities=entities.filter(function(x){return x!==e;});}
+
+var flashes=[];
+function flashEat(e){flashes.push({x:e.x,y:e.y,a:1,type:'eat',layer:e.layer||LAYER_GROUND});}
+function flashAppear(e){flashes.push({x:e.x,y:e.y,a:1,type:'appear',sz:0,layer:e.layer||LAYER_GROUND});}
+function flashExplosion(x,y,r,layer){flashes.push({x:x,y:y,a:1,type:'explosion',r:r,layer:layer||LAYER_GROUND});}
+function flashDive(e){flashes.push({x:e.x,y:e.y,a:1,type:'dive',r:0,layer:LAYER_GROUND});}
+function flashTrejoJump(x,y){flashes.push({x:x,y:y,a:1,type:'trejo_jump',r:0,phase:0,layer:LAYER_GROUND});}
+
+function killEnt(e,cause){
+  if(e._dead&&e.type!=='HUBA')return;
+  if(e._dead&&e.type==='HUBA'){
+    // already being processed, skip
+    return;
+  }
+  e._dead=true;
+  removeEnt(e);
+  var layer=e.layer||LAYER_GROUND;
+  // Drops
+  if(e.type==='HUBA'){
+    for(var dx=-2;dx<=2;dx++)for(var dy=-2;dy<=2;dy++)leaveMep(clamp(e.x+dx,0,COLS-1),clamp(e.y+dy,0,ROWS-1));
+  } else if(e.type==='ZARLE'){
+    // Drop RODUS
+    spawnMineral('RODUS',e.x,e.y,LAYER_GROUND);
+    L('ZARLE murio - dejo RODUS','e');
+  } else if(layer===LAYER_SEA||layer===LAYER_GROUND&&isSeaCell(e.x,e.y)){
+    spawnMineral('MARIN',e.x,e.y,LAYER_SEA);
+  } else if(e.type!=='TUGA'){
+    leaveMep(e.x,e.y);
+  }
+  L(e.type+' murio ('+cause+')','d');
+  if(e.type==='HUBA'){
+    hubaLives--;
+    if(hubaLives>0){
+      var nx=rnd(COLS),ny=rnd(ROWS);
+      while(isSeaCell(nx,ny)||isFieldCell(nx,ny)){nx=rnd(COLS);ny=rnd(ROWS);}
+      var ne=spawnEnt('HUBA',nx,ny,LAYER_GROUND);
+      hubaCurrentLayer=LAYER_GROUND;
+      rokFuel=0;rokFace=1;
+      flashAppear(ne);
+      L('HUBA revivio! Vidas: '+hubaLives,'b');
+    } else {
+      L('HUBA murio permanentemente. GAME OVER','d');
+    }
+  } else if(e.type==='ASTROM'){
+    astromDead=true;
+  } else if(e.type==='LULOK'){
+    lulokAlive=false;
+  } else if(genomes[e.type]){
+    mutateGenome(e.type);
+  }
+}
+
+// ================================================================
+// ENTITY TICKS
+// ================================================================
+
+// Returns true if Huba is inside a hollow bloc (hidden from predators)
+function hubaIsHidden(){
+  var huba=entities.find(function(e){return e.type==='HUBA'&&!e._dead;});
+  return huba&&huba.inBloc?true:false;
+}
+
+function tickBibup(e){
+  if(e._dead)return;
+  if(isDaytime&&!e.eating){e.sleeping=true;}else{e.sleeping=false;}
+  if(e.sleeping){return;}
+  e.hunger++;
+  if(e.hunger>=gv('BIBUP','hungerLim')){stats.deaths.BIBUP.hunger++;killEnt(e,'hunger');return;}
+  var nf=nearFot(e.x,e.y,Math.round(gv('BIBUP','smellR')),LAYER_GROUND);
+  if(nf){moveTo(e,nf.x,nf.y);}else{moveRnd(e,2,2,1,1);}
+  // Spikes
+  [[0,-1],[0,1]].forEach(function(pair){
+    var px=e.x+pair[0],py=e.y+pair[1];
+    entAt(px,py,e,LAYER_GROUND).forEach(function(o){
+      if(o.type==='BIBUP'||o.type==='GUARDIAN'||o.type==='ARBOL')return;
+      // Bibup intelligence: orient spikes toward predators
+      if(e.intelligence>3){
+        var preds=['MARMO','SHAR'];
+        if(preds.indexOf(o.type)>=0){
+          stats.deaths[o.type]&&(stats.deaths[o.type].spike=(stats.deaths[o.type].spike||0)+1);
+          killEnt(o,'spike');
+        }
+      } else {
+        stats.deaths[o.type]&&(stats.deaths[o.type].spike=(stats.deaths[o.type].spike||0)+1);
+        killEnt(o,'spike');
+      }
+    });
+  });
+  // Eat fot
+  var fi=fotAt(e.x,e.y,LAYER_GROUND);
+  if(fi>=0){fots.splice(fi,1);e.hunger=0;e.intelligence++;flashEat(e);}
+  // Poke bloc
+  if(!e.pokedBloc){
+    var nb=blocs.find(function(b){return !b.hollow&&!b.indestructible&&dist(b,e)<=3;});
+    if(nb){moveTo(e,nb.x,nb.y);if(e.x===nb.x&&e.y===nb.y){nb.hollow=true;nb.occupant=null;e.pokedBloc=true;L('BIBUP ahueco BLOC','b');}}
+  }
+}
+
+function tickCope(e){
+  if(e._dead)return;
+  if(isDaytime){e.sleeping=true;}else{e.sleeping=false;}
+  if(e.sleeping&&!e.perm)return;
+  if(e.buried&&!e.perm){e.burClk++;if(e.burClk>=gv('COPE','hideDur'))e.buried=false;return;}
+  if(e.perm){tickCopePerm(e);return;}
+  e.hunger++;
+  if(e.hunger>=gv('COPE','hungerLim')){stats.deaths.COPE.hunger++;killEnt(e,'hunger');return;}
+  var preds=['MARMO','SHAR'];
+  var near=entities.find(function(o){return !o._dead&&preds.indexOf(o.type)>=0&&(o.layer||LAYER_GROUND)===LAYER_GROUND&&dist(o,e)<=gv('COPE','hideR');});
+  if(near){e.buried=true;e.burClk=0;return;}
+  var nf=nearFot(e.x,e.y,gv('COPE','fotR'),LAYER_GROUND);
+  if(nf){moveTo(e,nf.x,nf.y);}else{moveRnd(e,1,1,1,1);}
+  var fi=fotAt(e.x,e.y,LAYER_GROUND);
+  if(fi>=0){fots.splice(fi,1);e.hunger=0;e.fotEaten++;flashEat(e);
+    if(e.fotEaten>=5){e.perm=true;e.eatCnt=0;L('COPE enterrado permanente','e');}
+  }
+}
+function tickCopePerm(e){
+  if(e._dead)return;
+  e.hunger++;
+  if(e.hunger>=gv('COPE','hungerLim')){stats.deaths.COPE.hunger++;killEnt(e,'hunger');return;}
+  var zr=Math.round(gv('COPE','zoneR'));
+  entities.forEach(function(o){
+    if(o===e||o._dead||o.type==='ARBOL'||o.type==='TUGA'||(o.layer||LAYER_GROUND)!==LAYER_GROUND)return;
+    if(o.buried)return;
+    if(Math.abs(o.x-e.x)<=zr&&Math.abs(o.y-e.y)<=zr){
+      e.hunger=0;e.eatCnt++;
+      killEnt(o,'cope_zone');
+      L('COPE devoro '+o.type,'d');flashEat(e);
+      if(e.eatCnt>=5){
+        stats.events.cope_evo++;
+        L('COPE -> TUGA','b');
+        spawnEnt('TUGA',e.x,e.y);removeEnt(e);e._dead=true;return;
+      }
+    }
+  });
+  if(e._dead)return;
+  if(!e.ateBloc){
+    var nb=blocs.find(function(b){return !b.indestructible&&dist(b,e)<=3;});
+    if(nb){blocs=blocs.filter(function(b){return b!==nb;});e.ateBloc=true;L('COPE devoro BLOC -> TORSA!','b');spawnEnt('TORSA',e.x,e.y);removeEnt(e);e._dead=true;}
+  }
+}
+
+function tickYue(e){
+  if(e._dead)return;
+  if(!isDaytime)e.sleeping=true; else e.sleeping=false;
+  if(e.sleeping)return;
+  e.life++;
+  if(e.life>=Math.round(gv('YUE','lifespan'))){
+    var yueCount=entities.filter(function(o){return o.type==='YUE'&&!o._dead;}).length;
+    if(prob(gv('YUE','splitP'))&&yueCount<CAP_YUE){
+      stats.events.yue_mult++;L('YUE x2','b');
+      var nx1=clamp(e.x+1,0,COLS-1),ny1=e.y;
+      var nx2=clamp(e.x-1,0,COLS-1),ny2=e.y;
+      if(!isSeaCell(nx1,ny1))spawnEnt('YUE',nx1,ny1);
+      if(!isSeaCell(nx2,ny2))spawnEnt('YUE',nx2,ny2);
+    }
+    else{stats.events.yue_fot++;spawnFot(e.x,e.y,LAYER_GROUND);}
+    stats.deaths.YUE.age++;
+    removeEnt(e);e._dead=true;return;
+  }
+  // Avoid blocs (5 cells)
+  var nb=blocs.find(function(b){return dist(b,e)<5;});
+  if(nb){moveAway(e,nb.x,nb.y);return;}
+  var nyone=entities.find(function(o){return !o._dead&&o!==e&&o.type!=='YUE'&&(o.layer||LAYER_GROUND)===LAYER_GROUND&&dist(o,e)<=2;});
+  if(nyone){
+    e.fleeClk++;
+    if(e.fleeClk%4===0&&prob(gv('YUE','fleeP'))){
+      for(var i=0;i<3;i++)moveAway(e,nyone.x,nyone.y);
+    }
+  } else {
+    e.fleeClk=0;
+    moveRnd(e,1,1,1,1);
+  }
+  // Enter field: transform after 5 clocks
+  if(isFieldCell(e.x,e.y)){
+    e.fieldClk=(e.fieldClk||0)+1;
+    if(e.fieldClk>=5&&!lulokAlive){
+      L('YUE en campo -> LULOK!','b');
+      spawnEnt('LULOK',e.x,e.y);
+      lulokAlive=true;
+      removeEnt(e);e._dead=true;
+    }
+  } else {e.fieldClk=0;}
+}
+
+function tickMarmo(e){
+  if(e._dead)return;
+  if(isDaytime){e.sleeping=true;}else{e.sleeping=false;}
+  if(e.sleeping)return;
+  if(e.satiated){e.satClk++;if(e.satClk>=10){e.satiated=false;}return;}
+  e.hunger++;
+  if(e.hunger>=gv('MARMO','hungerLim')){stats.deaths.MARMO.hunger++;killEnt(e,'hunger');return;}
+  var noAttack=['MARMO','ARBOL','TUGA','ALIENZ'];
+  var hidden=hubaIsHidden();
+  var vis=entities.filter(function(o){return !o._dead&&o!==e&&noAttack.indexOf(o.type)<0&&!o.buried&&(o.layer||LAYER_GROUND)===LAYER_GROUND&&dist(o,e)<=gv('MARMO','sightR')&&!(o.type==='HUBA'&&hidden);});
+  if(vis.length>0){
+    vis.sort(function(a,b){return dist(a,e)-dist(b,e);});
+    var t=vis[0];
+    moveTo(e,t.x,t.y);
+    if(e.x===t.x&&e.y===t.y){
+      e.hunger=0;e.eaten++;
+      stats.deaths[t.type]&&(stats.deaths[t.type].marmo=(stats.deaths[t.type].marmo||0)+1);
+      L('MARMO comio '+t.type,'d');
+      killEnt(t,'marmo');flashEat(e);
+      e.satiated=true;e.satClk=0;
+      if(e.eaten>=Math.round(gv('MARMO','evolveAt'))){
+        L('MARMO -> TUGA','b');stats.events.marmo_evo++;
+        spawnEnt('TUGA',e.x,e.y);removeEnt(e);e._dead=true;
+      }
+    }
+  } else {
+    if(!e.bitBloc){
+      var nb2=blocs.find(function(b){return !b.indestructible&&dist(b,e)<=3;});
+      if(nb2){moveTo(e,nb2.x,nb2.y);if(e.x===nb2.x&&e.y===nb2.y){nb2.bites=(nb2.bites||0)+1;e.bitBloc=true;if(nb2.bites>=3){blocs=blocs.filter(function(b){return b!==nb2;});L('BLOC destruido!','e');}}}
+      else moveRnd(e,1,1,1,1);
+    } else moveRnd(e,1,1,1,1);
+  }
+}
+
+function tickTuga(e){
+  if(e._dead)return;
+  e.cocClk++;
+  if(e.cocClk>=Math.round(gv('TUGA','cocoon'))){
+    var sharCount=entities.filter(function(x){return x.type==='SHAR'&&!x._dead;}).length;
+    if(sharCount<CAP_SHAR){L('TUGA -> SHAR','b');stats.events.tuga_hatch++;spawnEnt('SHAR',e.x,e.y,LAYER_FACE1);}
+    removeEnt(e);e._dead=true;
+  }
+}
+
+function tickShar(e){
+  if(e._dead)return;
+  e.layer=e.layer||LAYER_FACE1;
+  if(e.flying){
+    e.flyClk++;e.hunger++;
+    if(e.hunger>=gv('SHAR','hungerLim')){stats.deaths.SHAR.hunger++;killEnt(e,'hunger');return;}
+    if(e.flyClk>=gv('SHAR','flyLim')){stats.deaths.SHAR.flew_too_long++;killEnt(e,'flew_too_long');return;}
+    // Flee from webi projectile
+    var pnear=projectiles.find(function(p){return p.ptype==='webi'&&dist(p,e)<=4;});
+    if(pnear){var arb=nearEnt(e.x,e.y,['ARBOL'],null,999,LAYER_GROUND);if(arb){moveTo(e,arb.x,arb.y);e.layer=LAYER_GROUND;e.flying=false;e.gndClk=0;return;}}
+    var prey=entities.filter(function(o){return !o._dead&&o!==e&&['BIBUP','COPE','YUE','MARMO','WEBI','HUBA'].indexOf(o.type)>=0&&(o.layer||LAYER_GROUND)===LAYER_GROUND&&dist(o,e)<=gv('SHAR','sightR')&&!(o.type==='HUBA'&&hubaIsHidden());});
+    if(prey.length>0){
+      prey.sort(function(a,b){return dist(a,e)-dist(b,e);});
+      var t=prey[0];moveTo(e,t.x,t.y);
+      if(e.x===t.x&&e.y===t.y){
+        e.hunger=0;e.flyClk=0;e.target=null;
+        stats.deaths[t.type]&&(stats.deaths[t.type].shar=(stats.deaths[t.type].shar||0)+1);
+        L('SHAR cazo '+t.type,'d');killEnt(t,'shar');flashEat(e);
+        e.flying=false;e.layer=LAYER_GROUND;e.gndClk=0;
+      }
+    } else {
+      var nf=nearFot(e.x,e.y,gv('SHAR','sightR'),LAYER_GROUND);
+      if(nf){moveTo(e,nf.x,nf.y);var fi=fotAt(e.x,e.y,LAYER_GROUND);if(fi>=0){fots.splice(fi,1);e.hunger=0;e.flyClk=0;flashEat(e);}}
+      else moveRnd(e,1,1,1,1);
+    }
+  } else {
+    e.layer=LAYER_GROUND;
+    e.gndClk++;
+    if(e.gndClk>=gv('SHAR','groundT')){e.flying=true;e.layer=LAYER_FACE1;e.flyClk=0;}
+  }
+}
+
+function tickWebi(e){
+  if(e._dead)return;
+  var pred=entities.find(function(o){return !o._dead&&o.type==='MARMO'&&(o.layer||LAYER_GROUND)===LAYER_GROUND&&dist(o,e)<=gv('WEBI','fleeR');});
+  if(pred){moveAway(e,pred.x,pred.y);return;}
+  var sh=nearEnt(e.x,e.y,['SHAR'],null,gv('WEBI','shootR'));
+  if(sh&&e.ammo>0){
+    e.ammo--;
+    var d=dirTo(e,sh);
+    projectiles.push({x:e.x,y:e.y,dx:d.dx,dy:d.dy,oid:e.id,ptype:'webi',age:0,layer:LAYER_GROUND,guided:true,targetId:sh.id});
+    L('WEBI disparo a SHAR','e');
+  }
+  if(!e.waved){
+    var nb=blocs.find(function(b){return dist(b,e)<=4;});
+    if(nb){e.waved=true;webiWaves++;waves.push({x:e.x,y:e.y,r:0,age:0});L('WEBI onda ('+webiWaves+'/7)','e');if(webiWaves>=7&&!yorcoAlive)trySpawnYorco();}
+  }
+  var nm=nearMep(e.x,e.y,gv('WEBI','mepR'));
+  if(nm){moveTo(e,nm.x,nm.y);}else moveRnd(e,1,1,1,1);
+  var mi=mepAt(e.x,e.y);
+  if(mi>=0){meps.splice(mi,1);e.mepEaten++;e.ammo++;flashEat(e);
+    if(e.mepEaten>=gv('WEBI','evolveAt')){L('WEBI -> ARBOL','b');spawnEnt('ARBOL',e.x,e.y);removeEnt(e);e._dead=true;}
+  }
+}
+
+// ================================================================
+// HUBA
+// ================================================================
+function tickHuba(e){
+  if(e._dead)return;
+  var inp=hubaIn;
+  e.layer=hubaCurrentLayer;
+
+  // Movement
+  if(inp.dx!==0||inp.dy!==0){
+    if(e.inBloc){e.inBloc.occupant=null;e.inBloc=null;}
+    e.facing={dx:inp.dx,dy:inp.dy};
+    var nx=e.x+inp.dx,ny=e.y+inp.dy;
+    // Sea auto-flot
+    if(isSeaCell(nx,ny)&&hubaModeUnlocked.flot&&hubaCurrentLayer===LAYER_GROUND){
+      hubaModes.flot=true;hubaCurrentLayer=LAYER_GROUND;// stays surface
+    } else if(isSeaCell(nx,ny)&&!hubaModes.flot&&hubaCurrentLayer===LAYER_GROUND){
+      // Can't enter
+    } else {
+      tryMove(e,nx,ny);
+    }
+    // Pick up mineral
+    var minIdx=minerals.findIndex(function(m){return m.x===e.x&&m.y===e.y&&m.layer===hubaCurrentLayer;});
+    if(minIdx>=0){
+      var m=minerals[minIdx];
+      hubaInventory[m.type]=(hubaInventory[m.type]||0)+m.qty;
+      if(m.type==='FOT'){
+        e.ammo+=(m.qty);
+      }
+      minerals.splice(minIdx,1);
+      stats.events.minerals_found++;
+      L('HUBA recogio '+m.type,'e');
+    }
+    hubaIn.dx=0;hubaIn.dy=0;
+  }
+
+  // Layer transitions
+  if(inp.ascend&&hubaCurrentLayer===LAYER_UNDERGROUND){hubaCurrentLayer=LAYER_GROUND;inp.ascend=false;L('HUBA asciende al suelo','e');}
+  if(inp.descend&&hubaCurrentLayer===LAYER_GROUND&&hubaModes.ten){hubaCurrentLayer=LAYER_UNDERGROUND;inp.descend=false;L('HUBA desciende bajo tierra','e');}
+  if(inp.faceUp&&hubaModes.rok&&hubaCurrentLayer===LAYER_FACE1){hubaCurrentLayer=LAYER_FACE2;rokFace=2;inp.faceUp=false;}
+  else if(inp.faceUp&&hubaModes.rok&&hubaCurrentLayer===LAYER_FACE2){hubaCurrentLayer=LAYER_FACE3;rokFace=3;inp.faceUp=false;}
+  if(inp.faceDown&&hubaModes.rok&&hubaCurrentLayer===LAYER_FACE2){hubaCurrentLayer=LAYER_FACE1;rokFace=1;inp.faceDown=false;}
+  else if(inp.faceDown&&hubaModes.rok&&hubaCurrentLayer===LAYER_FACE3){hubaCurrentLayer=LAYER_FACE2;rokFace=2;inp.faceDown=false;}
+
+  // Rok fuel consumption
+  if(hubaModes.rok||hubaModes.rokII){
+    if(hubaCurrentLayer===LAYER_FACE1||hubaCurrentLayer===LAYER_FACE2||hubaCurrentLayer===LAYER_FACE3){
+      e.rokFuelClk=(e.rokFuelClk||0)+1;
+      if(e.rokFuelClk>=2){e.rokFuelClk=0;
+        if(hubaInventory.NITROGLY>0){hubaInventory.NITROGLY--;}
+        else{
+          // Out of fuel
+          if(hubaCurrentLayer===LAYER_FACE1){hubaCurrentLayer=LAYER_GROUND;hubaModes.rok=false;L('ROK sin combustible - HUBA cae','d');}
+          else{killEnt(e,'fall');stats.deaths.HUBA.fall++;return;}
+        }
+      }
+    }
+  }
+
+  // Drowning
+  if(hubaCurrentLayer===LAYER_SEA){
+    e.drowningClk++;
+    if(e.drowningClk>=20){killEnt(e,'drown');stats.deaths.HUBA.drown++;return;}
+  } else {e.drowningClk=0;}
+
+  // POSAR (land on cloud/satellite)
+  if(inp.posar){
+    inp.posar=false;
+    if(hubaCurrentLayer===LAYER_FACE2){
+      var cl=clouds.find(function(c){return c.cells&&c.cells.some(function(cc){return cc.x===e.x&&cc.y===e.y;})});
+      if(cl){cl.rider=e.id;L('HUBA se poso en nube','e');}
+    }
+    if(hubaCurrentLayer===LAYER_FACE3){
+      var sat=satellites.find(function(s){return s.cells&&s.cells.some(function(cc){return cc.x===e.x&&cc.y===e.y;})});
+      if(sat){sat.rider=e.id;L('HUBA se poso en satelite','e');}
+    }
+  }
+
+  // EXTRAER (extract from satellite)
+  if(inp.extraer){
+    inp.extraer=false;
+    var sat2=satellites.find(function(s){return s.rider===e.id;});
+    if(sat2&&sat2.minerals&&sat2.minerals.length>0){
+      var mm=sat2.minerals.shift();
+      if(mm==='ASTROM'&&!astromSpawned){
+        spawnEnt('ASTROM',e.x+1,e.y,LAYER_FACE3);
+        astromSpawned=true;
+        L('ASTROM liberado!','b');
+      } else {
+        hubaInventory[mm]=(hubaInventory[mm]||0)+1;
+        L('HUBA extrajo '+mm+' de satelite','e');
+      }
+    }
+  }
+
+  // YAN
+  if(inp.yan){
+    inp.yan=false;
+    var readySlot=yanSlots.findIndex(function(s){return s>=yanChargeNeeded;});
+    if(readySlot>=0){
+      yanSlots[readySlot]=0;
+      var yd=e.facing;
+      var nx2=clamp(e.x+yd.dx*4,0,COLS-1),ny2=clamp(e.y+yd.dy*4,0,ROWS-1);
+      // Don't cross sea
+      if(!isSeaCell(nx2,ny2)||hubaModes.flot){e.x=nx2;e.y=ny2;}
+      else{var midx=e.x+yd.dx*2;var midy=e.y+yd.dy*2;e.x=clamp(midx,0,COLS-1);e.y=clamp(midy,0,ROWS-1);}
+      L('YAN! Salto 4 casillas','e');
+    }
+  }
+
+  // FIRE
+  if(inp.fire&&e.ammo>=1){
+    e.ammo-=1;hubaInventory.FOT=Math.max(0,(hubaInventory.FOT||0)-1);
+    projectiles.push({x:e.x+e.facing.dx,y:e.y+e.facing.dy,dx:e.facing.dx,dy:e.facing.dy,oid:e.id,ptype:'huba',age:0,layer:hubaCurrentLayer});
+    inp.fire=false;
+  }
+  if(inp.proc&&e.ammo>0){
+    var bx=clamp(e.x+e.facing.dx,0,COLS-1),by=clamp(e.y+e.facing.dy,0,ROWS-1);
+    if(!blocAt(bx,by)){
+      blocs.push({x:bx,y:by,bites:0,hollow:true,occupant:null,indestructible:false});
+      e.ammo--;
+      hubaInventory.FOT=Math.max(0,(hubaInventory.FOT||0)-1);
+      stats.events.blocs_placed++;
+      L('BLOC colocado en ['+bx+','+by+']','e');
+    }
+    inp.proc=false;
+  }
+  if(inp.misil&&e.inBloc&&e.ammo>=2){
+    e.ammo-=2;hubaInventory.FOT=Math.max(0,(hubaInventory.FOT||0)-2);
+    var tg=nearEnt(e.x,e.y,['SHAR','TORSA','ALIENX','SHOKA','ASTROM'],null,999);
+    if(!tg&&alienShips.length>0)tg={x:alienShips[0].x,y:alienShips[0].y};
+    if(tg){
+      var d2=dirTo(e,tg);
+      projectiles.push({x:e.x,y:e.y,dx:d2.dx,dy:d2.dy,oid:e.id,ptype:'misil',age:0,layer:hubaCurrentLayer,targetId:tg.id||null});
+      L('HUBA lanzo MISIL (costo 2 FOT)!','e');
+    }
+    inp.misil=false;
+  }
+  // MISIL INTER (Rok mode, costs 3 FOT)
+  if(inp.misil2&&(hubaModes.rok||hubaModes.rokII)&&e.ammo>=3){
+    e.ammo-=3;hubaInventory.FOT=Math.max(0,(hubaInventory.FOT||0)-3);
+    var tgAir=nearEnt(e.x,e.y,['ZARLE','SHOKA','ASTROM'],null,999,hubaCurrentLayer);
+    var tgMisil=projectiles.find(function(p){return p.ptype!=='huba'&&p.layer===hubaCurrentLayer;});
+    var finalTg=tgAir||(tgMisil?{x:tgMisil.x,y:tgMisil.y,isProj:true,projRef:tgMisil}:null);
+    if(finalTg){
+      var di=finalTg.isProj?dirTo(e,finalTg):dirTo(e,finalTg);
+      projectiles.push({x:e.x,y:e.y,dx:di.dx,dy:di.dy,oid:e.id,ptype:'inter',age:0,layer:hubaCurrentLayer,targetId:finalTg.id||null});
+      L('MISIL INTER disparado!','e');
+    }
+    inp.misil2=false;
+  }
+
+  // Bloc interaction
+  var bl=blocAt(e.x,e.y);
+  if(bl&&bl.hollow&&!e.inBloc){bl.occupant=e.id;e.inBloc=bl;}
+  else if(!bl&&e.inBloc){e.inBloc.occupant=null;e.inBloc=null;}
+
+  // Pick up FOT
+  var fi2=fotAt(e.x,e.y,hubaCurrentLayer);
+  if(fi2>=0){
+    fots.splice(fi2,1);e.ammo++;
+    hubaInventory.FOT=(hubaInventory.FOT||0)+1;
+    L('HUBA almaceno FOT ('+e.ammo+')');flashEat(e);
+  }
+
+  // Pick up mineral on ground layer
+  if(hubaCurrentLayer===LAYER_GROUND||hubaCurrentLayer===LAYER_UNDERGROUND){
+    var minI=minerals.findIndex(function(m){return m.x===e.x&&m.y===e.y&&m.layer===hubaCurrentLayer;});
+    if(minI>=0){
+      var mn=minerals[minI];
+      hubaInventory[mn.type]=(hubaInventory[mn.type]||0)+mn.qty;
+      minerals.splice(minI,1);
+      L('HUBA recogio '+mn.type,'e');
+      stats.events.minerals_found++;
+    }
+  }
+
+  // Yan slot charging
+  if(hubaModes.yan||hubaModeUnlocked.yan){
+    var nit=hubaInventory.NITROGLY||0;
+    for(var si=0;si<yanSlots.length;si++){
+      if(yanSlots[si]<yanChargeNeeded&&nit>=yanChargeNeeded){
+        yanSlots[si]++;
+        nit--;
+      }
+    }
+    hubaInventory.NITROGLY=nit;
+  }
+
+  // Danger border
+  var danger=!e.inBloc&&entities.some(function(o){return !o._dead&&['MARMO','SHAR','ALIENX','ASTROM','YORCO','TORSA','SHOKA'].indexOf(o.type)>=0&&dist(o,e)<=4;});
+  document.getElementById('danger-border').style.borderColor=danger?'rgba(255,0,0,0.7)':'transparent';
+}
+
+// ================================================================
+// MARINE ENTITIES
+// ================================================================
+function tickZarle(e){
+  if(e._dead)return;
+  e.hungerClk++;
+  if(e.hungerClk>=30){
+    // Hungry, go eat cloud
+    var cloud=clouds.find(function(c){return c.cells&&c.cells.length>0&&(e.layer===LAYER_FACE2);});
+    if(cloud&&cloud.cells.length>0){
+      var cc=cloud.cells[0];
+      moveTo(e,cc.x,cc.y);
+      if(e.x===cc.x&&e.y===cc.y){cloud.cells.shift();e.hungerClk=0;L('ZARLE comio nube','e');flashEat(e);}
+    } else {
+      if(e.hungerClk>=45){killEnt(e,'hunger');stats.deaths.ZARLE.hunger++;return;}
+    }
+    return;
+  }
+  if(e.layer===LAYER_FACE2&&clock%15===0){e.layer=LAYER_FACE1;}
+  if(e.layer===LAYER_FACE1){
+    // Hunt Yue
+    var yue=nearEnt(e.x,e.y,['YUE'],null,999,LAYER_GROUND);
+    if(yue){
+      moveTo(e,yue.x,yue.y);
+      if(e.x===yue.x&&e.y===yue.y){
+        L('ZARLE comio YUE','d');removeEnt(yue);yue._dead=true;
+        e.cargoYue=true;e.hungerClk=0;flashEat(e);
+        // Fly to coast
+        var coastCell=seaCells.find(function(c){return !isSeaCell(c.x,c.y-1)||!isSeaCell(c.x,c.y+1);});
+        if(coastCell&&e.cargoYue){
+          // Drop egg at coast
+          fots.push({x:coastCell.x,y:coastCell.y,layer:LAYER_GROUND,type:'egg_zarle',hatchClk:0,hatchAt:5});
+          e.cargoYue=false;L('ZARLE deposito huevo de GROU en costa','e');
+          e.layer=LAYER_FACE2;
+        }
+      }
+    } else {
+      moveRnd(e,1,1,1,1);
+    }
+  } else {
+    moveRnd(e,1,1,1,1);
+  }
+}
+
+function tickGrou(e){
+  if(e._dead)return;
+  e.layer=e.layer||LAYER_SEA;
+  e.hungerClk++;
+  if(e.hungerClk>=50){killEnt(e,'hunger');stats.deaths.GROU.hunger++;return;}
+  // Eat terrestrials adjacent to coast (Grou stays in sea, reaches 1 tile)
+  var prey=entities.find(function(o){
+    return !o._dead&&o!==e&&(o.layer||LAYER_GROUND)===LAYER_GROUND
+      &&Math.abs(o.x-e.x)<=1&&Math.abs(o.y-e.y)<=1;
+  });
+  if(prey){
+    e.hungerClk=0;e.eaten=(e.eaten||0)+1;
+    killEnt(prey,'grou');flashEat(e);L('GROU comio '+prey.type,'d');
+    if(e.eaten>=7){
+      var zarleCount=entities.filter(function(x){return x.type==='ZARLE'&&!x._dead;}).length;
+      if(zarleCount<CAP_ZARLE){L('GROU -> ZARLE','b');spawnEnt('ZARLE',e.x,e.y,LAYER_FACE1);}
+      removeEnt(e);e._dead=true;
+    }
+  } else {
+    // Move randomly but ONLY to sea cells
+    var dirs=[{dx:1,dy:0},{dx:-1,dy:0},{dx:0,dy:1},{dx:0,dy:-1}];
+    dirs.sort(function(){return Math.random()-0.5;});
+    for(var i=0;i<dirs.length;i++){
+      var nx=e.x+dirs[i].dx,ny=e.y+dirs[i].dy;
+      if(nx>=0&&nx<COLS&&ny>=0&&ny<ROWS&&isSeaCell(nx,ny)){
+        e.x=nx;e.y=ny;break;
+      }
+    }
+  }
+}
+
+function tickTrejo(e){
+  if(e._dead)return;
+  e.layer=e.layer||LAYER_SEA;
+  e.hungerClk++;
+  if(e.hungerClk>=65){killEnt(e,'hunger');stats.deaths.TREJO.hunger++;return;}
+  // Move serpentinely
+  var nx=e.x+e.dx,ny=e.y+e.dy;
+  if(nx<0||nx>=COLS||!isSeaCell(nx,ny)){e.dx*=-1;}
+  else if(ny<0||ny>=ROWS||!isSeaCell(nx,ny)){e.dy*=-1;}
+  else{e.x=nx;e.y=ny;}
+  // Look for flying prey above sea (face1) - solo UNA presa por clock
+  if(!e.jumpedThisClock){
+    var flying=entities.find(function(o){return !o._dead&&['SHAR','JARRA','SHOKA'].indexOf(o.type)>=0&&isSeaCell(o.x,o.y)&&dist(o,e)<=5;});
+    if(flying){
+      e.jumpedThisClock=true;
+      flashTrejoJump(flying.x,flying.y);
+      e.hungerClk=0;leaveMep(flying.x,flying.y);removeEnt(flying);flying._dead=true;flashEat(e);L('TREJO salto y comio '+flying.type,'d');
+    }
+  }
+}
+
+function tickCrap(e){
+  if(e._dead)return;
+  e.hunger++;
+  if(e.hunger>=40){killEnt(e,'hunger');return;}
+  if(e.phase==='water'){
+    e.layer=LAYER_SEA;
+    if(e.hunger>=15){
+      e.phase='hunting';
+      e.layer=LAYER_GROUND; // comes ashore — visible to all
+    } else moveRnd(e,1,1,1,1);
+  } else if(e.phase==='hunting'){
+    e.layer=LAYER_GROUND;
+    var yue2=nearEnt(e.x,e.y,['YUE'],null,999,LAYER_GROUND);
+    if(yue2){
+      moveTo(e,yue2.x,yue2.y);
+      if(e.x===yue2.x&&e.y===yue2.y){
+        e.hunger=0;e.phase='building';leaveMep(yue2.x,yue2.y);removeEnt(yue2);yue2._dead=true;flashEat(e);L('CRAP comio YUE','d');
+        if(!e.tocPoint){
+          var sp=seaCells[rnd(seaCells.length)];
+          if(sp)e.tocPoint={x:sp.x,y:sp.y};
+        }
+      }
+    } else moveRnd(e,1,1,1,1);
+  } else if(e.phase==='building'){
+    e.layer=LAYER_GROUND;
+    if(e.tocPoint){
+      moveTo(e,e.tocPoint.x,e.tocPoint.y);
+      if(e.x===e.tocPoint.x&&e.y===e.tocPoint.y){
+        e.tocs++;L('CRAP coloco TOC ('+e.tocs+'/3)','e');
+        e.phase='water';e.hunger=0;
+        e.layer=LAYER_SEA;
+        if(e.tocs>=3&&!torreExists){
+          torreExists=true;
+          spawnEnt('TORRE',e.tocPoint.x,e.tocPoint.y,LAYER_GROUND);
+          L('TORRE DE TOC CONSTRUIDA!','b');
+        }
+      }
+    }
+  }
+}
+
+function tickPez(e){
+  if(e._dead)return;
+  e.life++;
+  if(e.life>=45){killEnt(e,'age');return;}
+  if(e.life===10&&!e.laidEggs){
+    e.laidEggs=true;
+    for(var i=0;i<2;i++){
+      var ex=clamp(e.x+rnd(3)-1,0,COLS-1),ey=clamp(e.y+rnd(3)-1,0,ROWS-1);
+      if(isSeaCell(ex,ey)&&fots.length<CAP_FOTS){
+        fots.push({x:ex,y:ey,layer:LAYER_SEA,type:'egg_pez',hatchClk:0,hatchAt:3});
+      }
+    }
+  }
+  if(prob(0.25))moveRnd(e,1,1,1,1);
+}
+
+function tickCigir(e){
+  if(e._dead)return;
+  e.life++;
+  if(e.life>=30){
+    var jarraCount=entities.filter(function(x){return x.type==='JARRA'&&!x._dead;}).length;
+    if(jarraCount<CAP_JARRA){L('CIGIR -> JARRA','b');spawnEnt('JARRA',e.x,e.y,LAYER_FACE1);}
+    removeEnt(e);e._dead=true;
+  }
+}
+
+function tickJarra(e){
+  if(e._dead)return;
+  e.layer=LAYER_FACE1;
+  e.hunger++;
+  if(e.hunger>=40){killEnt(e,'hunger');return;}
+  // Dive to catch fish
+  if(isSeaCell(e.x,e.y)){
+    var pez=entities.find(function(o){return !o._dead&&o.type==='PEZ'&&Math.abs(o.x-e.x)<=3&&Math.abs(o.y-e.y)<=3;});
+    if(pez){
+      flashDive(e);
+      e.hunger=0;leaveMep(pez.x,pez.y);removeEnt(pez);pez._dead=true;flashEat(e);stats.deaths.PEZ.eaten++;
+      e.fisheaten=(e.fisheaten||0)+1;
+      if(e.fisheaten>=5){
+        var cigiCount=entities.filter(function(x){return x.type==='CIGIR'&&!x._dead;}).length;
+        if(cigiCount<CAP_CIGIR){
+          for(var i=0;i<2;i++){
+            var cx=clamp(e.x+rnd(3)-1,0,COLS-1),cy=clamp(e.y+rnd(3)-1,0,ROWS-1);
+            if(isSeaCell(cx,cy))spawnEnt('CIGIR',cx,cy,LAYER_SEA);
+          }
+        }
+        e.fisheaten=0;
+      }
+    }
+  }
+  if(!isSeaCell(e.x,e.y))moveRnd(e,1,1,1,1);
+}
+
+function tickLulok(e){
+  if(e._dead)return;
+  if(!isFieldCell(e.x,e.y)){
+    e.outClk++;
+    if(e.outClk>=5){moveTo(e,fieldCells[rnd(fieldCells.length)].x,fieldCells[rnd(fieldCells.length)].y);}
+    if(e.outClk>=10){killEnt(e,'out_of_field');lulokAlive=false;return;}
+  } else {e.outClk=0;moveRnd(e,1,1,1,1);}
+  e.hunger++;
+  if(e.hunger>=40){killEnt(e,'hunger');lulokAlive=false;return;}
+  // Hunt from 1 tile away
+  var prey=entities.find(function(o){return !o._dead&&o!==e&&o.type!=='LULOK'&&(o.layer||LAYER_GROUND)===LAYER_GROUND&&dist(o,e)===1;});
+  if(prey){e.hunger=0;killEnt(prey,'lulok');flashEat(e);L('LULOK cazo '+prey.type,'d');}
+}
+
+function tickTepus(e){
+  if(e._dead)return;
+  e.layer=LAYER_UNDERGROUND;
+  // Random movement
+  moveRnd(e,1,1,1,1);
+  // If Huba-Ten is underground, place mines
+  var hubaUnder=entities.find(function(h){return h.type==='HUBA'&&(h.layer||LAYER_GROUND)===LAYER_UNDERGROUND;});
+  if(hubaUnder){
+    e.mineClk++;
+    if(e.mineClk>=5){
+      e.mineClk=0;
+      var mx=clamp(e.x+rnd(5)-2,0,COLS-1),my=clamp(e.y+rnd(5)-2,0,ROWS-1);
+      if(!fots.find(function(f){return f.x===mx&&f.y===my&&f.layer===LAYER_UNDERGROUND&&f.type==='mine';})){
+        fots.push({x:mx,y:my,layer:LAYER_UNDERGROUND,type:'mine'});
+      }
+    }
+  }
+  // Eat nitrogly -> lay egg
+  var nitIdx=minerals.findIndex(function(m){return m.type==='NITROGLY'&&m.layer===LAYER_UNDERGROUND&&m.x===e.x&&m.y===e.y;});
+  if(nitIdx>=0){
+    minerals.splice(nitIdx,1);
+    fots.push({x:e.x,y:e.y,layer:LAYER_UNDERGROUND,type:'egg_tepus',hatchClk:0,hatchAt:15});
+    L('TEPUS: huevo creado','e');
+  }
+}
+
+function tickShoka(e){
+  if(e._dead)return;
+  e.layer=e.layer||LAYER_FACE1;
+  e.shootClk++;
+  if(e.shootClk>=5){
+    e.shootClk=0;
+    var tgt=entities.find(function(o){return !o._dead&&(o.layer||LAYER_GROUND)===e.layer&&o!==e&&(o.type==='HUBA'||['SHAR','JARRA'].indexOf(o.type)>=0);});
+    if(tgt){
+      var d=dirTo(e,tgt);
+      projectiles.push({x:e.x,y:e.y,dx:d.dx,dy:d.dy,oid:e.id,ptype:'shoka',age:0,layer:e.layer,aoe:true,aoer:1,guided:true,targetId:tgt.id||null});
+      L('SHOKA disparo!','e');
+    }
+  }
+  moveRnd(e,1,1,1,1);
+}
+
+function tickAstrom(e){
+  if(e._dead)return;
+  e.layer=LAYER_FACE3;
+  e.freed=true;
+  if(!e.freedAt)e.freedAt=clock;
+  var timeFreed=clock-e.freedAt;
+  if(timeFreed>=300&&!e.anger&&!astromDead){
+    e.anger=true;L('ASTROM ENOJADO! Disparando misiles a Huba-Rok!','d');
+    // Fire 3 guided missiles
+    for(var i=0;i<3;i++){
+      projectiles.push({x:e.x,y:e.y,dx:prob(0.5)?1:-1,dy:0,oid:e.id,ptype:'astrom',age:0,layer:LAYER_FACE3,expIn:10,guided:true});
+    }
+  }
+  if(e.anger&&!e.kamikaze&&timeFreed>=350){
+    e.kamikaze=true;L('ASTROM modo kamikaze!','d');
+  }
+  if(e.kamikaze){
+    var huba=entities.find(function(h){return h.type==='HUBA'&&!h._dead;});
+    if(huba){moveTo(e,huba.x,huba.y);
+      if(e.x===huba.x&&e.y===huba.y){
+        flashExplosion(e.x,e.y,3,LAYER_FACE3);
+        // if huba survives, unlock rokII
+        if(!hubaModeUnlocked.rokII){
+          hubaModeUnlocked.rokII=true;stats.events.modes_unlocked++;
+          L('HUBA desbloqueo Huba-Rok II!','b');
+        }
+        killEnt(e,'kamikaze_explosion');
+      }
+    } else moveRnd(e,1,1,1,1);
+  } else {
+    moveRnd(e,1,1,1,1);
+  }
+}
+
+function tickPox(e){
+  if(e._dead)return;
+  e.layer=e.layer||LAYER_GROUND;
+  e.searchClk++;
+  // Search for Fot in 9x9 radius
+  if(e.searchClk>=3){
+    e.searchClk=0;
+    var nearFotIdx=fots.findIndex(function(f){return (f.layer||LAYER_GROUND)===LAYER_GROUND&&Math.abs(f.x-e.x)<=4&&Math.abs(f.y-e.y)<=4;});
+    if(nearFotIdx>=0){
+      var f=fots[nearFotIdx];
+      moveTo(e,f.x,f.y);
+      if(e.x===f.x&&e.y===f.y){
+        fots.splice(nearFotIdx,1);
+        e.storedFot++;
+        // Bring to Alien Z ship
+        if(e.storedFot>=5){
+          e.storedFot=0;
+          var zship=alienZShips.find(function(s){return s.landed;});
+          if(zship){
+            // Convert to missile
+            zship.missiles=(zship.missiles||0)+1;
+            L('POX deposito 5 FOT -> 1 MISIL nave Z','e');
+          }
+        }
+      }
+    } else moveRnd(e,1,1,1,1);
+  }
+}
+
+function tickGuardian(e){
+  if(e._dead)return;
+  var huba=entities.find(function(h){return h.type==='HUBA'&&!h._dead;});
+  if(!huba){removeEnt(e);e._dead=true;return;}
+  var threats=entities.filter(function(o){return !o._dead&&o!==e&&['MARMO','SHAR','ALIENX'].indexOf(o.type)>=0&&dist(o,huba)<=3;});
+  if(threats.length>0){var t=threats[0];moveTo(e,t.x,t.y);if(e.x===t.x&&e.y===t.y){L('GUARDIAN elimino '+t.type,'d');leaveMep(t.x,t.y);removeEnt(t);t._dead=true;}}
+  else moveTo(e,huba.x,huba.y);
+}
+
+function tickArbol(e){
+  if(e._dead)return;
+  if(e.fallen){e.trkClk++;if(e.trkClk>=50){removeEnt(e);e._dead=true;}return;}
+  e.life++;
+  if(clock%2===0){for(var i=0;i<3;i++)spawnFot(clamp(e.x+rnd(3)-1,0,COLS-1),clamp(e.y+rnd(3)-1,0,ROWS-1),LAYER_GROUND);}
+  if(e.life>=50){e.fallen=true;e.trkClk=0;e.trkCells=[];for(var i=0;i<3;i++)e.trkCells.push({x:clamp(e.x+i,0,COLS-1),y:e.y});L('ARBOL cayo','e');}
+}
+
+var alienWeaponEnergy=0;
+function tickAlienXShips(){
+  if(clock%500===0&&clock>0){
+    var sx=rnd(COLS-1),sy=0;
+    alienShips.push({x:sx,y:sy,dx:prob(0.5)?1:-1,dy:0,dropClk:0,life:0,id:uid(),energy:0,defClk:0});
+    L('NAVE X llega!','d');
+  }
+  var prevCount=alienShips.length;
+  alienShips=alienShips.filter(function(s){return s.life<35;});
+  // Si alguna nave se fue, eliminar sus soldados
+  if(alienShips.length<prevCount){
+    entities.filter(function(e){return e.type==='ALIENX'&&!e._dead;}).forEach(function(e){
+      killEnt(e,'ship_departed');
+    });
+    L('Nave X se fue - soldados eliminados','e');
+  }
+  alienShips.forEach(function(s){
+    s.life++;
+    var nf=null,bd=999;
+    fots.forEach(function(f){if((f.layer||LAYER_GROUND)!==LAYER_GROUND)return;var d=dist(f,{x:s.x+1,y:s.y+1});if(d<bd&&d<=4){bd=d;nf=f;}});
+    // Also collect Glaso
+    var glaso=minerals.find(function(m){return m.type==='GLASO'&&dist(m,{x:s.x,y:s.y})<=2;});
+    if(glaso){minerals=minerals.filter(function(m){return m!==glaso;});s.glaso=(s.glaso||0)+1;if(s.glaso>=3){spawnEnt('SHOKA',s.x,s.y,LAYER_FACE1);s.glaso=0;L('NAVE X creo SHOKA!','d');}}
+    if(nf){var dd=dirTo({x:s.x+1,y:s.y+1},nf);s.dx=dd.dx;s.dy=dd.dy;}
+    else{if(prob(0.4))s.dx=prob(0.5)?1:-1;if(prob(0.3))s.dy=prob(0.5)?1:-1;}
+    s.x=clamp(s.x+s.dx,0,COLS-2);s.y=clamp(s.y+s.dy,0,ROWS-2);
+    for(var dx2=0;dx2<=1;dx2++){for(var dy2=0;dy2<=1;dy2++){
+      var fi=fotAt(s.x+dx2,s.y+dy2,LAYER_GROUND);
+      if(fi>=0){fots.splice(fi,1);s.energy=(s.energy||0)+1;alienWeaponEnergy++;
+        if(alienWeaponEnergy>=100){
+          L('!!!NAVE X ARMA FINAL - TODOS MUEREN!!!','d');alienWeaponEnergy=0;
+          entities.forEach(function(en){en._dead=true;removeEnt(en);leaveMep(en.x,en.y);});entities=[];
+          flashes.push({x:Math.floor(COLS/2),y:Math.floor(ROWS/2),a:1,type:'nuke',layer:LAYER_GROUND});return;
+        }
+      }
+    }}
+    s.dropClk++;
+    if(s.dropClk>=3){s.dropClk=0;
+      var axCount=entities.filter(function(x){return x.type==='ALIENX'&&!x._dead;}).length;
+      if(axCount<CAP_ALIENX)spawnEnt('ALIENX',clamp(s.x+rnd(2),0,COLS-1),clamp(s.y+rnd(2),0,ROWS-1),LAYER_GROUND);
+    }
+    var misil=projectiles.find(function(p){return p.ptype==='misil'&&dist(p,{x:s.x+1,y:s.y+1})<=4;});
+    s.defClk=(s.defClk||0)+1;
+    if(misil&&s.defClk>=1){s.defClk=0;var dd2=dirTo({x:s.x+1,y:s.y+1},misil);projectiles.push({x:s.x+1,y:s.y+1,dx:dd2.dx,dy:dd2.dy,oid:s.id,ptype:'xdef',age:0,layer:LAYER_GROUND});}
+  });
+}
+function tickAlienX(e){
+  if(e._dead)return;
+  var hidden=hubaIsHidden();
+  var t=entities.find(function(o){return !o._dead&&o!==e&&(o.layer||LAYER_GROUND)===LAYER_GROUND&&!(o.type==='HUBA'&&hidden);});
+  if(t)moveTo(e,t.x,t.y);else moveRnd(e,1,1,1,1);
+  if(clock%3===0){
+    var prey=entities.find(function(o){return !o._dead&&o!==e&&(o.layer||LAYER_GROUND)===LAYER_GROUND&&Math.abs(o.x-e.x)<=3&&Math.abs(o.y-e.y)<=3&&['ALIENX','SHAR','TORSA','ALIENZ','ARBOL','TUGA'].indexOf(o.type)<0&&!o.flying&&!(o.type==='HUBA'&&hidden);});
+    if(prey){
+      stats.deaths[prey.type]&&(stats.deaths[prey.type].proj=(stats.deaths[prey.type].proj||0)+1);
+      L('ALIEN X rayo a '+prey.type,'d');
+      if(prey.type==='KEKO'){kekos=kekos.filter(function(k){return k.x!==prey.x||k.y!==prey.y;});}
+      else{killEnt(prey,'alienx_ray');}
+      flashEat(e);
+    }
+  }
+}
+
+function tickAlienZShips(){
+  if(clock%480===0&&clock>0){
+    var landed=false;
+    for(var att=0;att<20&&!landed;att++){
+      var lx=rnd(COLS-2)+1,ly=rnd(ROWS-2)+1;
+      var nb=blocs.filter(function(b){return Math.abs(b.x-lx)<=1&&Math.abs(b.y-ly)<=1;});
+      if(nb.length>=3){
+        nb.forEach(function(b){b.indestructible=true;});
+        alienZShips.push({x:lx,y:ly,landed:true,id:uid(),kClk:0,missiles:0});
+        spawnEnt('ALIENZ',lx-1,ly);spawnEnt('ALIENZ',lx+1,ly);
+        if(!poxEntity){poxEntity=spawnEnt('POX',lx,ly);}
+        L('NAVE ALIEN Z aterrizo!','e');landed=true;
+      }
+    }
+    if(!landed)alienZShips.push({x:rnd(COLS),y:0,landed:false,id:uid(),kClk:0});
+  }
+  alienZShips.forEach(function(s){
+    if(!s.landed)return;
+    s.kClk++;if(s.kClk>=2){s.kClk=0;kekos.push({x:rnd(COLS),y:rnd(ROWS),id:uid()});}
+    // Fire guided missile from Pox-supplied ammo
+    if(s.missiles>0&&clock%20===0){
+      var tg=alienShips[0];
+      if(tg){s.missiles--;var d=dirTo({x:s.x,y:s.y},tg);projectiles.push({x:s.x,y:s.y,dx:d.dx,dy:d.dy,oid:s.id,ptype:'zship_misil',age:0,layer:LAYER_GROUND,guided:true,targetRef:tg});}
+    }
+  });
+  if(alienZShips.filter(function(s){return s.landed;}).length>=3){
+    var huba=entities.find(function(e){return e.type==='HUBA'&&!e._dead;});
+    if(huba){
+      var onShip=alienZShips.find(function(s){return s.landed&&Math.abs(s.x-huba.x)<=1&&Math.abs(s.y-huba.y)<=1;});
+      if(onShip){L('HUBA ESCAPO AL ESPACIO! FIN.','b');if(autoTmr){clearInterval(autoTmr);autoTmr=null;}setTimeout(function(){alert('FIN: HUBA escapo al espacio en clock '+clock);},300);}
+    }
+  }
+}
+function tickAlienZ(e){
+  if(e._dead)return;
+  moveRnd(e,1,1,1,1);
+  if(clock%20===0){var bx=rnd(COLS),by=rnd(ROWS);if(!blocAt(bx,by)&&!isSeaCell(bx,by)&&!entAt(bx,by).length){blocs.push({x:bx,y:by,bites:0,hollow:true,occupant:null,indestructible:false});L('ALIEN Z coloco BLOC','e');}}
+}
+
+function tickKekos(){
+  kekos.forEach(function(k){
+    var te=entities.find(function(e){return !e._dead&&e.type==='ALIENX'&&dist(e,k)>0;});
+    var ts=alienShips.length>0?alienShips[0]:null;
+    var tgt=te||(ts?{x:ts.x,y:ts.y,id:ts.id}:null);
+    if(tgt){
+      var dx=Math.sign(tgt.x-k.x),dy=Math.sign(tgt.y-k.y);
+      if(dx!==0||dy!==0)projectiles.push({x:k.x,y:k.y,dx:dx,dy:dy,oid:k.id,ptype:'keko',age:0,speed:2,layer:LAYER_GROUND,guided:true,targetId:tgt.id||null});
+    }
+  });
+}
+
+function tickTorsa(e){
+  if(e._dead)return;
+  e.age++;
+  if(e.age%3===0){
+    var h=entities.find(function(x){return x.type==='HUBA'&&!x._dead&&!x.inBloc;});
+    if(h)moveTo(e,h.x,h.y);
+  }
+  if(clock%2===0){
+    var prey=entities.find(function(o){return !o._dead&&o!==e&&o.type!=='TORSA'&&o.type!=='ALIENZ'&&Math.abs(o.x-e.x)<=1&&Math.abs(o.y-e.y)<=1&&(o.layer||LAYER_GROUND)===LAYER_GROUND&&!(o.type==='HUBA'&&hubaIsHidden());});
+    if(prey){var d=dirTo(e,prey);projectiles.push({x:e.x,y:e.y,dx:d.dx,dy:d.dy,oid:e.id,ptype:'torsa',age:0,layer:LAYER_GROUND,guided:true,targetId:prey.id||null});}
+  }
+}
+
+function trySpawnYorco(){
+  var yues=entities.filter(function(e){return e.type==='YUE'&&!e._dead;});
+  if(yues.length===0)return;
+  var cx=Math.round(yues.reduce(function(s,y){return s+y.x;},0)/yues.length);
+  var cy=Math.round(yues.reduce(function(s,y){return s+y.y;},0)/yues.length);
+  if(isSeaCell(cx,cy)){cx=clamp(cx+1,0,COLS-1);cy=clamp(cy+1,0,ROWS-1);}
+  yues.forEach(function(y){removeEnt(y);y._dead=true;});
+  yorcoAlive=true;
+  var yo=spawnEnt('YORCO',cx,cy);yo.hp=20;
+  L('YORCO INVOCADO!','b');flashAppear(yo);
+}
+function tickYorco(e){
+  if(e._dead)return;
+  if(clock%2===0){
+    var h=entities.find(function(x){return x.type==='HUBA'&&!x._dead&&!x.inBloc;});
+    if(h)moveTo(e,h.x,h.y);else moveRnd(e,1,1,1,1);
+  }
+  entities.forEach(function(o){
+    if(!o._dead&&o!==e&&Math.abs(o.x-e.x)<=1&&Math.abs(o.y-e.y)<=1&&o.type!=='YORCO'&&!(o.type==='HUBA'&&hubaIsHidden())){
+      killEnt(o,'yorco');L('YORCO devoro '+o.type,'d');}
+  });
+}
+
+// ================================================================
+// CLOUDS, SATELLITES, METEORS
+// ================================================================
+function tickClouds(){
+  if(clock%5===0){
+    // Spawn cloud at left edge in face2
+    if(clouds.length<5){
+      var cy2=rnd(ROWS);
+      var newCloud={id:uid(),cells:[{x:0,y:cy2},{x:1,y:cy2},{x:0,y:cy2+1},{x:1,y:cy2+1},{x:2,y:cy2}],rider:null};
+      clouds.push(newCloud);
+    }
+  }
+  clouds=clouds.filter(function(c){
+    // Move right
+    c.cells.forEach(function(cc){cc.x++;});
+    // Remove rider if off map
+    if(c.rider){
+      var rider=entities.find(function(e){return e.id===c.rider;});
+      if(rider){var cc2=c.cells[0];rider.x=cc2.x;rider.y=cc2.y;}
+    }
+    // Remove when off-map
+    return c.cells.some(function(cc){return cc.x<COLS;});
+  });
+}
+function tickSatellites(){
+  if(clock%50===0&&satellites.length<4){
+    var face3Cols=COLS*3;
+    var sx2=rnd(face3Cols),sy2=rnd(ROWS*3);
+    var sz=prob(0.5)?3:6;
+    var cells=[];
+    for(var i=0;i<sz;i++)for(var j=0;j<sz;j++)cells.push({x:(sx2+i)%(face3Cols),y:(sy2+j)%(ROWS*3)});
+    var mins=[];
+    var mkeys=Object.keys(MINERALS);
+    for(var k=0;k<sz;k++){
+      if(prob(0.1)&&!astromSpawned){mins.push('ASTROM');}
+      else{mins.push(mkeys[rnd(mkeys.length)]);}
+    }
+    satellites.push({id:uid(),cells:cells,minerals:mins,dx:prob(0.5)?1:-1,dy:prob(0.3)?1:-1,rider:null,moveClk:0});
+  }
+  satellites.forEach(function(s){
+    s.moveClk++;
+    if(s.moveClk>=10){s.moveClk=0;s.cells.forEach(function(c){c.x+=s.dx;c.y+=s.dy;});}
+  });
+}
+function tickMeteors(){
+  if(prob(0.05)){
+    var sx3=0,sy3=rnd(ROWS*3),mx=1,my=0;
+    meteorites.push({x:sx3,y:sy3,dx:mx,dy:my,life:0});
+  }
+  meteorites=meteorites.filter(function(m){
+    for(var i=0;i<10;i++){m.x+=m.dx;m.y+=m.dy;}
+    m.life++;
+    // Kill anything in 5x5 path
+    var face3Cols=COLS*3;
+    for(var dx=-2;dx<=2;dx++)for(var dy2=-2;dy2<=2;dy2++){
+      var ex=Math.floor((m.x+dx)%face3Cols),ey=Math.floor(m.y+dy2);
+      entities.forEach(function(e){
+        if(!e._dead&&e.layer===LAYER_FACE3&&Math.abs(e.x-(m.x+dx))<3&&Math.abs(e.y-(m.y+dy2))<3){
+          killEnt(e,'meteor');
+        }
+      });
+    }
+    return m.x<face3Cols&&m.y>=0&&m.y<ROWS*3&&m.life<20;
+  });
+}
+
+// ================================================================
+// PROJECTILES
+// ================================================================
+function tickProjectiles(){
+  var toRm=[];
+  projectiles.forEach(function(p,pi){
+    // Guided projectiles track target
+    if(p.guided||(p.ptype==='misil'||p.ptype==='inter'||p.ptype==='astrom')){
+      p.mclk=(p.mclk||0)+1;
+      if(p.ptype==='misil'&&p.mclk%2!==0){p.age++;return;}
+      var tgt=null;
+      // Try to find target by ID first
+      if(p.targetId){tgt=entities.find(function(e){return e.id===p.targetId&&!e._dead;});}
+      // Fallback by type if target lost
+      if(!tgt){
+        if(p.ptype==='misil'||p.ptype==='inter'){
+          tgt=entities.find(function(e){return !e._dead&&['SHAR','TORSA','ALIENX','YORCO','ASTROM','SHOKA'].indexOf(e.type)>=0;});
+          if(!tgt&&alienShips.length>0)tgt={x:alienShips[0].x,y:alienShips[0].y};
+        } else if(p.ptype==='webi'){
+          tgt=entities.find(function(e){return !e._dead&&e.type==='SHAR';});
+        } else if(p.ptype==='keko'){
+          tgt=entities.find(function(e){return !e._dead&&e.type==='ALIENX';});
+          if(!tgt&&alienShips.length>0)tgt={x:alienShips[0].x,y:alienShips[0].y};
+        } else if(p.ptype==='shoka'){
+          tgt=entities.find(function(e){return !e._dead&&(e.type==='HUBA'||e.type==='SHAR'||e.type==='JARRA')&&(e.layer||LAYER_GROUND)===p.layer;});
+        } else if(p.ptype==='torsa'){
+          tgt=entities.find(function(e){return !e._dead&&e.type!=='TORSA'&&e.type!=='ALIENZ'&&(e.layer||LAYER_GROUND)===LAYER_GROUND;});
+        } else if(p.ptype==='zship_misil'&&p.targetRef){
+          tgt={x:p.targetRef.x,y:p.targetRef.y};
+        }
+      }
+      if(tgt){p.dx=Math.sign(tgt.x-p.x);p.dy=Math.sign(tgt.y-p.y);}
+      p.x+=p.dx;p.y+=p.dy;p.age++;
+    } else {
+      var steps=p.speed||1;
+      for(var s=0;s<steps;s++){p.x+=p.dx;p.y+=p.dy;}
+      p.age++;
+    }
+    // Mine trigger
+    var mineI=fots.findIndex(function(f){return f.type==='mine'&&f.x===p.x&&f.y===p.y&&f.layer===p.layer;});
+    if(mineI>=0){fots.splice(mineI,1);flashExplosion(p.x,p.y,2,p.layer);toRm.push(pi);return;}
+
+    if(p.x<0||p.x>=COLS||p.y<0||p.y>=ROWS){toRm.push(pi);return;}
+    if(blocAt(p.x,p.y)&&!blocAt(p.x,p.y).hollow){toRm.push(pi);return;}
+    var hit=entities.find(function(e){return !e._dead&&e.x===p.x&&e.y===p.y&&(e.layer||LAYER_GROUND)===(p.layer||LAYER_GROUND);});
+    if(hit){
+      if(p.ptype==='huba'){
+        if(['BIBUP','COPE','YUE','WEBI'].indexOf(hit.type)>=0){
+          var grdCount=entities.filter(function(x){return x.type==='GUARDIAN'&&!x._dead;}).length;
+          if(grdCount<CAP_GUARDIAN){
+            stats.events.guards++;hit.type='GUARDIAN';hit.layer=LAYER_GROUND;
+            L(hit.type+' -> GUARDIAN!','b');
+          } else {
+            killEnt(hit,'huba_proj');
+          }
+        } else if(hit.type!=='HUBA'&&hit.type!=='GUARDIAN'&&hit.type!=='ALIENZ'&&hit.type!=='ARBOL'&&hit.type!=='TUGA'){
+          L('Proyectil HUBA mato '+hit.type,'d');killEnt(hit,'huba_proj');
+        }
+      } else if(p.ptype==='webi'){
+        if(hit.type==='SHAR'){L('WEBI mato SHAR','d');killEnt(hit,'webi_proj');}
+      } else if(p.ptype==='misil'||p.ptype==='zship_misil'){
+        var targets=['SHAR','TORSA','ALIENX','YORCO','SHOKA','ASTROM'];
+        if(targets.indexOf(hit.type)>=0){
+          if(hit.type==='TORSA'||hit.type==='YORCO'){
+            hit.hp--;L('MISIL impacto '+hit.type+' ('+hit.hp+' HP)','e');
+            if(hit.hp<=0){
+              if(hit.type==='YORCO'){
+                yorcoAlive=false;
+                for(var i=0;i<4;i++){
+                  var yx=clamp(hit.x+rnd(3)-1,0,COLS-1),yy=clamp(hit.y+rnd(3)-1,0,ROWS-1);
+                  if(!isSeaCell(yx,yy))spawnEnt('YUE',yx,yy);
+                }
+              }
+              if(hit.type==='TORSA'){for(var j=0;j<4;j++)leaveMep(clamp(hit.x+rnd(3)-1,0,COLS-1),clamp(hit.y+rnd(3)-1,0,ROWS-1));spawnEnt('ARBOL',hit.x,hit.y);}
+              leaveMep(hit.x,hit.y);removeEnt(hit);hit._dead=true;flashExplosion(p.x,p.y,2,p.layer);
+            }
+          } else {leaveMep(hit.x,hit.y);removeEnt(hit);hit._dead=true;flashExplosion(p.x,p.y,1,p.layer);}
+        }
+        var shi=alienShips.findIndex(function(s){return p.x>=s.x&&p.x<=s.x+1&&p.y>=s.y&&p.y<=s.y+1;});
+        if(shi>=0){alienShips.splice(shi,1);flashExplosion(p.x,p.y,3,p.layer);L('MISIL destruyo NAVE ALIEN X!','e');}
+        toRm.push(pi);return;
+      } else if(p.ptype==='inter'){
+        // Intercepts flying entities
+        if(['ZARLE','SHOKA','ASTROM'].indexOf(hit.type)>=0){leaveMep(hit.x,hit.y);removeEnt(hit);hit._dead=true;flashExplosion(p.x,p.y,1,p.layer);}
+        toRm.push(pi);return;
+      } else if(p.ptype==='keko'){
+        if(hit.type==='ALIENX'){hit.hp=(hit.hp||2)-1;if(hit.hp<=0){L('KEKO destruyo ALIEN X','e');removeEnt(hit);hit._dead=true;}else L('KEKO impacto ALIEN X','e');}
+        toRm.push(pi);return;
+      } else if(p.ptype==='torsa'||p.ptype==='shoka'){
+        if(hit.type!=='TORSA'&&hit.type!=='ALIENZ'&&hit.type!=='SHOKA'){
+          if(p.ptype==='shoka'&&p.aoe){
+            for(var ax=-1;ax<=1;ax++)for(var ay=-1;ay<=1;ay++){
+              entAt(p.x+ax,p.y+ay,null,p.layer).forEach(function(o){if(o.type!=='SHOKA'&&o.type!=='ALIENX')killEnt(o,'shoka_aoe');});
+            }
+            flashExplosion(p.x,p.y,1,p.layer);
+          } else {
+            killEnt(hit,'torsa_proj');
+          }
+        }
+        toRm.push(pi);return;
+      } else if(p.ptype==='astrom'){
+        // Explode in 3x3 after 10 clocks or on impact
+        flashExplosion(p.x,p.y,1,p.layer);
+        if(hit.type==='HUBA'){killEnt(hit,'astrom_misil');}
+        toRm.push(pi);return;
+      }
+      toRm.push(pi);
+    }
+    // Inter intercepts other projectiles
+    if(p.ptype==='inter'){
+      var hitProj=projectiles.findIndex(function(m,mi){return mi!==pi&&(m.ptype==='xdef'||m.ptype==='astrom')&&m.x===p.x&&m.y===p.y;});
+      if(hitProj>=0){L('INTER intercepto misil!','e');toRm.push(hitProj);toRm.push(pi);}
+    }
+    if(p.ptype==='xdef'){
+      var hitMisil2=projectiles.find(function(m,mi){return mi!==pi&&m.ptype==='misil'&&m.x===p.x&&m.y===p.y;});
+      if(hitMisil2){L('Defensa NAVE X intercepto misil!','e');var hm=projectiles.indexOf(hitMisil2);if(hm>=0)toRm.push(hm);toRm.push(pi);}
+    }
+    // Astrom misil expiry
+    if(p.ptype==='astrom'){p.expIn=(p.expIn||10)-1;if(p.expIn<=0){flashExplosion(p.x,p.y,1,p.layer);toRm.push(pi);}}
+  });
+  [...new Set(toRm)].sort(function(a,b){return b-a;}).forEach(function(i){projectiles.splice(i,1);});
+}
+
+// ================================================================
+// PORTALS, EXTINCTIONS
+// ================================================================
+// PORTALS ELIMINADOS
+// function tickPortals(){ ... }
+
+function checkExtinct(){
+  ['BIBUP','COPE','YUE','MARMO','WEBI'].forEach(function(t){
+    var alive=entities.filter(function(e){return e.type===t&&!e._dead;}).length;
+    if(alive===0){
+      if(!extinctTrack[t]){
+        extinctTrack[t]=clock;stats.events.extinctions++;
+        L(t+' EXTINTO! Reaparece...','e');
+        var ex=rnd(COLS),ey=rnd(ROWS);
+        while(isSeaCell(ex,ey)){ex=rnd(COLS);ey=rnd(ROWS);}
+        spawnEnt(t,ex,ey);
+        ex=rnd(COLS);ey=rnd(ROWS);
+        while(isSeaCell(ex,ey)){ex=rnd(COLS);ey=rnd(ROWS);}
+        spawnEnt(t,ex,ey);
+      }
+    } else {
+      if(extinctTrack[t]&&clock-extinctTrack[t]>=3)extinctTrack[t]=false;
+    }
+  });
+}
+
+// ================================================================
+// MINERALS TICK
+// ================================================================
+function tickMinerals(){
+  // Morita: appears every 30 clocks, lasts 40 clocks then becomes EXTRAFOT
+  if(clock>0&&clock%30===0){
+    var attempts=0,mx,my;
+    do{mx=rnd(COLS);my=rnd(ROWS);attempts++;}while((isSeaCell(mx,my))&&attempts<50);
+    if(!isSeaCell(mx,my)){
+      var mor={id:uid(),type:'MORITA',x:mx,y:my,layer:LAYER_GROUND,qty:1,timer:40};
+      minerals.push(mor);
+      L('MORITA aparecio en ['+mx+','+my+']','e');
+    }
+  }
+  // Glaso: 2 appear every 40 clocks
+  if(clock%40===0){
+    for(var i=0;i<2;i++){
+      var gx=rnd(COLS),gy=rnd(ROWS);
+      if(!isSeaCell(gx,gy))minerals.push({id:uid(),type:'GLASO',x:gx,y:gy,layer:LAYER_GROUND,qty:1});
+    }
+  }
+  // Nitrogly underground source - always respawn source if missing
+  if(clock%20===0){
+    var src=minerals.find(function(m){return m.type==='NITROGLY_SRC';});
+    if(!src){
+      // Recrear la fuente si fue eliminada por el cap
+      var nsx2=rnd(COLS),nsy2=rnd(ROWS);
+      minerals.push({id:uid(),type:'NITROGLY_SRC',x:nsx2,y:nsy2,layer:LAYER_UNDERGROUND,qty:0});
+      src=minerals[minerals.length-1];
+      L('Fuente NITROGLY recreada','e');
+    }
+    if(src&&minerals.length<CAP_MINERALS){
+      minerals.push({id:uid(),type:'NITROGLY',x:src.x,y:src.y,layer:LAYER_UNDERGROUND,qty:1});
+    }
+  }
+  // Morita timer -> EXTRAFOT (only becomes a mineral, does NOT auto-spawn fots)
+  minerals=minerals.filter(function(m){
+    if(m.type==='MORITA'&&m.timer!==undefined){
+      m.timer--;
+      if(m.timer<=0){
+        minerals.push({id:uid(),type:'EXTRAFOT',x:m.x,y:m.y,layer:m.layer,qty:1});
+        return false;
+      }
+    }
+    return true;
+  });
+  // Non-Huba entities absorb EXTRAFOT on their tile as 10 fots (resets hunger)
+  minerals=minerals.filter(function(m){
+    if(m.type!=='EXTRAFOT')return true;
+    var eater=entities.find(function(e){
+      return !e._dead&&e.type!=='HUBA'&&e.x===m.x&&e.y===m.y&&(e.layer||LAYER_GROUND)===m.layer;
+    });
+    if(eater){
+      if(eater.hunger!==undefined)eater.hunger=Math.max(0,eater.hunger-20);
+      if(eater.hungerClk!==undefined)eater.hungerClk=Math.max(0,eater.hungerClk-30);
+      flashEat(eater);
+      L(eater.type+' absorbio EXTRAFOT (=10 FOT)','b');
+      return false;
+    }
+    return true;
+  });
+}
+
+// ================================================================
+// FOT EGGS (special fot with hatch logic)
+// ================================================================
+function tickEggs(){
+  fots=fots.filter(function(f){
+    if(f.type==='egg_zarle'||f.type==='egg_pez'||f.type==='egg_tepus'){
+      f.hatchClk++;
+      if(f.hatchClk>=f.hatchAt){
+        if(f.type==='egg_zarle'){
+          var grouCount=entities.filter(function(x){return x.type==='GROU'&&!x._dead;}).length;
+          if(grouCount<CAP_GROU)spawnEnt('GROU',f.x,f.y,LAYER_SEA);
+        }
+        if(f.type==='egg_pez'){
+          var pezCount=entities.filter(function(x){return x.type==='PEZ'&&!x._dead;}).length;
+          if(pezCount<80)spawnEnt('PEZ',f.x,f.y,LAYER_SEA);
+        }
+        if(f.type==='egg_tepus'){
+          var tepusCount=entities.filter(function(x){return x.type==='TEPUS'&&!x._dead;}).length;
+          if(tepusCount<CAP_TEPUS)spawnEnt('TEPUS',f.x,f.y,LAYER_UNDERGROUND);
+        }
+        return false;
+      }
+      return true;
+    }
+    return true;
+  });
+  // Mine trigger for ground entities
+  fots.forEach(function(f){
+    if(f.type==='mine'){
+      entAt(f.x,f.y,null,f.layer).forEach(function(e){
+        if(e.type==='TEPUS')return;
+        // Explode 5x5
+        flashExplosion(f.x,f.y,2,f.layer);
+        for(var dx=-2;dx<=2;dx++)for(var dy=-2;dy<=2;dy++){
+          entAt(f.x+dx,f.y+dy,null,f.layer).forEach(function(o){
+            if(o.type!=='TEPUS'){
+              var hubaEntity=o.type==='HUBA';
+              if(hubaEntity){
+                // Huba can resist 2 explosions
+                o.mineHits=(o.mineHits||0)+1;
+                if(o.mineHits>=2)killEnt(o,'mine');
+              } else killEnt(o,'mine');
+            }
+          });
+        }
+        f.exploded=true;
+      });
+    }
+  });
+  fots=fots.filter(function(f){return !f.exploded;});
+}
+
+// ================================================================
+// DAY/NIGHT
+// ================================================================
+function tickDayNight(){
+  var cycle=dayLength+nightLength;
+  var phase=clock%cycle;
+  isDaytime=phase<dayLength;
+}
+
+// ================================================================
+// MAIN TICK
+// ================================================================
+function tick(){
+  clock++;
+  tickDayNight();
+  if(clock%5===0){spawnFot();spawnFot();spawnFot();}
+  tickMinerals();
+  tickEggs();
+  tickAlienXShips();
+  tickAlienZShips();
+  tickKekos();
+  tickClouds();
+  tickSatellites();
+  if(prob(0.05))tickMeteors();
+  var ents=entities.slice().sort(function(){return Math.random()-.5;});
+  // Reset flag de salto de Trejo para que solo pueda comer UNA presa por clock
+  entities.filter(function(e){return e.type==='TREJO'&&!e._dead;}).forEach(function(e){e.jumpedThisClock=false;});
+  ents.forEach(function(e){
+    if(e._dead)return;
+    switch(e.type){
+      case 'BIBUP':   tickBibup(e);break;
+      case 'COPE':    tickCope(e);break;
+      case 'YUE':     tickYue(e);break;
+      case 'MARMO':   tickMarmo(e);break;
+      case 'TUGA':    tickTuga(e);break;
+      case 'SHAR':    tickShar(e);break;
+      case 'WEBI':    tickWebi(e);break;
+      case 'HUBA':    tickHuba(e);break;
+      case 'GUARDIAN':tickGuardian(e);break;
+      case 'ARBOL':   tickArbol(e);break;
+      case 'ALIENX':  tickAlienX(e);break;
+      case 'ALIENZ':  tickAlienZ(e);break;
+      case 'TORSA':   tickTorsa(e);break;
+      case 'YORCO':   tickYorco(e);break;
+      case 'ZARLE':   tickZarle(e);break;
+      case 'GROU':    tickGrou(e);break;
+      case 'TREJO':   tickTrejo(e);break;
+      case 'CRAP':    tickCrap(e);break;
+      case 'PEZ':     tickPez(e);break;
+      case 'CIGIR':   tickCigir(e);break;
+      case 'JARRA':   tickJarra(e);break;
+      case 'LULOK':   tickLulok(e);break;
+      case 'TEPUS':   tickTepus(e);break;
+      case 'SHOKA':   tickShoka(e);break;
+      case 'ASTROM':  tickAstrom(e);break;
+      case 'POX':     tickPox(e);break;
+    }
+  });
+  tickProjectiles();
+  checkExtinct();
+  waves=waves.filter(function(w){return w.age<20;});
+  waves.forEach(function(w){w.r+=0.5;w.age++;});
+  // Cap arrays to prevent unbounded growth
+  if(fots.length>CAP_FOTS)fots.splice(0,fots.length-CAP_FOTS);
+  if(meps.length>CAP_MEPS)meps.splice(0,meps.length-CAP_MEPS);
+  if(projectiles.length>CAP_PROJECTILES)projectiles.splice(0,projectiles.length-CAP_PROJECTILES);
+  if(minerals.length>CAP_MINERALS){
+    // Protect: NITROGLY_SRC, MORITA (has timer), EXTRAFOT - trim regular minerals first
+    var protected_types=['NITROGLY_SRC','MORITA','EXTRAFOT'];
+    var trimIdx=[];
+    for(var ti=0;ti<minerals.length&&trimIdx.length<minerals.length-CAP_MINERALS;ti++){
+      if(protected_types.indexOf(minerals[ti].type)<0)trimIdx.push(ti);
+    }
+    // If still over cap, trim non-src protected types (EXTRAFOT before MORITA)
+    if(trimIdx.length<minerals.length-CAP_MINERALS){
+      for(var ti2=0;ti2<minerals.length&&trimIdx.length<minerals.length-CAP_MINERALS;ti2++){
+        if(minerals[ti2].type==='EXTRAFOT'&&trimIdx.indexOf(ti2)<0)trimIdx.push(ti2);
+      }
+    }
+    trimIdx.sort(function(a,b){return b-a;}).forEach(function(i){minerals.splice(i,1);});
+  }
+  if(blocs.length>CAP_BLOCS)blocs.splice(0,blocs.length-CAP_BLOCS);
+  if(flashes.length>CAP_FLASHES)flashes.splice(0,flashes.length-CAP_FLASHES);
+  // Periodic dead entity purge (just in case _dead stragglers slip through)
+  if(clock%50===0)entities=entities.filter(function(e){return !e._dead;});
+  render();
+  updateUI();
+  updateHubaButtons();
+}
+
+// ================================================================
+// RENDER
+// ================================================================
+var COLORS={
+  BIBUP:'#00aaff',COPE:'#44ff44',YUE:'#ffee00',MARMO:'#ff3333',SHAR:'#ff9900',
+  TUGA:'#cc8822',GUARDIAN:'#ff88ff',ARBOL:'#228833',WEBI:'#cc66ff',HUBA:'#ffffff',
+  ALIENX:'#cc00ff',ALIENZ:'#00ff99',TORSA:'#ff2244',YORCO:'#ffdd00',
+  ZARLE:'#ff8844',GROU:'#2288ff',TREJO:'#004488',CRAP:'#886600',PEZ:'#00aadd',
+  CIGIR:'#88ccff',JARRA:'#4499ff',LULOK:'#44ff88',TEPUS:'#aa6622',
+  SHOKA:'#ff44aa',ASTROM:'#ffd700',POX:'#aaccff',KEKO:'#ffdd00',TORRE:'#4466aa'
+};
+
+function render(){
+  var isUnderground=VIEW_LAYER===LAYER_UNDERGROUND;
+  var isSea=VIEW_LAYER===LAYER_SEA;
+  var isFace2=VIEW_LAYER===LAYER_FACE2;
+  var isFace3=VIEW_LAYER===LAYER_FACE3;
+  var isFace1=VIEW_LAYER===LAYER_FACE1;
+
+  // Background color based on layer and day/night
+  var bgColor='#050810';
+  if(isDaytime&&VIEW_LAYER===LAYER_GROUND)bgColor='#2a2410';
+  else if(!isDaytime&&VIEW_LAYER===LAYER_GROUND)bgColor='#030610';
+  if(isUnderground)bgColor='#0a0605';
+  if(isSea)bgColor='#020820';
+  if(isFace1||isFace2)bgColor=isDaytime?'#1e1c0a':'#04080f';
+  if(isFace3)bgColor='#020408';
+
+  ctx.fillStyle=bgColor;ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  // Sea cells (only on ground view, and faintly on face1)
+  if(VIEW_LAYER===LAYER_GROUND||VIEW_LAYER===LAYER_FACE1){
+    var seaAlpha=VIEW_LAYER===LAYER_FACE1?0.25:0.8;
+    seaCells.forEach(function(c){
+      ctx.fillStyle='rgba(0,30,80,'+seaAlpha+')';ctx.fillRect(c.x*CELL,c.y*CELL,CELL,CELL);
+      if(VIEW_LAYER===LAYER_GROUND){ctx.strokeStyle='rgba(0,80,150,0.3)';ctx.lineWidth=0.5;ctx.strokeRect(c.x*CELL,c.y*CELL,CELL,CELL);}
+    });
+    // Field cells
+    if(VIEW_LAYER===LAYER_GROUND){
+      fieldCells.forEach(function(c){
+        ctx.fillStyle='rgba(10,40,10,0.7)';ctx.fillRect(c.x*CELL,c.y*CELL,CELL,CELL);
+        ctx.fillStyle='rgba(20,80,20,0.5)';
+        for(var g=0;g<3;g++){ctx.fillRect(c.x*CELL+rnd(CELL),c.y*CELL+CELL*.3,2,CELL*.4);}
+      });
+    }
+  }
+  // Grid
+  ctx.strokeStyle='rgba(26,42,74,0.3)';ctx.lineWidth=0.5;
+  for(var x=0;x<=COLS;x++){ctx.beginPath();ctx.moveTo(x*CELL,0);ctx.lineTo(x*CELL,ROWS*CELL);ctx.stroke();}
+  for(var y=0;y<=ROWS;y++){ctx.beginPath();ctx.moveTo(0,y*CELL);ctx.lineTo(COLS*CELL,y*CELL);ctx.stroke();}
+
+  // Clouds (face2)
+  if(VIEW_LAYER===LAYER_FACE2){
+    clouds.forEach(function(c){
+      c.cells.forEach(function(cc){
+        if(cc.x<0||cc.x>=COLS)return;
+        ctx.fillStyle='rgba(180,200,255,0.6)';ctx.fillRect(cc.x*CELL+1,cc.y*CELL+1,CELL-2,CELL-2);
+      });
+    });
+  }
+
+  // Blocs
+  if(VIEW_LAYER===LAYER_GROUND){
+    blocs.forEach(function(b){
+      ctx.fillStyle=b.indestructible?'#556688':(b.hollow?'#0a2030':'#334455');
+      ctx.fillRect(b.x*CELL+1,b.y*CELL+1,CELL-2,CELL-2);
+      ctx.strokeStyle=b.indestructible?'#aabbff':(b.hollow?'#00ffff':'#6688aa');ctx.lineWidth=b.hollow?2.5:1.5;
+      ctx.strokeRect(b.x*CELL+1,b.y*CELL+1,CELL-2,CELL-2);
+      if(b.bites>0){ctx.fillStyle='#ff4444';ctx.font=(CELL*0.35)+'px monospace';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(''+b.bites,b.x*CELL+CELL/2,b.y*CELL+CELL/2);}
+    });
+    // Kekos
+    kekos.forEach(function(k){
+      ctx.fillStyle='#ffdd00';ctx.beginPath();ctx.arc(k.x*CELL+CELL/2,k.y*CELL+CELL/2,CELL*0.25,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle='#ff8800';ctx.lineWidth=1.5;ctx.stroke();
+    });
+    // Alien X ships
+    alienShips.forEach(function(s){
+      ctx.fillStyle='rgba(180,0,255,0.25)';ctx.fillRect(s.x*CELL,s.y*CELL,CELL*2,CELL*2);
+      ctx.strokeStyle='#cc00ff';ctx.lineWidth=2;ctx.strokeRect(s.x*CELL,s.y*CELL,CELL*2,CELL*2);
+      ctx.fillStyle='#cc00ff';ctx.font='bold '+(CELL*0.5)+'px monospace';ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText('[X]',s.x*CELL+CELL,s.y*CELL+CELL);
+      var epct=alienWeaponEnergy/100;
+      ctx.fillStyle='rgba(0,0,0,0.6)';ctx.fillRect(s.x*CELL,s.y*CELL+CELL*2-4,CELL*2,5);
+      ctx.fillStyle=epct>0.7?'#ff2200':epct>0.4?'#ff8800':'#ffdd00';
+      ctx.fillRect(s.x*CELL,s.y*CELL+CELL*2-4,CELL*2*epct,5);
+    });
+    // Alien Z ships
+    alienZShips.filter(function(s){return s.landed;}).forEach(function(s){
+      ctx.fillStyle='rgba(0,255,150,0.12)';ctx.fillRect((s.x-1)*CELL,(s.y-1)*CELL,CELL*3,CELL*3);
+      ctx.strokeStyle='#00ff99';ctx.lineWidth=1.5;ctx.strokeRect((s.x-1)*CELL,(s.y-1)*CELL,CELL*3,CELL*3);
+      ctx.fillStyle='#00ff99';ctx.font=(CELL*0.45)+'px monospace';ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText('[Z]',s.x*CELL+CELL/2,s.y*CELL+CELL/2);
+    });
+  }
+  // Waves
+  waves.forEach(function(w){
+    ctx.strokeStyle='rgba(200,100,255,'+(Math.max(0,0.7-w.age*0.04))+')';ctx.lineWidth=2;
+    ctx.beginPath();ctx.arc(w.x*CELL+CELL/2,w.y*CELL+CELL/2,w.r*CELL,0,Math.PI*2);ctx.stroke();
+  });
+  // MEP
+  meps.forEach(function(m){ctx.fillStyle='#cc2222';ctx.fillRect(m.x*CELL+CELL*0.3,m.y*CELL+CELL*0.3,CELL*0.4,CELL*0.4);});
+  // FOT (regular)
+  fots.forEach(function(f){
+    if((f.layer||LAYER_GROUND)!==VIEW_LAYER)return;
+    // Field stealth only applies on ground layer
+    if(VIEW_LAYER===LAYER_GROUND&&!isVisibleInField(f.x,f.y))return;
+    if(f.type==='mine'){
+      ctx.fillStyle='#ff2200';ctx.strokeStyle='#ff6600';ctx.lineWidth=1;
+      ctx.beginPath();ctx.arc(f.x*CELL+CELL/2,f.y*CELL+CELL/2,CELL*0.22,0,Math.PI*2);
+      ctx.fill();ctx.stroke();
+    } else if(f.type&&f.type.startsWith('egg_')){
+      ctx.fillStyle='#ffe066';ctx.strokeStyle='#ccaa00';ctx.lineWidth=1;
+      ctx.beginPath();ctx.ellipse(f.x*CELL+CELL/2,f.y*CELL+CELL/2,CELL*0.2,CELL*0.15,0,0,Math.PI*2);
+      ctx.fill();ctx.stroke();
+    } else {
+      ctx.fillStyle='#aaffaa';ctx.beginPath();ctx.arc(f.x*CELL+CELL/2,f.y*CELL+CELL/2,CELL*0.18,0,Math.PI*2);ctx.fill();
+    }
+  });
+  // Minerals
+  minerals.forEach(function(m){
+    if(m.layer!==VIEW_LAYER)return;
+    if(VIEW_LAYER===LAYER_GROUND&&!isVisibleInField(m.x,m.y))return;
+    var col=MINERALS[m.type]?MINERALS[m.type].color:'#888';
+    ctx.fillStyle=col;
+    ctx.beginPath();ctx.rect(m.x*CELL+CELL*.2,m.y*CELL+CELL*.2,CELL*.6,CELL*.6);ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,0.3)';ctx.lineWidth=1;ctx.stroke();
+    ctx.fillStyle='rgba(0,0,0,0.7)';ctx.font=(CELL*0.3)+'px monospace';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(m.type.slice(0,3),m.x*CELL+CELL/2,m.y*CELL+CELL/2);
+  });
+  // Portals eliminados
+  // Projectiles
+  projectiles.forEach(function(p){
+    if((p.layer||LAYER_GROUND)!==VIEW_LAYER)return;
+    var col={huba:'#aaffaa',webi:'#aa44ff',misil:'#ff4444',inter:'#ff8800',keko:'#ffdd00',torsa:'#ff8888',shoka:'#ff44aa',astrom:'#ffd700',xdef:'#cc44ff',zship_misil:'#00ff99'}[p.ptype]||'#fff';
+    ctx.fillStyle=col;
+    // Misil glow
+    if(p.ptype==='misil'||p.ptype==='inter'||p.ptype==='astrom'){
+      ctx.shadowColor=col;ctx.shadowBlur=6;
+    }
+    ctx.beginPath();ctx.arc(p.x*CELL+CELL/2,p.y*CELL+CELL/2,CELL*0.18,0,Math.PI*2);ctx.fill();
+    ctx.shadowBlur=0;
+  });
+  // COPE zones
+  entities.filter(function(e){return e.type==='COPE'&&e.perm&&!e._dead;}).forEach(function(e){
+    var zr=Math.round(gv('COPE','zoneR'));
+    ctx.fillStyle='rgba(68,255,68,0.06)';ctx.fillRect((e.x-zr)*CELL,(e.y-zr)*CELL,(zr*2+1)*CELL,(zr*2+1)*CELL);
+    ctx.strokeStyle='rgba(68,255,68,0.15)';ctx.lineWidth=1;ctx.strokeRect((e.x-zr)*CELL,(e.y-zr)*CELL,(zr*2+1)*CELL,(zr*2+1)*CELL);
+  });
+
+  // Field visibility: entities/minerals in field are hidden unless Huba is adjacent
+  var hubaEnt=entities.find(function(e){return e.type==='HUBA'&&!e._dead;});
+  function isVisibleInField(cx,cy){
+    // Not a field cell → always visible
+    if(!isFieldCell(cx,cy))return true;
+    // Huba adjacent (including same cell) → visible
+    if(hubaEnt&&Math.abs(hubaEnt.x-cx)<=1&&Math.abs(hubaEnt.y-cy)<=1)return true;
+    return false;
+  }
+
+  // Entities
+  // Face1 comparte cuadrícula con tierra: mostrar terrestres primero (semitransparentes) luego voladores
+  var renderLayers=[VIEW_LAYER];
+  if(VIEW_LAYER===LAYER_FACE1)renderLayers=[LAYER_GROUND,LAYER_FACE1];
+  // From ground: Huba can see Face1 flying entities and Grou in sea
+  var hubaOnGround=VIEW_LAYER===LAYER_GROUND;
+
+  entities.filter(function(e){return !e._dead;}).forEach(function(e){
+    var eLayer=e.layer||LAYER_GROUND;
+    var isGrouOnSea=hubaOnGround&&e.type==='GROU'&&eLayer===LAYER_SEA;
+    var isFace1OnGround=hubaOnGround&&eLayer===LAYER_FACE1;
+    if(renderLayers.indexOf(eLayer)<0&&!isGrouOnSea&&!isFace1OnGround)return;
+    if(e.buried&&!e.perm)return;
+    // Field stealth: hide non-Huba, non-Lulok entities in field unless Huba is adjacent
+    if(e.type!=='HUBA'&&e.type!=='LULOK'&&eLayer===LAYER_GROUND&&isFieldCell(e.x,e.y)&&!isVisibleInField(e.x,e.y))return;
+    var isBackground=(VIEW_LAYER===LAYER_FACE1&&eLayer===LAYER_GROUND)||isGrouOnSea;
+    var px=e.x*CELL,py=e.y*CELL;
+    var col=COLORS[e.type]||'#888';
+    ctx.save();
+    if(isBackground)ctx.globalAlpha=0.35;
+    else if(isFace1OnGround){
+      // Draw a subtle "flying" ring indicator before the entity
+      ctx.globalAlpha=0.3;
+      ctx.strokeStyle=COLORS[e.type]||'#fff';
+      ctx.lineWidth=1.5;
+      ctx.setLineDash([3,3]);
+      ctx.beginPath();
+      ctx.arc(px+CELL/2,py+CELL/2,CELL*0.52,0,Math.PI*2);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.globalAlpha=0.65;
+    }
+    ctx.translate(px+CELL/2,py+CELL/2);
+    switch(e.type){
+      case 'BIBUP':
+        ctx.fillStyle=col;ctx.beginPath();ctx.arc(0,0,CELL*0.38,0,Math.PI*2);ctx.fill();
+        // Spikes top and bottom
+        ctx.fillStyle='#4488ff';
+        ctx.beginPath();ctx.moveTo(-CELL*.12,-CELL*.38);ctx.lineTo(0,-CELL*.55);ctx.lineTo(CELL*.12,-CELL*.38);ctx.closePath();ctx.fill();
+        ctx.beginPath();ctx.moveTo(-CELL*.12,CELL*.38);ctx.lineTo(0,CELL*.55);ctx.lineTo(CELL*.12,CELL*.38);ctx.closePath();ctx.fill();
+        // Eyes
+        ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(-CELL*.12,-CELL*.1,CELL*.08,0,Math.PI*2);ctx.fill();
+        ctx.beginPath();ctx.arc(CELL*.12,-CELL*.1,CELL*.08,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle='#000';ctx.beginPath();ctx.arc(-CELL*.12,-CELL*.1,CELL*.04,0,Math.PI*2);ctx.fill();
+        ctx.beginPath();ctx.arc(CELL*.12,-CELL*.1,CELL*.04,0,Math.PI*2);ctx.fill();
+        break;
+      case 'COPE':
+        ctx.fillStyle=e.perm?'#00cc00':col;ctx.fillRect(-CELL*.35,-CELL*.35,CELL*.7,CELL*.7);
+        ctx.fillStyle=e.perm?'#004400':'#006600';ctx.fillRect(-CELL*.2,-CELL*.2,CELL*.4,CELL*.4);
+        break;
+      case 'YUE':
+        ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(0,-CELL*.42);ctx.lineTo(CELL*.36,CELL*.28);ctx.lineTo(-CELL*.36,CELL*.28);ctx.closePath();ctx.fill();
+        ctx.fillStyle='rgba(255,220,0,0.3)';ctx.beginPath();ctx.arc(0,0,CELL*.2,0,Math.PI*2);ctx.fill();
+        break;
+      case 'MARMO':
+        ctx.fillStyle=col;ctx.beginPath();
+        for(var i=0;i<6;i++){var a=(i/6)*Math.PI*2-Math.PI/2,r2=i%2===0?CELL*.42:CELL*.22;i===0?ctx.moveTo(Math.cos(a)*r2,Math.sin(a)*r2):ctx.lineTo(Math.cos(a)*r2,Math.sin(a)*r2);}
+        ctx.closePath();ctx.fill();
+        ctx.fillStyle='#ff0000';ctx.beginPath();ctx.arc(-CELL*.12,-CELL*.1,CELL*.07,0,Math.PI*2);ctx.fill();
+        ctx.beginPath();ctx.arc(CELL*.12,-CELL*.1,CELL*.07,0,Math.PI*2);ctx.fill();
+        break;
+      case 'SHAR':
+        ctx.fillStyle=e.flying?col:'#cc7700';
+        ctx.beginPath();ctx.moveTo(0,-CELL*.45);ctx.bezierCurveTo(CELL*.5,-CELL*.1,CELL*.5,CELL*.3,0,CELL*.15);ctx.bezierCurveTo(-CELL*.5,CELL*.3,-CELL*.5,-CELL*.1,0,-CELL*.45);ctx.fill();
+        if(e.flying){ctx.strokeStyle='rgba(255,153,0,0.4)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(0,0,CELL*.45,0,Math.PI*2);ctx.stroke();}
+        break;
+      case 'TUGA':
+        ctx.fillStyle=col;ctx.beginPath();ctx.ellipse(0,0,CELL*.4,CELL*.3,0,0,Math.PI*2);ctx.fill();
+        ctx.strokeStyle='#ffcc66';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(0,0,CELL*.4,0,Math.PI*2);ctx.stroke();
+        ctx.fillStyle='#ffcc66';ctx.fillRect(-CELL*.05,-CELL*.35,CELL*.1,CELL*.15); // head
+        break;
+      case 'GUARDIAN':
+        ctx.fillStyle=col;
+        for(var gi=0;gi<4;gi++){var ga=(gi/4)*Math.PI*2;ctx.beginPath();ctx.arc(Math.cos(ga)*CELL*.22,Math.sin(ga)*CELL*.22,CELL*.15,0,Math.PI*2);ctx.fill();}
+        ctx.strokeStyle='rgba(255,136,255,0.5)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(0,0,CELL*.35,0,Math.PI*2);ctx.stroke();
+        break;
+      case 'ARBOL':
+        if(!e.fallen){
+          ctx.fillStyle='#228833';ctx.beginPath();ctx.arc(0,-CELL*.1,CELL*.42,0,Math.PI*2);ctx.fill();
+          ctx.fillStyle='#44aa44';ctx.beginPath();ctx.arc(CELL*.1,-CELL*.2,CELL*.22,0,Math.PI*2);ctx.fill();
+          ctx.fillStyle='#6b3a2a';ctx.fillRect(-CELL*.08,CELL*.2,CELL*.16,CELL*.28);
+        } else {
+          e.trkCells.forEach(function(tc){ctx.save();ctx.translate(tc.x*CELL-px,tc.y*CELL-py);ctx.fillStyle='#6b3a2a';ctx.fillRect(2,2,CELL-4,CELL-4);ctx.restore();});
+        }
+        break;
+      case 'WEBI':
+        ctx.fillStyle=col;ctx.beginPath();ctx.arc(0,0,CELL*.28,0,Math.PI*2);ctx.fill();
+        ctx.strokeStyle='#cc66ff';ctx.lineWidth=0.8;
+        for(var wi=0;wi<8;wi++){var wa=(wi/8)*Math.PI*2;ctx.beginPath();ctx.moveTo(Math.cos(wa)*CELL*.28,Math.sin(wa)*CELL*.28);ctx.lineTo(Math.cos(wa)*CELL*.44,Math.sin(wa)*CELL*.44);ctx.stroke();}
+        break;
+      case 'HUBA':
+        var hc=e.inBloc?'rgba(0,212,255,0.9)':(hubaModes.rok||hubaModes.rokII)?'#ffaa00':'rgba(255,255,255,0.9)';
+        ctx.fillStyle=hc;ctx.fillRect(-CELL*.38,-CELL*.38,CELL*.76,CELL*.76);
+        // Facing arrow
+        ctx.fillStyle='#ffcc00';var fd=e.facing||{dx:1,dy:0};
+        ctx.beginPath();ctx.moveTo(fd.dx*CELL*.38,fd.dy*CELL*.38);ctx.lineTo(fd.dx*CELL*.38+fd.dy*CELL*.18,fd.dy*CELL*.38-fd.dx*CELL*.18);ctx.lineTo(fd.dx*CELL*.56,fd.dy*CELL*.56);ctx.lineTo(fd.dx*CELL*.38-fd.dy*CELL*.18,fd.dy*CELL*.38+fd.dx*CELL*.18);ctx.closePath();ctx.fill();
+        if(e.ammo>0){ctx.fillStyle='#aaffaa';ctx.font='bold '+(CELL*.4)+'px monospace';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(''+e.ammo,0,0);}
+        // Rok flames
+        if(hubaModes.rok||hubaModes.rokII){
+          ctx.fillStyle='rgba(255,100,0,0.6)';ctx.beginPath();ctx.arc(0,CELL*.4,CELL*.2,0,Math.PI*2);ctx.fill();}
+        break;
+      case 'ALIENX':
+        ctx.fillStyle='#cc00ff';ctx.beginPath();ctx.arc(0,0,CELL*.38,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle='#ff00ff';
+        ctx.fillRect(-CELL*.18,-CELL*.12,CELL*.12,CELL*.12);ctx.fillRect(CELL*.06,-CELL*.12,CELL*.12,CELL*.12);
+        ctx.fillStyle='rgba(200,0,255,0.3)';ctx.beginPath();ctx.arc(0,0,CELL*.5,0,Math.PI*2);ctx.stroke();
+        break;
+      case 'ALIENZ':
+        ctx.globalAlpha=0.5;ctx.fillStyle='#00ff99';ctx.beginPath();ctx.arc(0,0,CELL*.32,0,Math.PI*2);ctx.fill();
+        ctx.globalAlpha=1;ctx.strokeStyle='#00ff99';ctx.lineWidth=1;ctx.beginPath();ctx.arc(0,0,CELL*.4,0,Math.PI*2);ctx.stroke();
+        break;
+      case 'TORSA':
+        ctx.fillStyle='#ff2244';ctx.beginPath();ctx.ellipse(0,0,CELL*.45,CELL*.22,0,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle='#ff6688';ctx.beginPath();ctx.ellipse(0,-CELL*.12,CELL*.22,CELL*.15,0,0,Math.PI*2);ctx.fill();
+        var hp=(e.hp||10)/10;ctx.fillStyle='rgba(0,0,0,.5)';ctx.fillRect(-CELL*.4,CELL*.28,CELL*.8,CELL*.1);ctx.fillStyle='#ff4444';ctx.fillRect(-CELL*.4,CELL*.28,CELL*.8*hp,CELL*.1);
+        break;
+      case 'YORCO':
+        ctx.fillStyle='rgba(255,220,0,0.85)';ctx.fillRect(-CELL*.85,-CELL*.85,CELL*1.7,CELL*1.7);
+        ctx.strokeStyle='#ffaa00';ctx.lineWidth=2;ctx.strokeRect(-CELL*.85,-CELL*.85,CELL*1.7,CELL*1.7);
+        ctx.fillStyle='#ffaa00';ctx.font='bold '+(CELL*.65)+'px monospace';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('YC',0,0);
+        var yp=(e.hp||20)/20;ctx.fillStyle='rgba(0,0,0,.5)';ctx.fillRect(-CELL*.7,CELL*.8,CELL*1.4,CELL*.12);ctx.fillStyle='#ffdd00';ctx.fillRect(-CELL*.7,CELL*.8,CELL*1.4*yp,CELL*.12);
+        break;
+      case 'ZARLE':
+        ctx.fillStyle=col;
+        ctx.beginPath();ctx.moveTo(-CELL*.4,0);ctx.lineTo(CELL*.4,0);ctx.lineTo(CELL*.2,CELL*.3);ctx.lineTo(-CELL*.2,CELL*.3);ctx.closePath();ctx.fill();
+        ctx.fillStyle='#ffcc44';ctx.beginPath();ctx.ellipse(0,-CELL*.1,CELL*.35,CELL*.25,0,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle='#ff0';ctx.fillRect(-CELL*.05,-CELL*.3,CELL*.1,CELL*.3);
+        if(e.cargoYue){ctx.fillStyle='#ffee00';ctx.fillRect(-CELL*.08,CELL*.35,CELL*.16,CELL*.12);}
+        break;
+      case 'GROU':
+        ctx.fillStyle=col;ctx.beginPath();ctx.arc(0,0,CELL*.35,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle='#0044cc';ctx.fillRect(-CELL*.18,-CELL*.18,CELL*.36,CELL*.36);
+        ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(-CELL*.1,-CELL*.05,CELL*.07,0,Math.PI*2);ctx.fill();
+        ctx.beginPath();ctx.arc(CELL*.1,-CELL*.05,CELL*.07,0,Math.PI*2);ctx.fill();
+        break;
+      case 'TREJO':
+        ctx.fillStyle=col;ctx.beginPath();ctx.ellipse(0,0,CELL*.45,CELL*.2,0,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle='#0066cc';ctx.fillRect(-CELL*.1,-CELL*.08,CELL*.2,CELL*.16);
+        break;
+      case 'CRAP':
+        ctx.fillStyle=col;ctx.beginPath();ctx.ellipse(0,0,CELL*.4,CELL*.3,0,0,Math.PI*2);ctx.fill();
+        // Pincers
+        ctx.fillStyle='#aa8800';
+        ctx.fillRect(-CELL*.5,-CELL*.1,CELL*.15,CELL*.08);ctx.fillRect(CELL*.35,-CELL*.1,CELL*.15,CELL*.08);
+        break;
+      case 'PEZ':
+        ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(-CELL*.3,0);ctx.lineTo(CELL*.25,-CELL*.18);ctx.lineTo(CELL*.25,CELL*.18);ctx.closePath();ctx.fill();
+        ctx.fillStyle='#006688';ctx.beginPath();ctx.moveTo(-CELL*.3,0);ctx.lineTo(-CELL*.45,-CELL*.15);ctx.lineTo(-CELL*.45,CELL*.15);ctx.closePath();ctx.fill();
+        break;
+      case 'CIGIR':
+        ctx.fillStyle=col;ctx.beginPath();ctx.arc(0,0,CELL*.22,0,Math.PI*2);ctx.fill();
+        ctx.strokeStyle='rgba(136,204,255,0.5)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(0,0,CELL*.32,0,Math.PI*2);ctx.stroke();
+        break;
+      case 'JARRA':
+        ctx.fillStyle=col;ctx.beginPath();ctx.ellipse(0,0,CELL*.35,CELL*.25,0,0,Math.PI*2);ctx.fill();
+        ctx.strokeStyle='rgba(68,153,255,0.6)';ctx.lineWidth=1.5;
+        ctx.beginPath();ctx.moveTo(0,-CELL*.4);ctx.lineTo(CELL*.2,-CELL*.25);ctx.moveTo(0,-CELL*.4);ctx.lineTo(-CELL*.2,-CELL*.25);ctx.stroke();
+        break;
+      case 'LULOK':
+        ctx.fillStyle=col;ctx.beginPath();ctx.arc(0,0,CELL*.38,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle='#228844';ctx.fillRect(-CELL*.25,-CELL*.08,CELL*.5,CELL*.16);
+        // Claws
+        ctx.fillStyle='#00ff66';
+        ctx.beginPath();ctx.moveTo(-CELL*.32,-CELL*.22);ctx.lineTo(-CELL*.48,-CELL*.08);ctx.lineTo(-CELL*.32,-CELL*.08);ctx.closePath();ctx.fill();
+        ctx.beginPath();ctx.moveTo(CELL*.32,-CELL*.22);ctx.lineTo(CELL*.48,-CELL*.08);ctx.lineTo(CELL*.32,-CELL*.08);ctx.closePath();ctx.fill();
+        break;
+      case 'TEPUS':
+        ctx.fillStyle=col;ctx.beginPath();ctx.arc(0,0,CELL*.32,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle='#774422';ctx.fillRect(-CELL*.2,-CELL*.35,CELL*.1,CELL*.35);ctx.fillRect(CELL*.1,-CELL*.35,CELL*.1,CELL*.35);
+        break;
+      case 'SHOKA':
+        ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(0,-CELL*.4);ctx.lineTo(CELL*.35,CELL*.25);ctx.lineTo(-CELL*.35,CELL*.25);ctx.closePath();ctx.fill();
+        ctx.fillStyle='rgba(255,68,170,0.4)';ctx.beginPath();ctx.arc(0,0,CELL*.5,0,Math.PI*2);ctx.fill();
+        break;
+      case 'ASTROM':
+        ctx.fillStyle='rgba(255,215,0,0.9)';
+        ctx.beginPath();for(var ai=0;ai<8;ai++){var aa=(ai/8)*Math.PI*2,ar2=ai%2===0?CELL*.45:CELL*.22;ai===0?ctx.moveTo(Math.cos(aa)*ar2,Math.sin(aa)*ar2):ctx.lineTo(Math.cos(aa)*ar2,Math.sin(aa)*ar2);}
+        ctx.closePath();ctx.fill();
+        ctx.fillStyle='rgba(255,255,100,0.6)';ctx.beginPath();ctx.arc(0,0,CELL*.18,0,Math.PI*2);ctx.fill();
+        if(e.anger){ctx.strokeStyle='#ff0000';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,CELL*.5,0,Math.PI*2);ctx.stroke();}
+        break;
+      case 'POX':
+        ctx.fillStyle=col;ctx.beginPath();ctx.arc(0,0,CELL*.22,0,Math.PI*2);ctx.fill();
+        ctx.strokeStyle='rgba(170,204,255,0.5)';ctx.lineWidth=1;
+        for(var pxi=0;pxi<4;pxi++){var pxa=(pxi/4)*Math.PI*2;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(Math.cos(pxa)*CELL*.35,Math.sin(pxa)*CELL*.35);ctx.stroke();}
+        break;
+      case 'KEKO':
+        ctx.fillStyle='#ffdd00';ctx.beginPath();ctx.arc(0,0,CELL*.25,0,Math.PI*2);ctx.fill();
+        ctx.strokeStyle='#ff8800';ctx.lineWidth=1.5;ctx.stroke();
+        // Barrel
+        ctx.fillStyle='#886600';ctx.fillRect(-CELL*.06,-CELL*.4,CELL*.12,CELL*.3);
+        break;
+      case 'TORRE':
+        ctx.fillStyle='#4466aa';ctx.fillRect(-CELL*.3,-CELL*1.5,CELL*.6,CELL*1.5);
+        ctx.strokeStyle='#88aaff';ctx.lineWidth=1.5;ctx.strokeRect(-CELL*.3,-CELL*1.5,CELL*.6,CELL*1.5);
+        ctx.fillStyle='#88aaff';ctx.beginPath();ctx.moveTo(-CELL*.4,-CELL*1.5);ctx.lineTo(0,-CELL*1.8);ctx.lineTo(CELL*.4,-CELL*1.5);ctx.closePath();ctx.fill();
+        break;
+    }
+    ctx.restore();
+  });
+
+  // Flashes
+  flashes=flashes.filter(function(f){return f.a>0;});
+  var nukef=flashes.find(function(f){return f.type==='nuke';});
+  if(nukef){ctx.fillStyle='rgba(255,80,0,'+nukef.a+')';ctx.fillRect(0,0,canvas.width,canvas.height);nukef.a-=0.03;if(nukef.a<=0)flashes=flashes.filter(function(f){return f!==nukef;});}
+  flashes.forEach(function(f){
+    if((f.layer||LAYER_GROUND)!==VIEW_LAYER&&f.type!=='trejo_jump')return;
+    if(f.type==='trejo_jump'&&VIEW_LAYER!==LAYER_GROUND&&VIEW_LAYER!==LAYER_SEA)return;
+    ctx.globalAlpha=f.a;
+    if(f.type==='eat'){ctx.strokeStyle='#ffffff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(f.x*CELL+CELL/2,f.y*CELL+CELL/2,CELL*.5,0,Math.PI*2);ctx.stroke();f.a-=0.15;}
+    else if(f.type==='appear'){f.sz=Math.min((f.sz||0)+0.15,1);ctx.strokeStyle='#00ffff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(f.x*CELL+CELL/2,f.y*CELL+CELL/2,CELL*f.sz,0,Math.PI*2);ctx.stroke();f.a-=0.08;}
+    else if(f.type==='explosion'){
+      var er=(f.r||1)*CELL;ctx.strokeStyle='#ff6600';ctx.fillStyle='rgba(255,100,0,0.3)';ctx.lineWidth=3;
+      ctx.beginPath();ctx.arc(f.x*CELL+CELL/2,f.y*CELL+CELL/2,er,0,Math.PI*2);ctx.fill();ctx.stroke();
+      f.a-=0.12;
+    }
+    else if(f.type==='dive'){
+      // Jarra dive: expanding water ring que se achica hacia el centro
+      f.r=(f.r||0)+0.3;
+      var dr=f.r*CELL;
+      ctx.strokeStyle='rgba(68,170,255,'+f.a+')';ctx.lineWidth=2;
+      ctx.beginPath();ctx.arc(f.x*CELL+CELL/2,f.y*CELL+CELL/2,dr,0,Math.PI*2);ctx.stroke();
+      // Splash drops
+      for(var si=0;si<6;si++){
+        var sa=(si/6)*Math.PI*2;
+        var sr=dr*0.7;
+        ctx.fillStyle='rgba(100,200,255,'+f.a+')';
+        ctx.beginPath();ctx.arc(f.x*CELL+CELL/2+Math.cos(sa)*sr,f.y*CELL+CELL/2+Math.sin(sa)*sr*0.5,CELL*0.08,0,Math.PI*2);ctx.fill();
+      }
+      f.a-=0.14;
+    }
+    else if(f.type==='trejo_jump'){
+      // Trejo jump: lento e imponente - gran silueta emergiendo del agua
+      f.phase=(f.phase||0)+1;
+      var tp=f.phase;
+      // Fase 1-4: emerger (silueta sube)
+      // Fase 5-10: en el aire visible
+      // Fase 11-18: caer de vuelta con ola masiva
+      var cx=f.x*CELL+CELL/2, cy=f.y*CELL+CELL/2;
+      if(tp<=4){
+        // Emerge: silueta oscura subiendo
+        var rise=(tp/4);
+        ctx.fillStyle='rgba(0,20,60,'+f.a*0.8+')';
+        ctx.beginPath();
+        ctx.ellipse(cx,cy-rise*CELL*1.5,CELL*1.2,CELL*0.4,0,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle='rgba(0,60,140,'+f.a+')';
+        ctx.beginPath();
+        ctx.ellipse(cx,cy-rise*CELL*2,CELL*0.6,CELL*1.0,0,0,Math.PI*2);ctx.fill();
+      } else if(tp<=10){
+        // Visible en el aire: cuerpo completo de Trejo
+        var ht=-(tp-4)*0.2*CELL;
+        ctx.fillStyle='rgba(0,40,120,'+f.a+')';
+        // Cuerpo largo serpenteante
+        ctx.beginPath();
+        ctx.ellipse(cx,cy+ht-CELL*0.5,CELL*1.5,CELL*0.35,0,0,Math.PI*2);ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(cx-CELL*0.4,cy+ht-CELL*1.0,CELL*0.9,CELL*0.28,0.3,0,Math.PI*2);ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(cx+CELL*0.2,cy+ht-CELL*1.4,CELL*0.6,CELL*0.2,0,0,Math.PI*2);ctx.fill();
+        // Cabeza
+        ctx.fillStyle='rgba(0,80,180,'+f.a+')';
+        ctx.beginPath();
+        ctx.ellipse(cx+CELL*0.3,cy+ht-CELL*1.8,CELL*0.35,CELL*0.22,0.5,0,Math.PI*2);ctx.fill();
+        // Brillo en ojo
+        ctx.fillStyle='rgba(0,200,255,'+f.a+')';
+        ctx.beginPath();ctx.arc(cx+CELL*0.42,cy+ht-CELL*1.85,CELL*0.07,0,Math.PI*2);ctx.fill();
+        // Sombra en el agua
+        ctx.fillStyle='rgba(0,10,40,0.3)';
+        ctx.beginPath();ctx.ellipse(cx,cy,CELL*1.5,CELL*0.2,0,0,Math.PI*2);ctx.fill();
+      } else {
+        // Caer: ola expansiva grande y lenta
+        var wave=(tp-10)*0.4;
+        ctx.strokeStyle='rgba(0,120,255,'+f.a+')';ctx.lineWidth=3+wave;
+        ctx.beginPath();ctx.ellipse(cx,cy,CELL*(1+wave),CELL*0.35,0,0,Math.PI*2);ctx.stroke();
+        ctx.strokeStyle='rgba(100,180,255,'+(f.a*0.5)+')';ctx.lineWidth=1.5;
+        ctx.beginPath();ctx.ellipse(cx,cy,CELL*(1.6+wave),CELL*(0.25+wave*0.1),0,0,Math.PI*2);ctx.stroke();
+        // Gotas cayendo
+        for(var ti=0;ti<8;ti++){
+          var ta=(ti/8)*Math.PI*2;
+          var tr=CELL*(0.8+wave*0.5);
+          ctx.fillStyle='rgba(80,160,255,'+f.a+')';
+          ctx.beginPath();ctx.arc(cx+Math.cos(ta)*tr,cy+Math.sin(ta)*tr*0.4,CELL*0.1,0,Math.PI*2);ctx.fill();
+        }
+      }
+      f.a-=tp<=10?0.04:0.06; // muy lento en el aire, más rápido al caer
+    }
+    ctx.globalAlpha=1;
+  });
+}
+
+// ================================================================
+// UI UPDATE
+// ================================================================
+function updateUI(){
+  uiRebuildCounter++;
+  var fullRebuild=(uiRebuildCounter%3===0);
+
+  document.getElementById('clkv').textContent=clock;
+  document.getElementById('daynite').textContent=isDaytime?'☀️DIA':'🌙NOCHE';
+  document.getElementById('layerlabel').textContent=
+    VIEW_LAYER===LAYER_GROUND?'🌍 TIERRA':
+    VIEW_LAYER===LAYER_UNDERGROUND?'⬇️ BAJO TIERRA':
+    VIEW_LAYER===LAYER_SEA?'🌊 MAR':
+    VIEW_LAYER===LAYER_FACE1?'☁️ FACE 1':
+    VIEW_LAYER===LAYER_FACE2?'☁️ FACE 2':
+    VIEW_LAYER===LAYER_FACE3?'🛸 FACE 3':'?';
+
+  if(fullRebuild){
+    // Population
+    var types=['BIBUP','COPE','YUE','MARMO','SHAR','TUGA','WEBI','GUARDIAN','ARBOL','HUBA','ALIENX','ALIENZ','TORSA','YORCO','ZARLE','GROU','TREJO','CRAP','PEZ','CIGIR','JARRA','LULOK','TEPUS','SHOKA','ASTROM','POX'];
+    var extra=[['FOT',fots.filter(function(f){return !f.type||f.type==='fot';}).length,'#aaffaa'],['MEP',meps.length,'#cc2222'],['BLOC',blocs.length,'#7799bb'],['KEKO',kekos.length,'#ffdd00'],['NAVE-X',alienShips.length,'#cc00ff'],['NAVE-Z',alienZShips.filter(function(s){return s.landed;}).length,'#00ff99'],['ARMA-X',alienWeaponEnergy+'/100','#ff4400'],['NUBES',clouds.length,'#aabbff'],['SAT.',satellites.length,'#ffd700']];
+    var pd=document.getElementById('popD');pd.innerHTML='';
+    types.forEach(function(t){
+      var n=entities.filter(function(e){return e.type===t&&!e._dead;}).length;
+      var d=document.createElement('div');d.className='prow';
+      d.innerHTML='<span class="pname" style="color:'+(COLORS[t]||'#888')+'">'+t+'</span><span class="pval'+(n===0?' pext':'')+'">'+n+'</span>';
+      pd.appendChild(d);
+    });
+    extra.forEach(function(ex){
+      var d=document.createElement('div');d.className='prow';
+      d.innerHTML='<span class="pname" style="color:'+ex[2]+'">'+ex[0]+'</span><span class="pval">'+ex[1]+'</span>';
+      pd.appendChild(d);
+    });
+    // Events
+    var ed=document.getElementById('evtD');ed.innerHTML='';
+    var ev=stats.events;
+    var evList=[['YUE x2',ev.yue_mult],['YUE FOT',ev.yue_fot],['Guardians',ev.guards],['Extinciones',ev.extinctions],['Marmo->Tuga',ev.marmo_evo],['Cope->Tuga',ev.cope_evo],['Tuga->Shar',ev.tuga_hatch],['Blocs',ev.blocs_placed],['Minerales',ev.minerals_found],['Modos',ev.modes_unlocked],['Ondas WEBI',webiWaves+'/7']];
+    evList.forEach(function(item){var d=document.createElement('div');d.className='sitem';d.innerHTML=item[0]+'<span>'+item[1]+'</span>';ed.appendChild(d);});
+    // Minerals
+    var md=document.getElementById('minD');md.innerHTML='';
+    Object.keys(hubaInventory).forEach(function(k){
+      var v=hubaInventory[k];
+      var d=document.createElement('div');d.className='sitem';
+      var col=MINERALS[k]?MINERALS[k].color:'#888';
+      d.innerHTML='<span style="color:'+col+'">'+k+'</span><span>'+v+'</span>';
+      md.appendChild(d);
+    });
+    Object.keys(hubaObjects).forEach(function(k){
+      if(hubaObjects[k]>0){
+        var d=document.createElement('div');d.className='sitem';
+        d.innerHTML='<span style="color:#ffcc44">'+k.toUpperCase()+'</span><span>'+hubaObjects[k]+'</span>';
+        md.appendChild(d);
+      }
+    });
+    // Log
+    var ld=document.getElementById('logD');
+    ld.innerHTML=logMsgs.slice(0,80).map(function(m){return '<div class="lentry '+m.t+'">['+m.clk+'] '+m.msg+'</div>';}).join('');
+  }
+
+  // Huba panel - always update (critical for player feedback)
+  var huba=entities.find(function(e){return e.type==='HUBA'&&!e._dead;});
+  if(huba){
+    document.getElementById('hmun').textContent=huba.ammo||0;
+    document.getElementById('hgrd').textContent=entities.filter(function(e){return e.type==='GUARDIAN'&&!e._dead;}).length;
+    document.getElementById('hlives').textContent=hubaLives;
+    document.getElementById('hlives').style.color=hubaLives>1?'#7fff00':hubaLives===1?'#ff8800':'#ff2244';
+    document.getElementById('hnit').textContent=hubaInventory.NITROGLY||0;
+    document.getElementById('hmarin').textContent=hubaInventory.MARIN||0;
+    document.getElementById('procBtn').innerHTML='PROC<br>('+(huba.ammo||0)+')';
+    ['dU','dD','dL','dR','fireBtn'].forEach(function(id){var el=document.getElementById(id);if(el){el.style.opacity='1';el.style.pointerEvents='auto';}});
+    document.getElementById('misilBtn').style.display=huba.inBloc?'flex':'none';
+  } else {
+    ['dU','dD','dL','dR','fireBtn'].forEach(function(id){var el=document.getElementById(id);if(el){el.style.opacity='0.3';el.style.pointerEvents='none';}});
+  }
+}
+
+function updateHubaButtons(){
+  var huba=entities.find(function(e){return e.type==='HUBA'&&!e._dead;});
+  var layer=hubaCurrentLayer;
+  // Modal buttons
+  Object.keys(hubaModeUnlocked).forEach(function(m){
+    var el=document.getElementById('btn-'+m);
+    if(!el)return;
+    if(hubaModeUnlocked[m]){
+      el.style.display='flex';
+      el.className='modbtn unlocked'+(hubaModes[m]?' active':'');
+    }
+  });
+  // Layer-specific buttons
+  var isUnder=layer===LAYER_UNDERGROUND;
+  var isGround=layer===LAYER_GROUND;
+  var isFlying=layer===LAYER_FACE1||layer===LAYER_FACE2||layer===LAYER_FACE3;
+  var isF2=layer===LAYER_FACE2;
+  var isF3=layer===LAYER_FACE3;
+  document.getElementById('ascendBtn').style.display=isUnder?'flex':'none';
+  document.getElementById('descendBtn').style.display=(isGround&&hubaModeUnlocked.ten)?'flex':'none';
+  document.getElementById('faceUpBtn').style.display=isFlying&&(layer!==LAYER_FACE3)?'flex':'none';
+  document.getElementById('faceDownBtn').style.display=isFlying&&(layer!==LAYER_FACE1)?'flex':'none';
+  document.getElementById('posarBtn').style.display=(isF2||isF3)?'flex':'none';
+  document.getElementById('extraerBtn').style.display=isF3?'flex':'none';
+  document.getElementById('yanBtn').style.display=hubaModeUnlocked.yan?'flex':'none';
+  document.getElementById('yancount').textContent=yanSlots.filter(function(s){return s>=yanChargeNeeded;}).length;
+  document.getElementById('misil2Btn').style.display=(hubaModes.rok||hubaModes.rokII)?'flex':'none';
+  // View layer follows Huba
+  VIEW_LAYER=layer;
+}
+
+function toggleMode(m){
+  if(!hubaModeUnlocked[m])return;
+  var huba=entities.find(function(e){return e.type==='HUBA'&&!e._dead;});
+  if(!huba)return;
+  // Activation checks
+  if(m==='ten'&&!hubaModes.ten){
+    if(hubaCurrentLayer!==LAYER_GROUND){L('Ten solo se activa en tierra','d');return;}
+    hubaModes.ten=!hubaModes.ten;
+  } else if(m==='rok'&&!hubaModes.rok){
+    if(hubaCurrentLayer!==LAYER_GROUND){L('Rok solo se activa en tierra','d');return;}
+    hubaModes.rok=true;hubaCurrentLayer=LAYER_FACE1;rokFace=1;
+    L('Huba-Rok activado!','b');
+  } else if(m==='rok'&&hubaModes.rok){
+    if(hubaCurrentLayer!==LAYER_FACE1){L('Rok solo se desactiva en Face 1','d');return;}
+    hubaModes.rok=false;hubaCurrentLayer=LAYER_GROUND;
+  } else if(m==='rokII'&&!hubaModes.rokII){
+    if(hubaCurrentLayer!==LAYER_GROUND){L('Rok II solo se activa en tierra','d');return;}
+    hubaModes.rokII=true;hubaCurrentLayer=LAYER_FACE1;
+  } else if(m==='rokII'&&hubaModes.rokII){
+    if(hubaCurrentLayer!==LAYER_FACE1){L('Rok II solo se desactiva en Face 1','d');return;}
+    hubaModes.rokII=false;hubaCurrentLayer=LAYER_GROUND;
+  } else {
+    hubaModes[m]=!hubaModes[m];
+    L('Modo '+m+(hubaModes[m]?' activado':' desactivado'),'e');
+  }
+}
+
+// ================================================================
+// CRAFTING OVERLAY
+// ================================================================
+var craftGrid12=[]; // 12 cells (2x6)
+var craftSlotItems=[]; // {type, qty} per cell
+
+function openCraft(){
+  craftSlotItems=[];
+  for(var i=0;i<12;i++)craftSlotItems.push({type:null,qty:0});
+  renderCraftOverlay();
+  document.getElementById('overlayCraft').classList.add('on');
+}
+function closeOverlay(id){
+  // If closing the craft window, return any items still on the table to inventory
+  if(id==='overlayCraft'){
+    craftSlotItems.forEach(function(s){
+      if(s.type&&s.qty>0){
+        hubaInventory[s.type]=(hubaInventory[s.type]||0)+s.qty;
+        s.type=null;s.qty=0;
+      }
+    });
+  }
+  document.getElementById(id).classList.remove('on');
+}
+
+function renderCraftOverlay(){
+  // Inventory list
+  var invList=document.getElementById('craftInvList');invList.innerHTML='';
+  Object.keys(hubaInventory).forEach(function(k){
+    if(hubaInventory[k]<=0)return;
+    var div=document.createElement('div');div.className='inv-slot';
+    div.innerHTML='<span class="iname" style="color:'+(MINERALS[k]?MINERALS[k].color:'#888')+'">'+k+'</span><span class="iqty">'+hubaInventory[k]+'</span>';
+    div.onclick=function(){addToCraft(k);};
+    invList.appendChild(div);
+  });
+  // Objects too
+  Object.keys(hubaObjects).forEach(function(k){
+    if(hubaObjects[k]<=0)return;
+    var div=document.createElement('div');div.className='inv-slot';
+    div.innerHTML='<span class="iname" style="color:#ffcc44">'+k.toUpperCase()+'</span><span class="iqty">'+hubaObjects[k]+'</span>';
+    invList.appendChild(div);
+  });
+  // Grid
+  var grid=document.getElementById('craftGrid');grid.innerHTML='';
+  craftSlotItems.forEach(function(slot,i){
+    var cell=document.createElement('div');cell.className='craft-cell'+(slot.type?' has-item':'');
+    if(slot.type){
+      var col=MINERALS[slot.type]?MINERALS[slot.type].color:'#ffcc44';
+      cell.innerHTML='<span class="cname" style="color:'+col+'">'+slot.type.slice(0,4)+'</span><span class="cqty">'+slot.qty+'</span>';
+      cell.onclick=function(){removeFromCraft(i);};
+    } else {
+      cell.innerHTML='<span style="color:#223">+</span>';
+    }
+    grid.appendChild(cell);
+  });
+  // Check recipe
+  checkRecipe();
+}
+
+function addToCraft(type){
+  if(hubaInventory[type]<=0)return;
+  var slot=craftSlotItems.find(function(s){return s.type===type;});
+  if(slot){slot.qty++;}
+  else{var empty=craftSlotItems.find(function(s){return !s.type;});if(empty){empty.type=type;empty.qty=1;}else{L('Mesa llena!','d');return;}}
+  hubaInventory[type]--;
+  renderCraftOverlay();
+}
+function removeFromCraft(i){
+  var slot=craftSlotItems[i];
+  if(!slot.type)return;
+  hubaInventory[slot.type]=(hubaInventory[slot.type]||0)+slot.qty;
+  slot.type=null;slot.qty=0;
+  renderCraftOverlay();
+}
+
+function checkRecipe(){
+  // Build current craft map
+  var craftMap={};
+  craftSlotItems.forEach(function(s){if(s.type)craftMap[s.type]=(craftMap[s.type]||0)+s.qty;});
+  var armBtn=document.getElementById('armBtn');
+  var result=document.getElementById('craftResult');
+  var matchedRecipe=null;
+  var recipeNames=Object.keys(RECIPES);
+  for(var ri=0;ri<recipeNames.length;ri++){
+    var name=recipeNames[ri];
+    var rec=RECIPES[name];
+    var ok=true;
+    Object.keys(rec.req).forEach(function(k){if((craftMap[k]||0)<rec.req[k])ok=false;});
+    if(ok){matchedRecipe={name:name,recipe:rec};break;}
+  }
+  if(matchedRecipe){
+    armBtn.className='arm-btn ready';
+    result.textContent='→ '+matchedRecipe.name;
+    armBtn.onclick=function(){doArm(matchedRecipe);};
+  } else {
+    armBtn.className='arm-btn';
+    result.textContent='';
+    armBtn.onclick=null;
+  }
+}
+
+function doArm(match){
+  var rec=match.recipe;
+  // Consume from craft grid
+  Object.keys(rec.req).forEach(function(k){
+    var needed=rec.req[k];
+    craftSlotItems.forEach(function(s){
+      if(s.type===k&&needed>0){var take=Math.min(s.qty,needed);s.qty-=take;needed-=take;if(s.qty<=0){s.type=null;}}
+    });
+  });
+  // Return leftover
+  craftSlotItems.forEach(function(s){if(s.type&&s.qty>0){hubaInventory[s.type]=(hubaInventory[s.type]||0)+s.qty;s.type=null;s.qty=0;}});
+  // Apply result
+  if(rec.type==='modal'){
+    hubaModeUnlocked[rec.result]=true;stats.events.modes_unlocked++;
+    L('Modalidad '+match.name+' desbloqueada!','b');
+    document.getElementById('btn-'+rec.result).style.display='flex';
+  } else if(rec.type==='object'){
+    hubaObjects[rec.result]=(hubaObjects[rec.result]||0)+1;
+    L(match.name+' creado y almacenado','e');
+  } else if(rec.type==='mineral'){
+    hubaInventory[rec.result]=(hubaInventory[rec.result]||0)+1;
+    L('AMEIZIKO sintetizado!','b');
+  }
+  renderCraftOverlay();
+}
+
+// ================================================================
+// STORAGE OVERLAY
+// ================================================================
+function openStorage(){
+  selectedStorItem=null;
+  renderStorageOverlay();
+  document.getElementById('overlayStorage').classList.add('on');
+}
+function renderStorageOverlay(){
+  var grid=document.getElementById('storGrid');grid.innerHTML='';
+  var useBtn=document.getElementById('useBtn');
+  var desc=document.getElementById('storDesc');
+  // Objects
+  Object.keys(hubaObjects).forEach(function(k){
+    if(hubaObjects[k]<=0)return;
+    var d=document.createElement('div');d.className='stor-item'+(selectedStorItem===k?' sel':'');
+    d.innerHTML='<div class="sname">'+k.toUpperCase()+'</div><div class="sqty">x'+hubaObjects[k]+'</div>';
+    d.onclick=function(){selectedStorItem=k;renderStorageOverlay();};
+    grid.appendChild(d);
+  });
+  // Minerals
+  Object.keys(hubaInventory).forEach(function(k){
+    if(hubaInventory[k]<=0)return;
+    var col=MINERALS[k]?MINERALS[k].color:'#888';
+    var d=document.createElement('div');d.className='stor-item'+(selectedStorItem===k?' sel':'');
+    d.innerHTML='<div class="sname" style="color:'+col+'">'+k+'</div><div class="sqty">'+hubaInventory[k]+'</div>';
+    d.onclick=function(){selectedStorItem=k;renderStorageOverlay();};
+    grid.appendChild(d);
+  });
+  if(selectedStorItem&&hubaObjects[selectedStorItem]>0){
+    useBtn.style.display='block';
+    desc.textContent=getObjectDesc(selectedStorItem);
+  } else {
+    useBtn.style.display='none';
+    if(selectedStorItem){desc.textContent=getMinDesc(selectedStorItem);}else{desc.textContent='';}
+  }
+  useBtn.onclick=function(){useObject(selectedStorItem);};
+}
+function getObjectDesc(k){
+  var descs={trato:'Se hunde en el mar. Si cae sobre Trejo, Trejo podrá atacar naves X.',nucleo:'Coloca en una Torre para crear elevador. Sube o baja a Huba.',canon:'Dispara proyectil 5×5 que explota en 10×10.'};
+  return descs[k]||'Objeto utilizable.';
+}
+function getMinDesc(k){
+  var descs={FOT:'Alimento. Cada Fot = 1 munición para Huba.',NITROGLY:'Combustible para modalidades Rok. También carga los Yan.',MARIN:'Mineral marino, se encuentra en los mares.',RODUS:'Mineral que sueltan los Zarle al morir.',AMEIZIKO:'Mineral rarísimo. Solo en satélites o sintetizado.',GLASO:'Mineral terrestre. Las naves X lo recolectan para crear Shokas.',MORITA:'Mineral temporal que se convierte en Extra Fot.',EXTRAFOT:'Equivale a 10 Fots normales al ser absorbido.'};
+  return descs[k]||'Mineral.';
+}
+function useObject(k){
+  if(!k||!hubaObjects[k]||hubaObjects[k]<=0)return;
+  var huba=entities.find(function(e){return e.type==='HUBA'&&!e._dead;});
+  if(!huba){L('No hay Huba activo','d');return;}
+  if(k==='trato'){
+    // Place bloc that sinks in sea
+    var sx=huba.x+huba.facing.dx,sy=huba.y+huba.facing.dy;
+    if(isSeaCell(sx,sy)){
+      // Trato sinks: in next clock if it hits Trejo, Trejo gains ship attack
+      fots.push({x:sx,y:sy,layer:LAYER_SEA,type:'trato',sinkClk:1});
+      hubaObjects[k]--;L('TRATO lanzado al mar!','e');
+    } else {L('El Trato debe lanzarse al mar','d');}
+  } else if(k==='canon'){
+    var tx=huba.x+huba.facing.dx*3,ty=huba.y+huba.facing.dy*3;
+    projectiles.push({x:huba.x+huba.facing.dx,y:huba.y+huba.facing.dy,dx:huba.facing.dx,dy:huba.facing.dy,oid:huba.id,ptype:'canon',age:0,layer:LAYER_GROUND,speed:5,sz:3,explodeAoe:10});
+    hubaObjects[k]--;L('CAÑON disparado!','e');
+  } else if(k==='nucleo'){
+    var torre=entities.find(function(e){return e.type==='TORRE'&&dist(e,huba)<=1;});
+    if(torre){torre.hasNucleo=true;hubaObjects[k]--;L('NUCLEO instalado en Torre!','b');}
+    else{L('Debe estar junto a una Torre','d');}
+  }
+  renderStorageOverlay();
+}
+
+// ================================================================
+// START SIM
+// ================================================================
+function startSim(){
+  COLS=parseInt(document.getElementById('mw').value);
+  ROWS=parseInt(document.getElementById('mh').value);
+  var mapH=window.innerHeight-50-220;
+  CELL=Math.min(Math.floor(window.innerWidth/COLS),Math.floor(mapH/ROWS),32);
+  CELL=Math.max(CELL,12);
+  canvas.width=COLS*CELL; canvas.height=ROWS*CELL;
+  // Reset all
+  entities=[];fots=[];meps=[];projectiles=[];
+  blocs=[];alienShips=[];alienZShips=[];kekos=[];waves=[];
+  seaCells=[];fieldCells=[];clouds=[];satellites=[];meteorites=[];minerals=[];
+  clock=0;logMsgs=[];flashes=[];
+  hubaIn={dx:0,dy:0,fire:false,proc:false,misil:false,misil2:false,yan:false,ascend:false,descend:false,faceUp:false,faceDown:false,posar:false,extraer:false};
+  hubaLives=3;webiWaves=0;yorcoAlive=false;extinctTrack={};alienWeaponEnergy=0;
+  astromSpawned=false;astromDead=false;poxEntity=null;isDaytime=true;lulokAlive=false;torreExists=false;
+  hubaModes={ten:false,yan:false,flot:false,rok:false,rokII:false};
+  hubaModeUnlocked={ten:false,yan:false,flot:false,rok:false,rokII:false};
+  hubaCurrentLayer=LAYER_GROUND;rokFuel=0;rokFace=1;yanSlots=[0,0,0];
+  hubaInventory={};Object.keys(MINERALS).forEach(function(k){hubaInventory[k]=0;});
+  hubaObjects={trato:0,nucleo:0,canon:0};
+  nid=1;
+  uiRebuildCounter=0;
+  stats={deaths:{BIBUP:{hunger:0,spike:0,marmo:0,shar:0,cope_zone:0,proj:0},COPE:{hunger:0,marmo:0,shar:0,spike:0,proj:0},YUE:{age:0,spike:0,marmo:0,shar:0,cope_zone:0,proj:0},MARMO:{hunger:0,shar:0,proj:0,spike:0},TUGA:{eaten:0},SHAR:{hunger:0,flew_too_long:0},WEBI:{marmo:0,shar:0},ZARLE:{hunger:0,misil:0},GROU:{hunger:0},TREJO:{hunger:0},PEZ:{eaten:0},HUBA:{marmo:0,shar:0,fall:0,drown:0}},events:{yue_mult:0,yue_fot:0,guards:0,extinctions:0,marmo_evo:0,cope_evo:0,tuga_hatch:0,blocs_placed:0,minerals_found:0,modes_unlocked:0}};
+  genomes={BIBUP:{hungerLim:25,smellR:5,spikes:1,gen:0},COPE:{hungerLim:25,fotR:4,hideR:2,hideDur:2,zoneR:4,gen:0},YUE:{lifespan:10,fleeP:0.5,fleeSteps:3,splitP:0.5,gen:0},MARMO:{hungerLim:25,sightR:4,evolveAt:5,gen:0},SHAR:{flyLim:10,hungerLim:20,sightR:7,groundT:2,gen:0},WEBI:{mepR:8,fleeR:3,shootR:8,evolveAt:5,gen:0},TUGA:{cocoon:3,gen:0}};
+
+  // Generate sea (25% of map, one connected region)
+  var seaSize=Math.floor(COLS*ROWS*0.25);
+  var sx=rnd(COLS),sy=rnd(ROWS);
+  seaCells=[];
+  var seaQueue=[{x:sx,y:sy}];
+  var seaSet={};
+  seaSet[sx+'_'+sy]=true;
+  while(seaCells.length<seaSize&&seaQueue.length>0){
+    var s2=seaQueue.splice(rnd(seaQueue.length),1)[0];
+    seaCells.push(s2);
+    var dirs=[{dx:1,dy:0},{dx:-1,dy:0},{dx:0,dy:1},{dx:0,dy:-1}];
+    dirs.forEach(function(d){
+      var nx2=s2.x+d.dx,ny2=s2.y+d.dy;
+      if(nx2>=0&&nx2<COLS&&ny2>=0&&ny2<ROWS&&!seaSet[nx2+'_'+ny2]){
+        seaSet[nx2+'_'+ny2]=true;seaQueue.push({x:nx2,y:ny2});
+      }
+    });
+  }
+  seaCells=seaCells.slice(0,seaSize);
+
+  // Generate field (20% of map, never overlapping sea)
+  // First build seaSetFast early so isSeaCell works during field gen
+  seaSetFast={};
+  seaCells.forEach(function(c){seaSetFast[c.x+'_'+c.y]=true;});
+
+  var fieldSize=Math.floor(COLS*ROWS*0.20);
+  var fx=rnd(COLS),fy=rnd(ROWS);
+  while(isSeaCell(fx,fy)){fx=rnd(COLS);fy=rnd(ROWS);}
+  fieldCells=[];
+  var fQueue=[{x:fx,y:fy}];
+  var fSet={};fSet[fx+'_'+fy]=true;
+  while(fieldCells.length<fieldSize&&fQueue.length>0){
+    var f3=fQueue.splice(rnd(fQueue.length),1)[0];
+    // Only add cell if it's NOT a sea cell
+    if(!isSeaCell(f3.x,f3.y)){fieldCells.push(f3);}
+    [[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){
+      var nx3=f3.x+d[0],ny3=f3.y+d[1];
+      if(nx3>=0&&nx3<COLS&&ny3>=0&&ny3<ROWS&&!fSet[nx3+'_'+ny3]&&!isSeaCell(nx3,ny3)){
+        fSet[nx3+'_'+ny3]=true;fQueue.push({x:nx3,y:ny3});
+      }
+    });
+  }
+  fieldCells=fieldCells.slice(0,fieldSize);
+
+  // Build fast O(1) lookup set for field (seaSetFast already built above)
+  fieldSetFast={};
+  fieldCells.forEach(function(c){fieldSetFast[c.x+'_'+c.y]=true;});
+
+  // Nitrogly source underground
+  var nsx=rnd(COLS),nsy=rnd(ROWS);
+  minerals.push({id:uid(),type:'NITROGLY_SRC',x:nsx,y:nsy,layer:LAYER_UNDERGROUND,qty:0});
+
+  // Spawn initial FOTs
+  for(var i=0;i<12;i++){var fx2=rnd(COLS),fy2=rnd(ROWS);if(!isSeaCell(fx2,fy2))spawnFot(fx2,fy2,LAYER_GROUND);}
+  // Some Marin in sea
+  for(var i=0;i<5;i++){var sc=seaCells[rnd(seaCells.length)];if(sc)spawnMineral('MARIN',sc.x,sc.y,LAYER_SEA);}
+
+  // Spawn entities
+  Object.keys(eCounts).forEach(function(type){
+    for(var i=0;i<eCounts[type];i++){
+      var ex2,ey2;
+      var isMarine=['GROU','TREJO','CRAP','PEZ'].indexOf(type)>=0;
+      if(isMarine){
+        if(seaCells.length>0){var sc2=seaCells[rnd(seaCells.length)];ex2=sc2.x;ey2=sc2.y;}
+        else{ex2=rnd(COLS);ey2=rnd(ROWS);}
+        spawnEnt(type,ex2,ey2,LAYER_SEA);
+      } else if(type==='ZARLE'){
+        spawnEnt(type,rnd(COLS),rnd(ROWS),LAYER_FACE2);
+      } else {
+        ex2=rnd(COLS);ey2=rnd(ROWS);
+        while(isSeaCell(ex2,ey2)||isFieldCell(ex2,ey2)){ex2=rnd(COLS);ey2=rnd(ROWS);}
+        spawnEnt(type,ex2,ey2,LAYER_GROUND);
+      }
+    }
+  });
+  // Spawn initial Tepus underground
+  for(var i=0;i<2;i++)spawnEnt('TEPUS',rnd(COLS),rnd(ROWS),LAYER_UNDERGROUND);
+  // Spawn Cigir on sea surface
+  if(seaCells.length>0){for(var i=0;i<2;i++){var sc3=seaCells[rnd(seaCells.length)];spawnEnt('CIGIR',sc3.x,sc3.y,LAYER_SEA);}}
+
+  VIEW_LAYER=LAYER_GROUND;
+  document.getElementById('menu').style.display='none';
+  document.getElementById('sim').style.display='flex';
+  // Hide all modal buttons initially
+  Object.keys(hubaModeUnlocked).forEach(function(m){var el=document.getElementById('btn-'+m);if(el)el.style.display='none';});
+  L('Simulacion iniciada - v14','e');
+  render();updateUI();updateHubaButtons();
+}
+
+// ================================================================
+// CONTROLS
+// ================================================================
+document.getElementById('stepBtn').addEventListener('click',function(){tick();});
+document.getElementById('autoBtn').addEventListener('click',function(){
+  var btn=document.getElementById('autoBtn');
+  if(autoTmr){clearInterval(autoTmr);autoTmr=null;btn.classList.remove('on');btn.textContent='AUTO';}
+  else{var spd=parseInt(document.getElementById('spd').value);autoTmr=setInterval(tick,spd);btn.classList.add('on');btn.textContent='STOP';}
+});
+document.getElementById('spd').addEventListener('change',function(){
+  if(autoTmr){clearInterval(autoTmr);autoTmr=setInterval(tick,parseInt(document.getElementById('spd').value));}
+});
+document.getElementById('menuBtn').addEventListener('click',function(){
+  if(autoTmr){clearInterval(autoTmr);autoTmr=null;}
+  document.getElementById('autoBtn').classList.remove('on');document.getElementById('autoBtn').textContent='AUTO';
+  document.getElementById('sim').style.display='none';document.getElementById('menu').style.display='flex';
+});
+// Huba controls
+document.getElementById('dU').addEventListener('click',function(){hubaIn.dx=0;hubaIn.dy=-1;if(!autoTmr)tick();});
+document.getElementById('dD').addEventListener('click',function(){hubaIn.dx=0;hubaIn.dy=1;if(!autoTmr)tick();});
+document.getElementById('dL').addEventListener('click',function(){hubaIn.dx=-1;hubaIn.dy=0;if(!autoTmr)tick();});
+document.getElementById('dR').addEventListener('click',function(){hubaIn.dx=1;hubaIn.dy=0;if(!autoTmr)tick();});
+document.getElementById('fireBtn').addEventListener('click',function(){hubaIn.fire=true;if(!autoTmr)tick();});
+document.getElementById('procBtn').addEventListener('click',function(){hubaIn.proc=true;if(!autoTmr)tick();});
+document.getElementById('misilBtn').addEventListener('click',function(){hubaIn.misil=true;if(!autoTmr)tick();});
+document.getElementById('createBtn').addEventListener('click',function(){openCraft();});
+document.getElementById('storBtn').addEventListener('click',function(){openStorage();});
+document.getElementById('ascendBtn').addEventListener('click',function(){hubaIn.ascend=true;if(!autoTmr)tick();});
+document.getElementById('descendBtn').addEventListener('click',function(){hubaIn.descend=true;if(!autoTmr)tick();});
+document.getElementById('faceUpBtn').addEventListener('click',function(){hubaIn.faceUp=true;if(!autoTmr)tick();});
+document.getElementById('faceDownBtn').addEventListener('click',function(){hubaIn.faceDown=true;if(!autoTmr)tick();});
+document.getElementById('posarBtn').addEventListener('click',function(){hubaIn.posar=true;if(!autoTmr)tick();});
+document.getElementById('extraerBtn').addEventListener('click',function(){hubaIn.extraer=true;if(!autoTmr)tick();});
+document.getElementById('yanBtn').addEventListener('click',function(){hubaIn.yan=true;if(!autoTmr)tick();});
+document.getElementById('misil2Btn').addEventListener('click',function(){hubaIn.misil2=true;if(!autoTmr)tick();});
+
+// Keyboard
+document.addEventListener('keydown',function(ev){
+  if(document.getElementById('sim').style.display==='none')return;
+  if(ev.key==='ArrowUp'||ev.key==='w'){hubaIn.dx=0;hubaIn.dy=-1;if(!autoTmr)tick();}
+  else if(ev.key==='ArrowDown'||ev.key==='s'){hubaIn.dx=0;hubaIn.dy=1;if(!autoTmr)tick();}
+  else if(ev.key==='ArrowLeft'||ev.key==='a'){hubaIn.dx=-1;hubaIn.dy=0;if(!autoTmr)tick();}
+  else if(ev.key==='ArrowRight'||ev.key==='d'){hubaIn.dx=1;hubaIn.dy=0;if(!autoTmr)tick();}
+  else if(ev.key===' '){ev.preventDefault();hubaIn.fire=true;if(!autoTmr)tick();}
+  else if(ev.key==='p'||ev.key==='P'){hubaIn.proc=true;if(!autoTmr)tick();}
+  else if(ev.key==='m'||ev.key==='M'){hubaIn.misil=true;if(!autoTmr)tick();}
+  else if(ev.key==='Enter'){tick();}
+  else if(ev.key==='c'||ev.key==='C'){openCraft();}
+  else if(ev.key==='e'||ev.key==='E'){openStorage();}
+  else if(ev.key==='l'||ev.key==='L'){openAchievements();}
+});
+
+// ================================================================
+// ACHIEVEMENT SYSTEM
+// ================================================================
+var ACHIEVEMENTS=[
+  // --- LOS 5 ORIGINALES ---
+  {
+    id:'cazador_de_lobo',
+    name:'Cazador de Lobo',
+    desc:'Mata un Mermo cuando te persigue',
+    icon:'🐺',
+    check:function(){
+      // Tracked via event: a Marmo was chasing Huba and got killed by Huba proj
+      return achTracker.marmo_chasing_killed>=1;
+    }
+  },
+  {
+    id:'caza_gargolas',
+    name:'Caza Gárgolas',
+    desc:'Mata un Shar',
+    icon:'🦅',
+    check:function(){
+      return achTracker.shar_killed_by_huba>=1;
+    }
+  },
+  {
+    id:'interceptor',
+    name:'Interceptor',
+    desc:'Mata a una entidad con misiles desde un Bloc',
+    icon:'🎯',
+    check:function(){
+      return achTracker.kill_from_bloc>=1;
+    }
+  },
+  {
+    id:'senales',
+    name:'Señales',
+    desc:'Haz que una nave Alien Z aterrice y se quede',
+    icon:'📡',
+    check:function(){
+      return alienZShips.some(function(s){return s.landed;});
+    }
+  },
+  {
+    id:'rey_cielos',
+    name:'Rey de los Cielos',
+    desc:'Desbloquea el modo Huba-Rok II',
+    icon:'🚀',
+    check:function(){
+      return hubaModeUnlocked.rokII===true;
+    }
+  },
+  // --- 15 NUEVOS ---
+  {
+    id:'primer_sangre',
+    name:'Primera Sangre',
+    desc:'Mata a tu primera entidad con un disparo',
+    icon:'💥',
+    check:function(){return achTracker.huba_kills>=1;}
+  },
+  {
+    id:'francotirador',
+    name:'Francotirador',
+    desc:'Mata 10 entidades con disparos de Huba',
+    icon:'🔫',
+    check:function(){return achTracker.huba_kills>=10;}
+  },
+  {
+    id:'arquitecto',
+    name:'Arquitecto',
+    desc:'Coloca 10 Blocs en el mapa',
+    icon:'🧱',
+    check:function(){return stats.events.blocs_placed>=10;}
+  },
+  {
+    id:'minero',
+    name:'Minero',
+    desc:'Recoge 20 minerales en total',
+    icon:'⛏️',
+    check:function(){return stats.events.minerals_found>=20;}
+  },
+  {
+    id:'explorador',
+    name:'Explorador',
+    desc:'Entra bajo tierra con Huba-Ten',
+    icon:'🕳️',
+    check:function(){return achTracker.entered_underground>=1;}
+  },
+  {
+    id:'cosmonauta',
+    name:'Cosmonauta',
+    desc:'Llega a la Face 3 (borde del espacio)',
+    icon:'🌌',
+    check:function(){return achTracker.reached_face3>=1;}
+  },
+  {
+    id:'guardaespaldas',
+    name:'Guardaespaldas',
+    desc:'Crea tu primer Guardian alimentando una entidad',
+    icon:'🛡️',
+    check:function(){return stats.events.guards>=1;}
+  },
+  {
+    id:'guardian_supremo',
+    name:'Guardián Supremo',
+    desc:'Ten 5 Guardianes al mismo tiempo',
+    icon:'⚔️',
+    check:function(){return achTracker.max_guardians_at_once>=5;}
+  },
+  {
+    id:'surfista',
+    name:'Surfista',
+    desc:'Activa Huba-Flot y navega el mar',
+    icon:'🏄',
+    check:function(){return achTracker.flotActivated>=1;}
+  },
+  {
+    id:'salto_cuantico',
+    name:'Salto Cuántico',
+    desc:'Usa el Yan 5 veces',
+    icon:'⚡',
+    check:function(){return achTracker.yan_jumps>=5;}
+  },
+  {
+    id:'exterminador',
+    name:'Exterminador',
+    desc:'Destruye una nave Alien X con un misil',
+    icon:'🛸',
+    check:function(){return achTracker.alien_ship_destroyed>=1;}
+  },
+  {
+    id:'sobreviviente',
+    name:'Sobreviviente',
+    desc:'Muere y revive sin perder todas las vidas',
+    icon:'💀',
+    check:function(){return achTracker.times_revived>=1;}
+  },
+  {
+    id:'coleccionista',
+    name:'Coleccionista',
+    desc:'Ten todos los tipos de mineral en tu inventario al mismo tiempo',
+    icon:'💎',
+    check:function(){
+      var mkeys=['FOT','EXTRAFOT','MORITA','GLASO','NITROGLY','MARIN','RODUS','AMEIZIKO'];
+      return mkeys.every(function(k){return (hubaInventory[k]||0)>0;});
+    }
+  },
+  {
+    id:'artesano',
+    name:'Artesano',
+    desc:'Craftea tu primera modalidad o objeto',
+    icon:'🔧',
+    check:function(){return stats.events.modes_unlocked>=1||Object.values(hubaObjects).some(function(v){return v>0;});}
+  },
+  {
+    id:'extintor',
+    name:'Extintor',
+    desc:'Provoca la extinción de una especie (last kill)',
+    icon:'☠️',
+    check:function(){return stats.events.extinctions>=1;}
+  },
+  {
+    id:'astronauta',
+    name:'Astronauta',
+    desc:'Escapa al espacio con 3 naves Z aterrizadas',
+    icon:'🌠',
+    check:function(){return achTracker.escaped_to_space>=1;}
+  }
+];
+
+// Per-session tracker (resets on startSim)
+var achTracker={
+  marmo_chasing_killed:0,
+  shar_killed_by_huba:0,
+  kill_from_bloc:0,
+  huba_kills:0,
+  entered_underground:0,
+  reached_face3:0,
+  flotActivated:0,
+  yan_jumps:0,
+  alien_ship_destroyed:0,
+  times_revived:0,
+  max_guardians_at_once:0,
+  escaped_to_space:0
+};
+
+// Completed achievements state (persists values per achievement id)
+var achDone={}; // id -> {clk: clock when done}
+var achNewFlags={}; // id -> true if just unlocked, needs flash
+var toastTimer=null;
+
+function resetAchievements(){
+  achTracker={
+    marmo_chasing_killed:0,
+    shar_killed_by_huba:0,
+    kill_from_bloc:0,
+    huba_kills:0,
+    entered_underground:0,
+    reached_face3:0,
+    flotActivated:0,
+    yan_jumps:0,
+    alien_ship_destroyed:0,
+    times_revived:0,
+    max_guardians_at_once:0,
+    escaped_to_space:0
+  };
+  achDone={};
+  achNewFlags={};
+}
+
+function checkAchievements(){
+  var anyNew=false;
+  ACHIEVEMENTS.forEach(function(a){
+    if(achDone[a.id])return; // already done
+    var passed=false;
+    try{passed=a.check();}catch(e){}
+    if(passed){
+      achDone[a.id]={clk:clock};
+      achNewFlags[a.id]=true;
+      anyNew=true;
+      showAchToast(a);
+      L('🏆 LOGRO: '+a.name,'b');
+    }
+  });
+  if(anyNew){
+    updateAchBtn();
+    // Pulse the button
+    document.getElementById('achBtn').classList.add('has-new');
+    setTimeout(function(){document.getElementById('achBtn').classList.remove('has-new');},3000);
+  }
+  // Update max_guardians_at_once live
+  var grdNow=entities.filter(function(e){return e.type==='GUARDIAN'&&!e._dead;}).length;
+  if(grdNow>achTracker.max_guardians_at_once)achTracker.max_guardians_at_once=grdNow;
+}
+
+function showAchToast(a){
+  var toast=document.getElementById('achToast');
+  document.getElementById('achToastName').textContent=a.icon+' '+a.name;
+  document.getElementById('achToastDesc').textContent=a.desc;
+  toast.classList.add('show');
+  if(toastTimer)clearTimeout(toastTimer);
+  toastTimer=setTimeout(function(){toast.classList.remove('show');},3500);
+}
+
+function updateAchBtn(){
+  var done=Object.keys(achDone).length;
+  var total=ACHIEVEMENTS.length;
+  document.getElementById('achCountBtn').textContent=done+'/'+total;
+}
+
+function openAchievements(){
+  renderAchievements();
+  document.getElementById('overlayAch').classList.add('on');
+  // Clear new flags when viewed
+  achNewFlags={};
+}
+function closeAchievements(){
+  document.getElementById('overlayAch').classList.remove('on');
+}
+
+function renderAchievements(){
+  var done=Object.keys(achDone).length;
+  var total=ACHIEVEMENTS.length;
+  var pct=Math.round(done/total*100);
+  document.getElementById('achProgFill').style.width=pct+'%';
+  document.getElementById('achProgTxt').textContent=done+' / '+total+' ('+pct+'%)';
+
+  var list=document.getElementById('achList');
+  list.innerHTML='';
+
+  // Sort: done first, then locked
+  var sorted=ACHIEVEMENTS.slice().sort(function(a,b){
+    var da=achDone[a.id]?1:0,db=achDone[b.id]?1:0;
+    return db-da; // done first
+  });
+
+  sorted.forEach(function(a){
+    var isDone=!!achDone[a.id];
+    var isNew=!!achNewFlags[a.id];
+    var div=document.createElement('div');
+    div.className='ach-item'+(isDone?' done':'')+(isNew?' new-unlock':'');
+    var statusHtml=isDone
+      ?'<div class="ach-status unlocked">✓ LOGRADO</div>'
+      :'<div class="ach-status locked">○ PENDIENTE</div>';
+    var clkHtml=isDone
+      ?'<div class="ach-clk">Clock '+achDone[a.id].clk+'</div>'
+      :'';
+    div.innerHTML=
+      '<div class="ach-icon">'+a.icon+'</div>'
+      +'<div class="ach-info">'
+        +'<div class="ach-name">'+a.name+'</div>'
+        +'<div class="ach-desc">'+a.desc+'</div>'
+        +clkHtml
+      +'</div>'
+      +statusHtml;
+    list.appendChild(div);
+  });
+  updateAchBtn();
+}
+
+// Hook into game events to track achievements
+// Called from various tick functions when relevant actions happen
+
+// Patch killEnt to track huba proj kills
+var _origKillEnt=killEnt;
+killEnt=function(e,cause){
+  var wasAlive=!e._dead;
+  if(wasAlive&&cause==='huba_proj'){
+    achTracker.huba_kills++;
+    // Was Marmo chasing huba?
+    var huba=entities.find(function(h){return h.type==='HUBA'&&!h._dead;});
+    if(huba&&e.type==='MARMO'&&dist(e,huba)<=5){
+      achTracker.marmo_chasing_killed++;
+    }
+    if(e.type==='SHAR')achTracker.shar_killed_by_huba++;
+  }
+  // Kill from bloc (misil from bloc)
+  if(wasAlive&&cause==='huba_proj'){
+    var h2=entities.find(function(h){return h.type==='HUBA'&&!h._dead;});
+    if(h2&&h2.inBloc)achTracker.kill_from_bloc++;
+  }
+  // Alien X ship destruction tracked via missile hit
+  _origKillEnt(e,cause);
+  // Track revive
+  if(e.type==='HUBA'&&wasAlive&&hubaLives>0){
+    achTracker.times_revived++;
+  }
+};
+
+// Track alien ship destruction
+var _origTickAlienXShips=tickAlienXShips;
+tickAlienXShips=function(){
+  var prevLen=alienShips.length;
+  _origTickAlienXShips();
+  if(alienShips.length<prevLen)achTracker.alien_ship_destroyed+=(prevLen-alienShips.length);
+};
+
+// Track entering underground
+var _origToggleMode=toggleMode;
+toggleMode=function(m){
+  _origToggleMode(m);
+  if(m==='flot'&&hubaModes.flot)achTracker.flotActivated++;
+};
+
+// Track Face 3 visit and underground in tickHuba via wrapper
+var _origTickHuba=tickHuba;
+tickHuba=function(e){
+  _origTickHuba(e);
+  if(hubaCurrentLayer===LAYER_UNDERGROUND)achTracker.entered_underground++;
+  if(hubaCurrentLayer===LAYER_FACE3)achTracker.reached_face3++;
+};
+
+// Track yan jumps
+var _origYanJump=hubaIn;
+// We track in tick directly - patch the input handler
+var origYanBtn=document.getElementById('yanBtn');
+origYanBtn.addEventListener('click',function(){
+  achTracker.yan_jumps++;
+},true);
+
+// Track space escape
+var _origTickAlienZShips=tickAlienZShips;
+tickAlienZShips=function(){
+  var wasLanded=alienZShips.filter(function(s){return s.landed;}).length;
+  _origTickAlienZShips();
+  // If just escaped, trigger tracker in the log check above
+};
+
+// Check achievements every tick - hook into tick()
+var _origTick=tick;
+tick=function(){
+  _origTick();
+  // Check escape to space via log (simple: if 3+ z ships landed)
+  if(alienZShips.filter(function(s){return s.landed;}).length>=3){
+    var huba=entities.find(function(e){return e.type==='HUBA'&&!e._dead;});
+    if(!huba&&achTracker.escaped_to_space===0){
+      // Huba disappeared = escaped
+      achTracker.escaped_to_space++;
+    }
+  }
+  checkAchievements();
+};
+
+// Also run resetAchievements on startSim - patch it
+var _origStartSim=startSim;
+startSim=function(){
+  _origStartSim();
+  resetAchievements();
+  updateAchBtn();
+};
+</script>
+</body>
+</html>
